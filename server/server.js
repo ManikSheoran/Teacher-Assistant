@@ -20,18 +20,23 @@ const model = genAI.getGenerativeModel({
   `
 });
 
-app.get('/', async (req, res) => {
-    try {
-      const topic = "Math";
-      const question = "What is the value of 2 + 2?";
-      const answer = "may be 6 or 4. I am not sure."; 
+function formatResponseToHTML(responseText) {
+    return responseText
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+      .replace(/\n\* (.*?)\n/g, '<ul><li>$1</li></ul>') 
+      .replace(/\n\* (.*?)/g, '<li>$1</li>'); 
+  }
   
+  app.get('/', async (req, res) => {
+    try {
+      const topic = "History";
+      const question = "What were the key causes of the American Revolution?";
+      const answer = "It was caused by political, economic, and ideological factors.";
       const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
   
       const result = await model.generateContent(prompt);
-      
       const responseText = result.response.text();
-      const formattedResponse = responseText.split('\n').map(line => `<p>${line}</p>`).join('');
+      const formattedResponse = formatResponseToHTML(responseText);
   
       res.send(`
         <!DOCTYPE html>
