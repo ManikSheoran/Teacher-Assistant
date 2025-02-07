@@ -10,9 +10,8 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const apiKey = process.env.GEMINI_API_KEY || 'YOUR_DEFAULT_KEY';
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   systemInstruction: `
