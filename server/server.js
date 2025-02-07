@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-require('dotenv').config();
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+require("dotenv").config();
 
 const app = express();
 const PORT = 3000;
@@ -13,34 +13,35 @@ app.use(bodyParser.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  systemInstruction: `
+    model: "gemini-1.5-flash",
+    systemInstruction: `
     You are a teacher assistant. Evaluate the user's input,
     provide feedback, and grade them strictly out of 10
     based on the subject and question. Also check the fact
     claims in history or real life related answers.
-  `
+  `,
 });
 
 function formatResponseToHTML(responseText) {
-  return responseText
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n\* (.*?)\n/g, '<ul><li>$1</li></ul>')
-    .replace(/\n\* (.*?)/g, '<li>$1</li>');
+    return responseText
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n\* (.*?)\n/g, "<ul><li>$1</li></ul>")
+        .replace(/\n\* (.*?)/g, "<li>$1</li>");
 }
 
-app.get('/', async (req, res) => {
-  try {
-    const topic = "History";
-    const question = "What were the key causes of the American Revolution?";
-    const answer = "It was caused by political, economic, and ideological factors.";
-    const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
+app.get("/", async (req, res) => {
+    try {
+        const topic = "History";
+        const question = "What were the key causes of the American Revolution?";
+        const answer =
+            "It was caused by political, economic, and ideological factors.";
+        const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
-    const formattedResponse = formatResponseToHTML(responseText);
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text();
+        const formattedResponse = formatResponseToHTML(responseText);
 
-    res.send(`
+        res.send(`
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -64,24 +65,28 @@ app.get('/', async (req, res) => {
       </body>
       </html>
     `);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("<h1>Error</h1><p>An error occurred while processing your request.</p>");
-  }
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send(
+            "<h1>Error</h1><p>An error occurred while processing your request.</p>"
+        );
+    }
 });
 
-app.post('/evaluate', async (req, res) => {
-  try {
-    const { topic, question, answer } = req.body;
-    const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
-    const result = await model.generateContent(prompt);
-    res.json({ response: result.response.text() });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "An error occurred while processing your request." });
-  }
+app.post("/evaluate", async (req, res) => {
+    try {
+        const { topic, question, answer } = req.body;
+        const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
+        const result = await model.generateContent(prompt);
+        res.json({ response: result.response.text() });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({
+            error: "An error occurred while processing your request.",
+        });
+    }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
