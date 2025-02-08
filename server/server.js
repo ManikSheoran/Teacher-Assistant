@@ -2,12 +2,23 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-require("dotenv").config();
+import dotenv from "dotenv"
+
+dotenv.config({
+    path: "./.env"
+});
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+const corsOptions = {
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -75,7 +86,7 @@ app.get("/", async (req, res) => {
 
 app.post("/evaluate", async (req, res) => {
     try {
-        const { topic, question, answer } = req.body;
+        const { topic, question, answer, marks } = req.body;
         const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}`;
         const result = await model.generateContent(prompt);
         res.json({ response: result.response.text() });

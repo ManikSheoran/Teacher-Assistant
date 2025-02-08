@@ -12,7 +12,7 @@ const config = {
         client_email: process.env.VISION_API_CLIENT_EMAIL,
     },
 }
-
+        
 const client = new ImageAnnotatorClient(config);
 
 async function detectTextInImage(imagePath) {
