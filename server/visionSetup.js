@@ -16,8 +16,8 @@ const config = {
 const client = new ImageAnnotatorClient(config);
 
 async function detectTextInImage(imagePath) {
-    const [result] = await client.textDetection(imagePath);
-    return result.textAnnotations[0].description;
+    const [result] = await client.textDetection(imagePath)
+    return result.fullTextAnnotation.text
 }
 
 const imagePath = "./Screenshot.png"
@@ -25,4 +25,5 @@ const data = detectTextInImage(imagePath)
     .then((text) => console.log(text))
     .catch((err) => console.error(err))
 
-console.log(data)
+console.log("Text detected in image:")
+console.log(data.text)
