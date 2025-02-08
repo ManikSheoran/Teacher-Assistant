@@ -10,23 +10,21 @@ const storage = new Storage({
     keyFilename: process.env.GCP_KEY_FILE_PATH,
 })
 
-console.log(process.env.GCP_PROJECT_ID)
-
 const uploadToFirebaseStorage = async (filepath, fileName) => {
     try {
-        const gcs = storage.bucket("paper-images"); // Removed "gs://" from the bucket name
-        const storagepath = `storage_folder/${fileName}`;
+        const gcs = storage.bucket("paper-images")
+        const storagepath = `storage_folder/${fileName}`
         const result = await gcs.upload(filepath, {
             destination: storagepath,
-            predefinedAcl: "publicRead", // Set the file to be publicly readable
+            predefinedAcl: "publicRead",
             metadata: {
-                contentType: "application/plain", // Adjust the content type as needed
+                contentType: "application/plain",
             },
-        });
-        return result[0].metadata.mediaLink;
+        })
+        return result[0].metadata.mediaLink
     } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
+        console.log(error)
+        throw new Error(error.message)
     }
 }
 
