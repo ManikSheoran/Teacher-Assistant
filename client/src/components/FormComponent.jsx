@@ -11,7 +11,7 @@ const FormComponent = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  const [feedback, setFeedback] = useState(""); 
+  const [feedback, setFeedback] = useState("");
 
   const handleToggle = () => {
     setUseImageUpload((prev) => !prev);
@@ -22,36 +22,43 @@ const FormComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("topic", topic);
-    formData.append("marks", marks);
 
     if (useImageUpload && imageFile) {
-      formData.append("imageFile", imageFile);
+      const formData = new FormData();
+      formData.append("topic", topic);
+      formData.append("marks", marks);
+      formData.append("image", imageFile);
+
       try {
-        const response = await fetch("http://localhost:8000/ocr", {
+        const response = await fetch("http://localhost:8000/api/v1/ocr", {
           method: "POST",
           body: formData,
         });
-        const result = await response.json();
-        setFeedback(`OCR Result: ${result.evaluation}`); 
-        console.log("Uploading image:", imageFile, result);
+        const result = await response.text();
+        setFeedback(result.evaluation);
       } catch (error) {
         console.error("Error in OCR upload:", error);
+        setFeedback("Error processing image");
       }
     } else {
-      formData.append("question", question);
-      formData.append("answer", answer);
       try {
-        const response = await fetch("http://localhost:8000/evaluate", {
+        const response = await fetch("http://localhost:8000/api/v1/evaluate", {
           method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            topic,
+            marks,
+            question,
+            answer,
+          }),
         });
-        const result = await response.json();
-        setFeedback(`Evaluation Result: ${result}`);
-        console.log(result);
+        const result = await response.text();
+        setFeedback(result);
       } catch (error) {
         console.error("Error in text evaluation:", error);
+        setFeedback("Error evaluating answer");
       }
     }
   };
