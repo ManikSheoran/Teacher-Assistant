@@ -1,101 +1,214 @@
 // FormComponent.jsx
-"use client"
+"use client";
 import React, { useState } from "react";
-import "./styles.css";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const FormComponent = () => {
-    const [topic, setTopic] = useState("");
-    const [marks, setMarks] = useState("");
-    const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState("");
+  const [useImageUpload, setUseImageUpload] = useState(false);
+  const [topic, setTopic] = useState("");
+  const [marks, setMarks] = useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [feedback, setFeedback] = useState(""); 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleToggle = () => {
+    setUseImageUpload((prev) => !prev);
+    setQuestion("");
+    setAnswer("");
+    setImageFile(null);
+  };
 
-        const data = {
-            topic,
-            question,
-            answer,
-            marks,
-        };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("topic", topic);
+    formData.append("marks", marks);
 
-        try {
-            const response = await fetch("http://localhost:8000/evaluate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+    if (useImageUpload && imageFile) {
+      formData.append("imageFile", imageFile);
+      try {
+        const response = await fetch("http://localhost:8000/ocr", {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        setFeedback(`OCR Result: ${result.evaluation}`); 
+        console.log("Uploading image:", imageFile, result);
+      } catch (error) {
+        console.error("Error in OCR upload:", error);
+      }
+    } else {
+      formData.append("question", question);
+      formData.append("answer", answer);
+      try {
+        const response = await fetch("http://localhost:8000/evaluate", {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        setFeedback(`Evaluation Result: ${result}`);
+        console.log(result);
+      } catch (error) {
+        console.error("Error in text evaluation:", error);
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center p-6 bg-white text-black min-h-screen w-full">
+      <h1 className="text-4xl font-semibold text-left w-full max-w-3xl">
+        AI Evaluation
+      </h1>
+      <hr className="border-t-2 border-gray-600 opacity-30 w-full max-w-3xl my-4" />
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-3xl bg-transparent border-2 border-gray-300 p-6 rounded-lg"
+      >
+        <FormControlLabel
+          control={
+            <Switch
+              checked={useImageUpload}
+              onChange={handleToggle}
+              sx={{
+                "& .MuiSwitch-switchBase": {
+                  color: "#999",
+                  "&.Mui-checked": {
+                    color: "#0d9488",
+                  },
                 },
-                body: JSON.stringify(data),
-            });
+                "& .MuiSwitch-track": {
+                  backgroundColor: "#ccc",
+                },
+                "& .Mui-checked+.MuiSwitch-track": {
+                  backgroundColor: "#0d9488 !important",
+                },
+              }}
+            />
+          }
+          label="Upload Image Instead?"
+          className="mb-4"
+        />
 
-            const result = await response.json();
-            console.log(result);
-            // Handle the response as needed
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+        {!useImageUpload && (
+          <>
+            <div className="flex flex-wrap gap-6 mb-4">
+              <div className="flex-1 flex flex-col">
+                <label htmlFor="topic" className="font-bold mb-2">
+                  Topic
+                </label>
+                <input
+                  type="text"
+                  id="topic"
+                  className="border border-gray-300 rounded p-2"
+                  placeholder="Enter topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+              </div>
+              <div className="flex-1 flex flex-col">
+                <label htmlFor="marks" className="font-bold mb-2">
+                  Max. Marks
+                </label>
+                <input
+                  type="number"
+                  id="marks"
+                  className="border border-gray-300 rounded p-2"
+                  placeholder="Enter max marks"
+                  value={marks}
+                  onChange={(e) => setMarks(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="question" className="font-bold mb-2 block">
+                Question
+              </label>
+              <textarea
+                id="question"
+                rows="2"
+                className="border border-gray-300 rounded p-2 w-full"
+                placeholder="Enter question"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="answer" className="font-bold mb-2 block">
+                Answer
+              </label>
+              <textarea
+                id="answer"
+                rows="3"
+                className="border border-gray-300 rounded p-2 w-full"
+                placeholder="Enter the answer"
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+              />
+            </div>
+          </>
+        )}
 
-    return (
-        <div className="container">
-            <h1>AI Evaluation</h1>
-            <hr className="divider" />
-            <form onSubmit={handleSubmit}>
-                <div className="form-box">
-                    <div className="input-row">
-                        <div className="input-col">
-                            <div className="input-field topic-box">
-                                <label htmlFor="topic">Topic</label>
-                                <input
-                                    type="text"
-                                    id="topic"
-                                    placeholder="Enter topic"
-                                    value={topic}
-                                    onChange={(e) => setTopic(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="input-col">
-                            <div className="input-field max-marks">
-                                <label htmlFor="marks">Max. Marks</label>
-                                <input
-                                    type="number"
-                                    id="marks"
-                                    placeholder="Enter max marks"
-                                    value={marks}
-                                    onChange={(e) => setMarks(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                    </div>
+        {useImageUpload && (
+          <>
+            <div className="flex flex-wrap gap-6 mb-4">
+              <div className="flex-1 flex flex-col">
+                <label htmlFor="topic" className="font-bold mb-2">
+                  Topic
+                </label>
+                <input
+                  type="text"
+                  id="topic"
+                  className="border border-gray-300 rounded p-2"
+                  placeholder="Enter topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+              </div>
+              <div className="flex-1 flex flex-col">
+                <label htmlFor="marks" className="font-bold mb-2">
+                  Max. Marks
+                </label>
+                <input
+                  type="number"
+                  id="marks"
+                  className="border border-gray-300 rounded p-2"
+                  placeholder="Enter max marks"
+                  value={marks}
+                  onChange={(e) => setMarks(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="imageFile" className="font-bold mb-2 block">
+                Upload Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imageFile"
+                onChange={(e) => setImageFile(e.target.files[0])}
+                className="border border-gray-300 rounded p-2 w-full"
+              />
+            </div>
+          </>
+        )}
 
-                    <div className="input-field">
-                        <label htmlFor="question">Question</label>
-                        <textarea
-                            id="question"
-                            rows="1"
-                            placeholder="Enter question"
-                            value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
-                        ></textarea>
-                    </div>
-
-                    <div className="input-field">
-                        <label htmlFor="answer">Answer</label>
-                        <textarea
-                            id="answer"
-                            rows="3"
-                            placeholder="Enter the answer"
-                            value={answer}
-                            onChange={(e) => setAnswer(e.target.value)}
-                        ></textarea>
-                    </div>
-
-                    <button type="submit">Evaluate</button>
-                </div>
-            </form>
-        </div>
-    );
+        <button
+          type="submit"
+          className="block ml-auto mt-4 bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700"
+        >
+          Evaluate
+        </button>
+      </form>
+      {feedback && (
+        <p className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded">
+          {feedback}
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default FormComponent;

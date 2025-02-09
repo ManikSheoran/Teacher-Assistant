@@ -1,11 +1,12 @@
 body {
-  font-family: "Roboto", Times, serif;
+  font-family: "Open Sans", sans-serif;
   background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
+  color: #000; 
 }
 
 .container {
@@ -21,12 +22,12 @@ h1 {
   font-size: 45px;
   font-weight: 500;
   text-align: left;
-  color: #000;
+  color: #161616; 
 }
 
 hr.divider {
   border: 0;
-  border-top: 2px solid #000; 
+  border-top: 2px solid #161616; 
   opacity: 0.3;
   width: 100%;
   margin-bottom: 1rem;
@@ -47,7 +48,8 @@ hr.divider {
   margin: 5px 0;
 }
 
-input, textarea {
+input,
+textarea {
   font-size: 1.2rem;
   padding: 10px;
   margin-bottom: 10px;
@@ -64,7 +66,8 @@ input, textarea {
   margin-bottom: 10px;
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   font-size: 1.2rem;
 }
 
@@ -74,7 +77,7 @@ input::placeholder, textarea::placeholder {
   font-size: 1.2rem;
 }
 
-.max-marks label{
+.max-marks label {
   flex: 0 0 110px;
   justify-content: center;
 }
@@ -110,7 +113,7 @@ button {
   margin-left: auto;
   margin-right: 1rem;
   width: 25%;
-  background-color: #288e21;
+  background-color: #009aa4;
   color: white;
   padding: 10px;
   border: none;
@@ -120,7 +123,7 @@ button {
 }
 
 button:hover {
-  background-color: #1c6818;
+  background-color: #027489;
 }
 
 @media (max-width: 48rem) {
