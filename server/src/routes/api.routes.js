@@ -1,11 +1,9 @@
-import { Router } from "express";
-import multer from "multer";
-import { detectTextInImage, evaluateAnswer } from "../controllers/api.controller.js";
+import express from 'express';
+import { detectTextInImage, evaluateAnswer, upload } from '../controllers/api.controller.js';
 
-const router = Router();
-const upload = multer({ dest: 'uploads/' }); 
+const router = express.Router();
 
-router.route("/ocr").post(upload.single('imageFile'), detectTextInImage);
-router.route("/evaluate").post(evaluateAnswer);
+router.post('/ocr', upload.single('image'), detectTextInImage);
+router.post('/evaluate', evaluateAnswer);
 
 export default router;

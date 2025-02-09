@@ -2,6 +2,8 @@ import asyncHandler from "../utils/asyncHandler.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 import fs from 'fs';
+import multer from 'multer';
+import path from 'path';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const visionClient = new ImageAnnotatorClient({
@@ -21,8 +23,20 @@ function formatResponseToHTML(responseText) {
     return responseText
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\n\* (.*?)\n/g, "<ul><li>$1</li></ul>")
-        .replace(/\n\* (.*?)/g, "<li>$1</li>");
+        .replace(/\n\* (.*?)/g, "<li>$1</li>")
+        .replace(/\n/g, "<br>");
 }
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage });
 
 const detectTextInImage = asyncHandler(async (req, res) => {
     const { topic, marks } = req.body;
@@ -36,7 +50,7 @@ const detectTextInImage = asyncHandler(async (req, res) => {
     const responseText = evaluationResult.response.text();
     const formattedResponse = formatResponseToHTML(responseText);
 
-    res.status(200).json({ text, topic, marks, evaluation: formattedResponse });
+    res.status(200).send(formattedResponse);
 });
 
 const evaluateAnswer = asyncHandler(async (req, res) => {
@@ -48,4 +62,4 @@ const evaluateAnswer = asyncHandler(async (req, res) => {
     res.status(200).send(formattedResponse);
 });
 
-export { detectTextInImage, evaluateAnswer };
+export { detectTextInImage, evaluateAnswer, upload };

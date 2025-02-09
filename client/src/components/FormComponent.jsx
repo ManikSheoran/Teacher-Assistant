@@ -35,7 +35,7 @@ const FormComponent = () => {
           body: formData,
         });
         const result = await response.text();
-        setFeedback(result.evaluation);
+        setFeedback(result);
       } catch (error) {
         console.error("Error in OCR upload:", error);
         setFeedback("Error processing image");
@@ -195,6 +195,7 @@ const FormComponent = () => {
                 type="file"
                 accept="image/*"
                 id="imageFile"
+                name="image"
                 onChange={(e) => setImageFile(e.target.files[0])}
                 className="border border-gray-300 rounded p-2 w-full"
               />
@@ -210,9 +211,10 @@ const FormComponent = () => {
         </button>
       </form>
       {feedback && (
-        <p className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded">
-          {feedback}
-        </p>
+        <div
+          className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded"
+          dangerouslySetInnerHTML={{ __html: feedback }}
+        />
       )}
     </div>
   );
