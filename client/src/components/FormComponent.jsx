@@ -147,7 +147,7 @@ const FormComponent = () => {
                               id="question"
                               rows="2"
                               className="border border-gray-300 rounded p-2 w-full"
-                              placeholder="Enter question"
+                              placeholder="Enter the question"
                               value={question}
                               onChange={(e) => setQuestion(e.target.value)}
                           />
