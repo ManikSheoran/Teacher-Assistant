@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { initializeApp } from "firebase/app";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -13,8 +14,6 @@ dotenv.config(
     }
 );
 
-
-
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
@@ -26,22 +25,43 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const auth = getAuth(app)
+
+const usersCollection = collection(db, "users")
 
 const email = "frerbv@gognero.ebe"
 const password = "password"
 
-await signInWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    console.log(user)
-    // ...
-})
-.catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode, errorMessage);
-    // ..
-})
+async function registerUser(email, username, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        const userDocRef = doc(usersCollection, user.uid)
+        console.log(userDocRef)
+        await setDoc(userDocRef, {
+            email: email,
+            username: username,
+            born: 1815,
+        })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+registerUser(email, "abcdefghijkl", password)
+
+// await signInWithEmailAndPassword(auth, email, password)
+// .then((userCredential) => {
+//     // Signed in
+//     const user = userCredential.user;
+//     console.log(user.displayName)
+//     // ...
+// })
+// .catch((error) => {
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     console.log(errorCode, errorMessage);
+//     // ..
+// })
