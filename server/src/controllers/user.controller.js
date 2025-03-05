@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
 } from "firebase/auth";
-import asyncHandler from "../utils/asyncHandler";
+import asyncHandler from "../utils/asyncHandler.js";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     await setDoc(userDocRef, {
         email: email,
         name: name,
-        
+
     })
     res.status(201).send("User registered successfully")
 })
