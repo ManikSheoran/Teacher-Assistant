@@ -39,7 +39,6 @@ async function registerUser(email, username, password) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredential.user
         const userDocRef = doc(usersCollection, user.uid)
-        console.log(userDocRef)
         await setDoc(userDocRef, {
             email: email,
             username: username,
@@ -50,7 +49,22 @@ async function registerUser(email, username, password) {
     }
 }
 
-registerUser(email, "abcdefghijkl", password)
+await registerUser(email, "abcdefghijkl", password)
+
+const user = auth.currentUser
+console.log(user.uid)
+
+
+
+
+
+
+
+
+
+
+
+
 
 // await signInWithEmailAndPassword(auth, email, password)
 // .then((userCredential) => {

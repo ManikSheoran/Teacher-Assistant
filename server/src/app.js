@@ -19,8 +19,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-import router from "./routes/api.routes.js"
+import apiRouter from "./routes/api.routes.js"
+import userRouter from "./routes/user.routes.js"
 
-app.use("/api/v1", router)
+app.use("/api/v1", apiRouter)
+app.use("/user", userRouter)
 
 export default app
