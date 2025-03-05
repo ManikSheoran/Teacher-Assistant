@@ -10,19 +10,45 @@ const Header = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [userName, setUserName] = useState("");
-    let cookies = getCookies();
-    console.log(cookies);
+    const endpoint = "http://localhost:8000/user/fetch"
+
+    const fetchUser = async (uid) => {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({uid: uid}),
+        })
+
+        return await response.json()
+        
+    }
+
+    const checkAuthStatus = async () => {
+        let cookies = getCookies();
+        if (cookies.uid) {
+            setLoggedIn(true);
+            const userData = await fetchUser(cookies.uid)
+            setUserName(userData.name);
+        } else {
+            setLoggedIn(false);
+            setUserName("");
+        }
+    };
+
     useEffect(() => {
-      if (cookies.userName) {
-          setLoggedIn(true);
-          setUserName(cookies.userName);
-      }
-    }, [loggedIn]);
+        checkAuthStatus();
+        const interval = setInterval(checkAuthStatus, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+
     const handleLogout = () => {
-        deleteCookie("userName");
+        deleteCookie("uid");
         setLoggedIn(false);
         setUserName("");
-    };
+    }
     return (
         <nav className="fixed top-0 left-0 w-full bg-white shadow-md h-16 flex items-center px-6 justify-between z-50">
             {/* Website Name */}

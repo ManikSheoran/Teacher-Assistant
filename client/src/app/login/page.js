@@ -61,13 +61,13 @@ export default function Login() {
             const data = await response.json();
             if (response.ok) {
                 // Save token in an HTTP-only cookie
-                setCookie("token", data.stsTokenManager.accessToken, {
+                setCookie("token", data.token.accessToken, {
                     httpOnly: true,
                     secure: true,
                     sameSite: "strict",
-                    maxAge: data.stsTokenManager.expirationTime,
+                    maxAge: data.token.expiresIn,
                 });
-                setCookie("userName", data.uid, {
+                setCookie("uid", data.uid, {
                     secure: true,
                     sameSite: "strict",
                 });

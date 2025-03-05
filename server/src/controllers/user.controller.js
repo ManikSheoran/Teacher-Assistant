@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { collection, doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -40,7 +40,17 @@ const loginUser = asyncHandler(async (req, res) => {
     const {email, password} = req.body
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
     const user = userCredential.user
-    res.status(200).send(user)
+    const token = {
+        accessToken: user.accessToken,
+        refreshToken: user.refreshToken,
+        expiresIn: user.stsTokenManager.expirationTime,
+    };
+    res.status(200).send({ uid: user.uid, token });
 })
 
-export { registerUser, loginUser }
+const fetchUser = asyncHandler(async (req, res) => {
+    const user = await getDoc(doc(usersCollection, req.body.uid))
+    res.status(200).send(user.data())
+})
+
+export { registerUser, loginUser, fetchUser }
