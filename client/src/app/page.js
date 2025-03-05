@@ -5,7 +5,6 @@ import Layout from "./layout";
 
 const MainPage = () => {
   return (
-    <Layout>
       <div className="flex flex-col items-center p-6 bg-white text-black min-h-screen w-full">
         <h1 className="text-4xl font-semibold text-center mb-6">Welcome, Teacher!</h1>
         <div className="flex flex-col items-center space-y-4">
@@ -28,7 +27,6 @@ const MainPage = () => {
           </a>
         </div>
       </div>
-    </Layout>
   );
 };
 
