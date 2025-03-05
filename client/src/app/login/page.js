@@ -1,22 +1,19 @@
 "use client";
+
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 import Header from "../../components/elements/header";
+import { setCookie } from 'cookies-next';
 
 export default function Login() {
-  const [role, setRole] = useState("User");
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
-
-  const handleRoleChange = (newRole) => {
-    setRole(newRole);
-    setFormData({
-      email: "",
-      password: "",
-    });
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [backendError, setBackendError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,6 +44,8 @@ export default function Login() {
       return;
     }
     setErrors({});
+    setBackendError("");
+    setIsLoading(true);
 
     const endpoint = "http://localhost:8000/user/login";
 
@@ -61,14 +60,19 @@ export default function Login() {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Login successful");
-        console.log("Token:", data.token);
+        // Save token in an HTTP-only cookie
+        setCookie('token', data.token, { httpOnly: true, secure: true, sameSite: 'strict' });
+        
+        // Redirect to home page
+        router.push('/');
       } else {
-        alert(`Login failed: ${data.error}`);
+        setBackendError(data.error || "Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred while logging in.");
+      setBackendError("An error occurred while logging in. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,6 +84,9 @@ export default function Login() {
           <h1 className="text-2xl font-bold text-[#44546a] mb-6 text-center">
             Login
           </h1>
+          {backendError && (
+            <p className="text-red-500 text-sm mb-4 text-center">{backendError}</p>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <input
@@ -111,9 +118,12 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-[#71c479] text-white font-bold rounded-lg hover:bg-[#00cc47] transition duration-300"
+              disabled={isLoading}
+              className={`w-full py-3 bg-[#71c479] text-white font-bold rounded-lg hover:bg-[#00cc47] transition duration-300 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Login
+              {isLoading ? "Logging in..." : "Login"}
             </button>
           </form>
           <div className="mt-4 text-center">

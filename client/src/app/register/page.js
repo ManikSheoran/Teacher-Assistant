@@ -1,24 +1,19 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 import Header from "../../components/elements/header";
+import { setCookie } from 'cookies-next';
 
 export default function Register() {
-  const [role, setRole] = useState("User");
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
-
-  const handleRoleChange = (newRole) => {
-    setRole(newRole);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-    });
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [backendError, setBackendError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +47,8 @@ export default function Register() {
       return;
     }
     setErrors({});
+    setBackendError("");
+    setIsLoading(true);
 
     const endpoint = "http://localhost:8000/user/register";
 
@@ -61,23 +58,24 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       if (response.ok) {
-        alert(`${role} registration successful`);
+        // If the backend returns a token upon registration, save it
+        if (data.token) {
+          setCookie('token', data.token, { httpOnly: true, secure: true, sameSite: 'strict' });
+        }
+        router.push('/login'); // Redirect to login page after successful registration
       } else {
-        // console.log("Error:", data.error);  
-        alert(`Registration failed: ${data.error}`);
+        setBackendError(data.error || "Registration failed. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred during registration.");
+      setBackendError("An error occurred during registration. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,6 +87,9 @@ export default function Register() {
           <h1 className="text-2xl font-bold text-[#44546a] mb-6 text-center">
             Register
           </h1>
+          {backendError && (
+            <p className="text-red-500 text-sm mb-4 text-center">{backendError}</p>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <input
@@ -134,9 +135,12 @@ export default function Register() {
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-[#71c479] text-white font-bold rounded-lg hover:bg-[#00cc47] transition duration-300"
+              disabled={isLoading}
+              className={`w-full py-3 bg-[#71c479] text-white font-bold rounded-lg hover:bg-[#00cc47] transition duration-300 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Register
+              {isLoading ? "Registering..." : "Register"}
             </button>
           </form>
           <div className="mt-4 text-center">
