@@ -53,4 +53,20 @@ const fetchUser = asyncHandler(async (req, res) => {
     res.status(200).send(user.data())
 })
 
+const addStudent = asyncHandler(async (req, res) => {
+    const {userId, name, sid} = req.body
+    const studentDoc = doc(studentsCollection);
+    await setDoc(studentDoc, {
+        name: name,
+        id: sid,
+    })
+
+    const userDocRef = doc(usersCollection, userId)
+    await updateDoc(userDocRef, {
+        students: arrayUnion({ name: name, email: email })
+    })
+    
+    res.status(201).send("Student added successfully")
+})
+
 export { registerUser, loginUser, fetchUser }
