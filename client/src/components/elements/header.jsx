@@ -51,7 +51,7 @@ const Header = () => {
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md h-16 flex items-center px-6 justify-between z-50">
       {/* Website Name */}
       <div className="text-2xl font-bold text-green-600">
-        <Link href="/">Teacher Assistant</Link>
+        <Link href="/">NeuroGrade</Link>
       </div>
 
       {/* Desktop Navigation */}
