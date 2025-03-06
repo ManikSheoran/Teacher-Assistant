@@ -6,6 +6,6 @@ const router = express.Router()
 router.post("/register", registerUser)
 router.post("/login", loginUser)
 router.post("/fetch", fetchUser)
-router.post("/add-student", addStudent)
+router.post("/addstudent", addStudent)
 
 export default router
