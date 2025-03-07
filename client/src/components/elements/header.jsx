@@ -5,9 +5,10 @@ import Link from "next/link";
 import { IoIosLogOut } from "react-icons/io";
 import { FiMenu, FiX } from "react-icons/fi";
 import { getCookies, deleteCookie } from "cookies-next";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const {loggedIn, setLoggedIn} = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const endpoint = "http://localhost:8000/user/fetch";

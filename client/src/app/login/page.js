@@ -1,5 +1,5 @@
 "use client";
-
+import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "../../components/elements/header";
@@ -14,7 +14,8 @@ export default function Login() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
-
+    const {loggedIn, setLoggedIn} = useAuth();
+    console.log(`Logged in? ${loggedIn}`);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -71,7 +72,7 @@ export default function Login() {
                     secure: true,
                     sameSite: "strict",
                 });
-                // Redirect to home page
+                setLoggedIn(true);
                 router.push("/");
             } else {
                 setBackendError(
