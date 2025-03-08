@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ChevronUp } from "lucide-react"; // Only Up Arrow
+import { ChevronUp } from "lucide-react"; 
 import Header from "../components/elements/header";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
@@ -14,7 +14,7 @@ function ThemedLayout({ children }) {
 
     useEffect(() => {
         const handleScroll = () => {
-            setShowScrollButton(window.scrollY > 200); // Show button after 200px scroll
+            setShowScrollButton(window.scrollY > 200); 
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
@@ -34,7 +34,7 @@ function ThemedLayout({ children }) {
                     <footer className="bg-black text-white text-center py-4">
                         &copy; {new Date().getFullYear()} NeuroGrade. All rights reserved.
                     </footer>
-                    {/* Scroll to Top Button */}
+                    
                     {showScrollButton && (
                         <button
                             onClick={scrollUp}
