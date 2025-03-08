@@ -1,14 +1,29 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
 
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const visionClient = new ImageAnnotatorClient({
     credentials: {
-        private_key: process.env.VISION_API_PRIVATE_KEY,
+        private_key: process.env.VISION_API_PRIVATE_KEY.replace(/\\n/g, '\n'),
         client_email: process.env.VISION_API_CLIENT_EMAIL,
     },
 });
@@ -64,13 +79,33 @@ const detectTextInImage = asyncHandler(async (req, res) => {
 });
 
 const evaluateAnswer = asyncHandler(async (req, res) => {
-    const { topic, question, answer, marks } = req.body;
+    const { sid, topic, question, answer, marks } = req.body;
     const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`;
 
     try {
         const result = await genAIController.generateContent(prompt);
         const responseText = result.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
+
+        // Retrieve the student's document from Firestore
+        const studentDocRef = doc(db, "students", sid);
+        const studentDoc = await getDoc(studentDocRef);
+
+        if (!studentDoc.exists()) {
+            return res.status(404).send("Student not found");
+        }
+
+        // Add the feedback to the student's document
+        await updateDoc(studentDocRef, {
+            feedback: arrayUnion({
+                topic: topic,
+                question: question,
+                answer: answer,
+                marks: marks,
+                feedback: formattedResponse,
+            }),
+        });
+
         res.status(200).send(formattedResponse);
     } catch (error) {
         console.error("Error evaluating answer:", error);

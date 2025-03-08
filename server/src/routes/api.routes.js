@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/ocr', upload.single('image'), detectTextInImage);
 router.post('/evaluate', evaluateAnswer);
+router.post("/:sid/evaluate", evaluateAnswer);
 
 export default router;
