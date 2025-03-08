@@ -1,47 +1,51 @@
 "use client";
 import React from "react";
 import Header from "../components/elements/header";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Background from "@/components/Background";
+import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+function ThemedLayout({ children }) {
+    const { darkMode } = useDarkMode();
+    const theme = darkMode ? "dark" : "light";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+    return (
+        <body className={`${theme}-mode quicksand ${theme}`}>
+            <Background />
+            <AuthProvider>
+                <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-grow">{children}</main>
+                    <footer className="bg-black text-white text-center py-4">
+                        &copy; {new Date().getFullYear()} NeuroGrade. All rights
+                        reserved.
+                    </footer>
+                </div>
+            </AuthProvider>
+        </body>
+    );
+}
 
 const Layout = ({ children }) => {
-  const metadata = {
-    title: "NeuroGrade",
-    description: "A simple web app to help teachers grade students.",
-  };
+    const metadata = {
+        title: "NeuroGrade",
+        description: "A simple web app to help teachers grade students.",
+    };
 
-  return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-      </head>
-      <body className="light-mode quicksand">
-        <Background />
-        <AuthProvider>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <footer className="bg-black text-white text-center py-4">
-              &copy; {new Date().getFullYear()} NeuroGrade. All rights reserved.
-            </footer>
-          </div>
-        </AuthProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html
+            lang="en"
+        >
+            <head>
+                <title>{metadata.title}</title>
+                <meta name="description" content={metadata.description} />
+            </head>
+            <DarkModeProvider>
+                <ThemedLayout>{children}</ThemedLayout>
+            </DarkModeProvider>
+        </html>
+    );
 };
 
 export default Layout;

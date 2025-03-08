@@ -1,8 +1,10 @@
+import AboutComponent from "./AboutComponent";
+
 export default function IntroComponent(){
     return (
         <>
-            <div className="flex flex-col items-center">
-                <div className="flex flex-col items-center p-6 text-black min-h-screen w-full justify-center">
+            <div className="flex flex-col items-center min-h-screen justify-center">
+                <div className="flex flex-col items-center p-6 text-black dark:text-[#F9E9EC]  w-full justify-center">
                     <h1 className="lg:text-7xl sm:text-4xl text-center font-bold lg:mx-10">
                         Effortless Grading, Deeper Insights, Better Learning
                     </h1>
@@ -12,10 +14,16 @@ export default function IntroComponent(){
                         faster results and deeper student insights.
                     </p>
                 </div>
-                <div>
-                    <button>Get Started</button>
+                <div className="flex flex-row items-center justify-center mt-8">
+                    <button className="bg-[#1D2F6F] px-8 py-4 mx-6 sm:text-xl lg:text-2xl rounded-full text-white">
+                        Get Started
+                    </button>
+                    <button className="bg-[#F88DAD] px-8 py-4 mx-6 sm:text-xl lg:text-2xl rounded-full text-white">
+                        Learn More
+                    </button>
                 </div>
             </div>
+            <AboutComponent />
         </>
     );
 }

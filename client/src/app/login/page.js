@@ -15,7 +15,6 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
     const {loggedIn, setLoggedIn} = useAuth();
-    console.log(`Logged in? ${loggedIn}`);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
