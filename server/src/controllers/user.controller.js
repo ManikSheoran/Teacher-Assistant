@@ -6,11 +6,11 @@ import {
     setDoc,
     getDoc,
     updateDoc,
+    arrayUnion
 } from "firebase/firestore";
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    onAuthStateChanged,
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -88,4 +88,19 @@ const addStudent = asyncHandler(async (req, res) => {
     res.status(201).send("Student added successfully");
 });
 
-export { registerUser, loginUser, fetchUser, addStudent };
+const getStudentList = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const userDocRef = doc(usersCollection, userId);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+        return res.status(404).send("User not found");
+    }
+
+    const userData = userDoc.data();
+    const studentList = userData.students || [];
+
+    res.status(200).send(studentList);
+});
+
+export { registerUser, loginUser, fetchUser, addStudent, getStudentList };
