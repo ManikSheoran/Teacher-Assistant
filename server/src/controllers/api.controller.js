@@ -39,27 +39,43 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const detectTextInImage = asyncHandler(async (req, res) => {
-    const { topic, marks } = req.body;
+    const { title, topic, marks } = req.body;
+    const modelAnswer = req.file.path;
     const imagePath = req.file.path;
-    const [result] = await visionClient.textDetection(imagePath);
-    const text = result.fullTextAnnotation.text;
-    fs.unlinkSync(imagePath);
 
-    const prompt = `Topic: ${topic}; Question and Answer: ${text}; Marks: ${marks}`;
-    const evaluationResult = await genAIController.generateContent(prompt);
-    const responseText = evaluationResult.response.text();
-    const formattedResponse = formatResponseToHTML(responseText);
+    try {
+        const [modelResult] = await visionClient.textDetection(modelAnswer);
+        const modelText = modelResult.fullTextAnnotation.text;
+        const [result] = await visionClient.textDetection(imagePath);
+        const text = result.fullTextAnnotation.text;
+        fs.unlinkSync(modelAnswer);
+        fs.unlinkSync(imagePath);
 
-    res.status(200).send(formattedResponse);
+        const prompt = `Title: ${title} Topic: ${topic}; Sample Answer: ${modelText}; Question and Answer: ${text}; Marks: ${marks}`;
+        const evaluationResult = await genAIController.generateContent(prompt);
+        const responseText = evaluationResult.response.text();
+        const formattedResponse = formatResponseToHTML(responseText);
+
+        res.status(200).send(formattedResponse);
+    } catch (error) {
+        console.error("Error detecting text in image:", error);
+        res.status(500).send("Error processing image");
+    }
 });
 
 const evaluateAnswer = asyncHandler(async (req, res) => {
     const { topic, question, answer, marks } = req.body;
     const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`;
-    const result = await genAIController.generateContent(prompt);
-    const responseText = result.response.text();
-    const formattedResponse = formatResponseToHTML(responseText);
-    res.status(200).send(formattedResponse);
+
+    try {
+        const result = await genAIController.generateContent(prompt);
+        const responseText = result.response.text();
+        const formattedResponse = formatResponseToHTML(responseText);
+        res.status(200).send(formattedResponse);
+    } catch (error) {
+        console.error("Error evaluating answer:", error);
+        res.status(500).send("Error evaluating answer");
+    }
 });
 
 export { detectTextInImage, evaluateAnswer, upload };
