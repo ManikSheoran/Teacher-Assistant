@@ -4,6 +4,7 @@ import Header from "../components/elements/header";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import Background from "@/components/Background";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,8 @@ const Layout = ({ children }) => {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </head>
-      <body>
+      <body className="light-mode quicksand">
+        <Background />
         <AuthProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
