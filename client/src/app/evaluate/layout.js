@@ -1,5 +1,9 @@
+"use client"
+import { useAuth } from "@/context/AuthContext";
+
 export default function RootLayout({ children }) {
-  return (
-      <div>{children}</div>
-  );
+  const {loggedIn, setLoggedIn} = useAuth()
+  console.log(loggedIn)
+  
+  return <><div>{children}</div></>;
 }

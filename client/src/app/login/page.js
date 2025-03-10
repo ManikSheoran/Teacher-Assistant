@@ -90,7 +90,6 @@ export default function Login() {
 
     return (
         <>
-            <Header />
             <div className="flex items-center justify-center m-16 mt-40">
                 <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
                     <h1 className="text-2xl font-bold text-[#44546a] mb-6 text-center">
