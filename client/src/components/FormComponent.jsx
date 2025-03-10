@@ -129,7 +129,6 @@ const FormComponent = ({ sid }) => {
             className="border border-gray-300 rounded p-2 w-full"
             placeholder="Enter student ID"
             value={sid}
-            readOnly
           />
         </div>
 
