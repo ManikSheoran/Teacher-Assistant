@@ -55,15 +55,15 @@ const upload = multer({ storage });
 
 const detectTextInImage = asyncHandler(async (req, res) => {
     const { title, topic, marks } = req.body;
-    const modelAnswer = req.file.path;
-    const imagePath = req.file.path;
+    const modelAnswerPath = req.files['image1'][0].path;
+    const imagePath = req.files['image2'][0].path;
 
     try {
-        const [modelResult] = await visionClient.textDetection(modelAnswer);
+        const [modelResult] = await visionClient.textDetection(modelAnswerPath);
         const modelText = modelResult.fullTextAnnotation.text;
         const [result] = await visionClient.textDetection(imagePath);
         const text = result.fullTextAnnotation.text;
-        fs.unlinkSync(modelAnswer);
+        fs.unlinkSync(modelAnswerPath);
         fs.unlinkSync(imagePath);
 
         const prompt = `Title: ${title} Topic: ${topic}; Sample Answer: ${modelText}; Question and Answer: ${text}; Marks: ${marks}`;
@@ -74,11 +74,55 @@ const detectTextInImage = asyncHandler(async (req, res) => {
         res.status(200).send(formattedResponse);
     } catch (error) {
         console.error("Error detecting text in image:", error);
-        res.status(500).send("Error processing image");
+        res.status(500).send("Error processing images");
     }
 });
 
-const evaluateAnswer = asyncHandler(async (req, res) => {
+const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
+    const { sid, topic, marks } = req.body;
+    const modelAnswerPath = req.files['image1'][0].path;
+    const imagePath = req.files['image2'][0].path;
+
+    try {
+        const [modelResult] = await visionClient.textDetection(modelAnswerPath);
+        const modelText = modelResult.fullTextAnnotation.text;
+        const [result] = await visionClient.textDetection(imagePath);
+        const text = result.fullTextAnnotation.text;
+        fs.unlinkSync(modelAnswerPath);
+        fs.unlinkSync(imagePath);
+
+        const prompt = `Topic: ${topic}; Sample Answer: ${modelText}; Question and Answer: ${text}; Marks: ${marks}`;
+        const evaluationResult = await genAIController.generateContent(prompt);
+        const responseText = evaluationResult.response.text();
+        const formattedResponse = formatResponseToHTML(responseText);
+
+        // Retrieve the student's document from Firestore
+        const studentDocRef = doc(db, "students", sid);
+        const studentDoc = await getDoc(studentDocRef);
+
+        if (!studentDoc.exists()) {
+            return res.status(404).send("Student not found");
+        }
+
+        // Add the feedback to the student's document
+        await updateDoc(studentDocRef, {
+            feedback: arrayUnion({
+                topic: topic,
+                question: text,
+                answer: modelText,
+                marks: marks,
+                feedback: formattedResponse,
+            }),
+        });
+
+        res.status(200).send(formattedResponse);
+    } catch (error) {
+        console.error("Error evaluating answer:", error);
+        res.status(500).send("Error evaluating answer");
+    }
+});
+
+const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
     const { sid, topic, question, answer, marks } = req.body;
     const prompt = `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`;
 
@@ -113,4 +157,4 @@ const evaluateAnswer = asyncHandler(async (req, res) => {
     }
 });
 
-export { detectTextInImage, evaluateAnswer, upload };
+export { detectTextInImage, evaluateAnswerWithImages, evaluateAnswerWithoutImages, upload };

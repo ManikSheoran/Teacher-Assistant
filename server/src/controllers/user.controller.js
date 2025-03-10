@@ -103,4 +103,19 @@ const getStudentList = asyncHandler(async (req, res) => {
     res.status(200).send(studentList);
 });
 
-export { registerUser, loginUser, fetchUser, addStudent, getStudentList };
+const getFeedbacks = asyncHandler(async (req, res) => {
+    const { sid } = req.body;
+    const studentDocRef = doc(studentsCollection, sid);
+    const studentDoc = await getDoc(studentDocRef);
+
+    if (!studentDoc.exists()) {
+        return res.status(404).send("Student not found");
+    }
+
+    const studentData = studentDoc.data();
+    const feedbackList = studentData.feedback || [];
+
+    res.status(200).send(feedbackList);
+});
+
+export { registerUser, loginUser, fetchUser, addStudent, getStudentList, getFeedbacks };
