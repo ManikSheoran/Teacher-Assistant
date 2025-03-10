@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import FormComponent from '../../../components/FormComponent';
-import Header from "../../../components/elements/header";
+import FormComponent from '../../../../components/FormComponent';
+import Header from "../../../../components/elements/header";
 
 export default function EvaluatePage() {
   const { sid } = useParams(); // Get the dynamic 'sid' from URL
