@@ -112,7 +112,7 @@ export default function Login() {
                                 className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 ${
                                     errors.email
                                         ? "border-red-500 focus:ring-red-500"
-                                        : "border-[#8390FA] focus:ring-[#1D2F6F]"
+                                        : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                                 }`}
                             />
                             {errors.email && (
@@ -132,7 +132,7 @@ export default function Login() {
                                 className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 ${
                                     errors.password
                                         ? "border-red-500 focus:ring-red-500"
-                                        : "border-[#8390FA] dark:border-[#F9E9EC] focus:ring-[#1D2F6F] dark:focus:ring-[#F88DAD]"
+                                        : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                                 }`}
                             />
                             {errors.password && (
@@ -144,7 +144,7 @@ export default function Login() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full py-3 bg-[#1D2F6F] text-white dark:text-[#1D2F6F] font-bold rounded-lg hover:bg-[#1c40cd] dark:bg-[#FAC748] transition duration-300 ${
+                            className={`w-full py-3 bg-[#1D2F6F] text-white dark:text-[#1D2F6F] font-bold rounded-lg hover:bg-[#1c40cd] dark:hover:bg-[#fadf9d] dark:bg-[#FAC748] transition duration-300 ${
                                 isLoading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                         >
@@ -154,7 +154,7 @@ export default function Login() {
                     <div className="mt-4 text-center">
                         <a
                             href="/register"
-                            className="text-[#1D2F6F] dark:text-[#FAC748] font-medium hover:text-[#1c40cd] transition duration-300"
+                            className="text-[#1D2F6F] dark:text-[#FAC748] font-medium hover:text-[#1c40cd] dark:hover:text-[#fadf9d] transition duration-300"
                         >
                             New User? Register
                         </a>

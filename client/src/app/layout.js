@@ -8,9 +8,17 @@ import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 
 function ThemedLayout({ children }) {
-    const { darkMode } = useDarkMode();
+    const { darkMode, isThemeLoaded } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
+
+    // if (!isThemeLoaded) {
+    //     return (
+    //         <body>
+    //             <div style={{ visibility: "hidden" }}>{children}</div>
+    //         </body>
+    //     )
+    // }
 
     useEffect(() => {
         const handleScroll = () => {

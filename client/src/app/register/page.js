@@ -82,8 +82,8 @@ export default function Register() {
     return (
         <>
             <div className="flex items-center justify-center m-16 mt-40">
-                <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
-                    <h1 className="text-2xl font-bold text-[#44546a] mb-6 text-center">
+                <div className="bg-[#F9E9EC] dark:bg-[#1D2F6F] shadow-md rounded-lg p-8 max-w-md w-full">
+                    <h1 className="text-2xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-6 text-center">
                         Register
                     </h1>
                     {backendError && (
@@ -103,7 +103,7 @@ export default function Register() {
                                 className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 ${
                                     errors.name
                                         ? "border-red-500 focus:ring-red-500"
-                                        : "border-[#00ff06] focus:ring-[#00cc47]"
+                                        : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                                 }`}
                             />
                             {errors.name && (
@@ -123,7 +123,7 @@ export default function Register() {
                                 className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 ${
                                     errors.email
                                         ? "border-red-500 focus:ring-red-500"
-                                        : "border-[#00ff06] focus:ring-[#00cc47]"
+                                        : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                                 }`}
                             />
                             {errors.email && (
@@ -143,7 +143,7 @@ export default function Register() {
                                 className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 ${
                                     errors.password
                                         ? "border-red-500 focus:ring-red-500"
-                                        : "border-[#00ff06] focus:ring-[#00cc47]"
+                                        : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                                 }`}
                             />
                             {errors.password && (
@@ -155,7 +155,7 @@ export default function Register() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full py-3 bg-[#71c479] text-white font-bold rounded-lg hover:bg-[#00cc47] transition duration-300 ${
+                            className={`w-full py-3 bg-[#1D2F6F] text-white dark:text-[#1D2F6F] font-bold rounded-lg hover:bg-[#1c40cd] dark:hover:bg-[#fadf9d] dark:bg-[#FAC748] transition duration-300 ${
                                 isLoading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                         >
@@ -165,7 +165,7 @@ export default function Register() {
                     <div className="mt-4 text-center">
                         <a
                             href="/login"
-                            className="text-[#71c479] font-medium hover:text-[#00ff06] transition duration-300"
+                            className="text-[#1D2F6F] dark:text-[#FAC748] font-medium hover:text-[#1c40cd] dark:hover:text-[#fadf9d] transition duration-300"
                         >
                             Existing User? Login
                         </a>
