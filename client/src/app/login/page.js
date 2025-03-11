@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
+import { useUser } from "@/context/UserContext";
 
 export default function Login() {
     const router = useRouter();
@@ -14,6 +15,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
     const { loggedIn, setLoggedIn } = useAuth();
+    const { user, setUser } = useUser();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -56,6 +58,20 @@ export default function Login() {
                 body: JSON.stringify(formData),
             });
 
+            const fetchUser = async (uid) => {
+                const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetch`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ uid: uid }),
+                    }
+                );
+                return await response.json();
+            };
+
             const data = await response.json();
             if (response.ok) {
                 // Save token in an HTTP-only cookie
@@ -70,6 +86,13 @@ export default function Login() {
                     sameSite: "strict",
                 });
                 setLoggedIn(true);
+
+                const currUser = await fetchUser(data.uid);
+                if (currUser) {
+                    setUser(currUser);
+                } else {
+                    console.error("Failed to fetch user");
+                }
                 router.push("/");
             } else {
                 setBackendError(

@@ -6,12 +6,13 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
+import { UserProvider } from "@/context/UserContext";
 
 function ThemedLayout({ children }) {
     const { darkMode, isThemeLoaded } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
-    
+
     // if (!isThemeLoaded) {
     //     return (
     //         <body>
@@ -36,23 +37,25 @@ function ThemedLayout({ children }) {
         <body className={`${theme}-mode quicksand ${theme} relative`}>
             <Background />
             <AuthProvider>
-                <div className="min-h-screen flex flex-col">
-                    <Header />
-                    <main className="flex-grow">{children}</main>
-                    <footer className="bg-black text-white text-center py-4">
-                        &copy; {new Date().getFullYear()} NeuroGrade. All rights
-                        reserved.
-                    </footer>
+                <UserProvider>
+                    <div className="min-h-screen flex flex-col">
+                        <Header />
+                        <main className="flex-grow">{children}</main>
+                        <footer className="bg-black text-white text-center py-4">
+                            &copy; {new Date().getFullYear()} NeuroGrade. All
+                            rights reserved.
+                        </footer>
 
-                    {showScrollButton && (
-                        <button
-                            onClick={scrollUp}
-                            className="fixed bottom-8 right-8 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
-                        >
-                            <ChevronUp size={24} />
-                        </button>
-                    )}
-                </div>
+                        {showScrollButton && (
+                            <button
+                                onClick={scrollUp}
+                                className="fixed bottom-8 right-8 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
+                            >
+                                <ChevronUp size={24} />
+                            </button>
+                        )}
+                    </div>
+                </UserProvider>
             </AuthProvider>
         </body>
     );

@@ -1,10 +1,14 @@
+import { useUser } from "@/context/UserContext";
 import { getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
 export default function HeroComponent() {
+    const { user, setUser } = useUser();
     const uid = getCookie("uid");
+
     return (
         <div className="flex flex-col items-center p-6 bg-transparent text-black min-h-screen w-full">
             <h1 className="text-4xl q text-blue-400 font-semibold text-center mb-6 mt-20">
-                Welcome, Teacher!
+                {`Welcome, ${user.name ? user.name : "Teacher"}!`}
             </h1>
             <div className="flex flex-col items-center space-y-4">
                 <a
@@ -23,7 +27,6 @@ export default function HeroComponent() {
                     href="/evaluate"
                     className="bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700"
                 >
-                    {" "}
                     Evaluate
                 </a>
             </div>

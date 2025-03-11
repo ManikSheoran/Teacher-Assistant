@@ -57,7 +57,6 @@ const StudentForm = () => {
               </h1>
               <form onSubmit={handleSubmit}>
                   <div className="mb-4">
-                      <label htmlFor="name">Name:</label>
                       <input
                           type="text"
                           id="name"
@@ -71,7 +70,6 @@ const StudentForm = () => {
                       />
                   </div>
                   <div className="mb-4">
-                      <label htmlFor="studentId">Student ID:</label>
                       <input
                           type="text"
                           id="studentId"

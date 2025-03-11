@@ -8,35 +8,20 @@ import { getCookies, deleteCookie } from "cookies-next";
 import { useAuth } from "@/context/AuthContext";
 import Switch from "@mui/material/Switch";
 import { useDarkMode } from "@/context/DarkModeContext";
+import { useUser } from "@/context/UserContext";
 
 const Header = () => {
     const { loggedIn, setLoggedIn } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
-    const [userName, setUserName] = useState("");
+    const { user, setUser } = useUser();
     const { darkMode, setDarkMode } = useDarkMode();
-    const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetch`;
-
-    const fetchUser = async (uid) => {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uid: uid }),
-        });
-        console.log("Hello");
-        return await response.json();
-    };
 
     const checkAuthStatus = async () => {
         let cookies = getCookies();
         if (cookies.uid) {
             setLoggedIn(true);
-            const userData = await fetchUser(cookies.uid);
-            setUserName(userData.name);
         } else {
             setLoggedIn(false);
-            setUserName("");
         }
     };
 
@@ -47,7 +32,7 @@ const Header = () => {
     const handleLogout = () => {
         deleteCookie("uid");
         setLoggedIn(false);
-        setUserName("");
+        setUser({});
     };
     return (
         <nav className="fixed top-0 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md h-16 flex items-center px-6 justify-between z-50">
@@ -74,7 +59,7 @@ const Header = () => {
                     {loggedIn ? (
                         <>
                             <span className="text-[#F9E9EC]">
-                                Hello, {userName || "User"}
+                                Hello, {user.name || "User"}
                             </span>
                             <button
                                 onClick={handleLogout}
@@ -121,7 +106,7 @@ const Header = () => {
                     {loggedIn ? (
                         <>
                             <span className="text-[#F9E9EC]">
-                                Hello, {userName || "User"}
+                                Hello, {user.name || "User"}
                             </span>
                             <button
                                 onClick={handleLogout}
