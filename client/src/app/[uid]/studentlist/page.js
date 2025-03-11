@@ -6,14 +6,14 @@ import StudentBox from "../../../components/StudentBox";
 import Header from "../../../components/elements/header";
 
 export default function StudentList() {
-  const { userid } = useParams();
+  const { uid } = useParams();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${userid}/studentlist`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/studentlist`,
             {
                 method: "GET",
                 headers: {
@@ -35,7 +35,7 @@ export default function StudentList() {
     };
 
     fetchData();
-  }, [userid]);
+  }, [uid]);
 
   return (
     <>
