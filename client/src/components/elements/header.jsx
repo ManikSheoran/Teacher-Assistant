@@ -29,10 +29,22 @@ const Header = () => {
         checkAuthStatus();
     }, [loggedIn]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMenuOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const handleLogout = () => {
         deleteCookie("uid");
         setLoggedIn(false);
         setUser({});
+        setMenuOpen(false);
     };
     return (
         <nav className="fixed top-0 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md h-16 flex items-center px-6 justify-between z-50">
@@ -58,12 +70,12 @@ const Header = () => {
                 <div className="hidden md:flex items-center space-x-6">
                     {loggedIn ? (
                         <>
-                            <span className="text-[#F9E9EC]">
+                            <span className="dark:text-[#F9E9EC] text-black">
                                 Hello, {user.name || "User"}
                             </span>
                             <button
                                 onClick={handleLogout}
-                                className="flex items-center text-[#FAC748] hover:text-[#ffd97a]"
+                                className="flex items-center dark:text-[#FAC748] dark:hover:text-[#ffd97a] text-[#1D2F6F] hover:text-[#1c40cd]"
                             >
                                 <IoIosLogOut className="text-2xl mr-1" />
                                 Logout
@@ -89,12 +101,12 @@ const Header = () => {
                 <div className="md:hidden">
                     {menuOpen ? (
                         <FiX
-                            className="text-3xl cursor-pointer text-[#F9E9EC]"
+                            className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
                             onClick={() => setMenuOpen(false)}
                         />
                     ) : (
                         <FiMenu
-                            className="text-3xl cursor-pointer text-[#F9E9EC]"
+                            className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
                             onClick={() => setMenuOpen(true)}
                         />
                     )}
@@ -102,7 +114,7 @@ const Header = () => {
             </div>
             {/* 🔹 Mobile Dropdown Menu */}
             {menuOpen && (
-                <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4">
+                <div className="absolute top-16 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md flex flex-col items-center space-y-4 py-4">
                     {loggedIn ? (
                         <>
                             <span className="text-[#F9E9EC]">
@@ -117,20 +129,14 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <div className="flex flex-col space-y-4 w-full mx-10 items-center">
+                            <div className="flex flex-col space-y-4 w-full mx-10 items-center font-bold">
                                 <Link href="/login">
-                                    <button
-                                        className="w-full px-4 py-2 bg-[#FAC748] text-white rounded-md hover:bg-green-700 text-center"
-                                        onClick={() => setMenuOpen(false)}
-                                    >
+                                    <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
                                         Login
                                     </button>
                                 </Link>
                                 <Link href="/register">
-                                    <button
-                                        className="w-full px-4 py-2 bg-[#FAC748] text-white rounded-md hover:bg-green-700 text-center"
-                                        onClick={() => setMenuOpen(false)}
-                                    >
+                                    <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
                                         Sign Up
                                     </button>
                                 </Link>
