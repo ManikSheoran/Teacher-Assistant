@@ -22,13 +22,16 @@ const StudentForm = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/user/addstudent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/addstudent`,
+          {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify(requestData),
+          }
+      );
 
       if (response.ok) {
         alert('Student added successfully');

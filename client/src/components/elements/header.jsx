@@ -14,7 +14,7 @@ const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [userName, setUserName] = useState("");
     const { darkMode, setDarkMode } = useDarkMode();
-    const endpoint = "http://localhost:8000/user/fetch";
+    const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetch`;
 
     const fetchUser = async (uid) => {
         const response = await fetch(endpoint, {
@@ -42,7 +42,7 @@ const Header = () => {
 
     useEffect(() => {
         checkAuthStatus();
-    }, []);
+    }, [loggedIn]);
 
     const handleLogout = () => {
         deleteCookie("uid");

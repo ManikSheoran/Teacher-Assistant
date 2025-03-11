@@ -50,7 +50,7 @@ export default function Register() {
         setBackendError("");
         setIsLoading(true);
 
-        const endpoint = "http://localhost:8000/user/register";
+        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/register`;
 
         try {
             const response = await fetch(endpoint, {
@@ -61,13 +61,11 @@ export default function Register() {
                 body: JSON.stringify(formData),
             });
             console.log(response);
-            console.log(response.status)
+            console.log(response.status);
             if (response.status === 201) {
                 router.push("/login");
             } else {
-                setBackendError(
-                  "Registration failed. Please try again."
-                );
+                setBackendError("Registration failed. Please try again.");
             }
         } catch (error) {
             console.error("Error:", error);

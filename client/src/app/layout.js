@@ -1,18 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ChevronUp } from "lucide-react"; 
+import { ChevronUp } from "lucide-react";
 import Header from "../components/elements/header";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
-import { getCookie } from "cookies-next";
 
 function ThemedLayout({ children }) {
     const { darkMode, isThemeLoaded } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
-
+    
     // if (!isThemeLoaded) {
     //     return (
     //         <body>
@@ -23,7 +22,7 @@ function ThemedLayout({ children }) {
 
     useEffect(() => {
         const handleScroll = () => {
-            setShowScrollButton(window.scrollY > 200); 
+            setShowScrollButton(window.scrollY > 200);
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
@@ -41,9 +40,10 @@ function ThemedLayout({ children }) {
                     <Header />
                     <main className="flex-grow">{children}</main>
                     <footer className="bg-black text-white text-center py-4">
-                        &copy; {new Date().getFullYear()} NeuroGrade. All rights reserved.
+                        &copy; {new Date().getFullYear()} NeuroGrade. All rights
+                        reserved.
                     </footer>
-                    
+
                     {showScrollButton && (
                         <button
                             onClick={scrollUp}
