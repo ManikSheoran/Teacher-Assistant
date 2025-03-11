@@ -2,7 +2,7 @@ import { getCookie } from "cookies-next";
 export default function HeroComponent() {
     const uid = getCookie("uid");
     return (
-        <div className="flex flex-col items-center p-6 bg-white text-black min-h-screen w-full">
+        <div className="flex flex-col items-center p-6 bg-transparent text-black min-h-screen w-full">
             <h1 className="text-4xl font-semibold text-center mb-6 mt-20">
                 Welcome, Teacher!
             </h1>

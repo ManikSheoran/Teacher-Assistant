@@ -132,12 +132,12 @@ const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
         const formattedResponse = formatResponseToHTML(responseText);
 
         // Retrieve the student's document from Firestore
-        const studentDocRef = doc(db, "students", sid);
-        const studentDoc = await getDoc(studentDocRef);
+        // const studentDocRef = doc(db, "students", sid);
+        // const studentDoc = await getDoc(studentDocRef);
 
-        if (!studentDoc.exists()) {
-            return res.status(404).send("Student not found");
-        }
+        // if (!studentDoc.exists()) {
+        //     return res.status(404).send("Student not found");
+        // }
 
         // Add the feedback to the student's document
         await updateDoc(studentDocRef, {
