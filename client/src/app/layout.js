@@ -6,6 +6,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
+import { getCookie } from "cookies-next";
 
 function ThemedLayout({ children }) {
     const { darkMode, isThemeLoaded } = useDarkMode();

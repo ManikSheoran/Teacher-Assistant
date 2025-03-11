@@ -1,4 +1,6 @@
-export default function HeroComponent(){
+import { getCookie } from "cookies-next";
+export default function HeroComponent() {
+    const uid = getCookie("uid");
     return (
         <div className="flex flex-col items-center p-6 bg-white text-black min-h-screen w-full">
             <h1 className="text-4xl font-semibold text-center mb-6 mt-20">
@@ -12,7 +14,7 @@ export default function HeroComponent(){
                     Add Student
                 </a>
                 <a
-                    href="/students-list"
+                    href={`${uid}/studentlist`}
                     className="bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700"
                 >
                     View Students List
