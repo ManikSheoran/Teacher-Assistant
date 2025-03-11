@@ -1,11 +1,22 @@
-"use client";
+"use client"; 
 
+import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import FormComponent from '../../../../components/FormComponent';
 import Header from "../../../../components/elements/header";
+import { getCookie } from 'cookies-next';
 
 export default function EvaluatePage() {
-  const { sid } = useParams(); // Get the dynamic 'sid' from URL
+  const { sid } = useParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!getCookie('uid')) {
+      router.push('/login');
+      alert('You need to login first');
+    }
+  }, [router]);
 
   return (
     <>
