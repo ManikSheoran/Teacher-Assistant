@@ -9,6 +9,5 @@ router.post("/fetch", fetchUser)
 router.post("/addstudent", addStudent)
 router.get("/:userId/studentlist", getStudentList)
 router.get("/feedbacks", getFeedbacks)
-router.get("/feedbacks/:studentId", getFeedbacks)
 
 export default router
