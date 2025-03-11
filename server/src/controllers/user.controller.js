@@ -90,6 +90,7 @@ const addStudent = asyncHandler(async (req, res) => {
 
 const getStudentList = asyncHandler(async (req, res) => {
     const { userId } = req.params;
+    console.log(userId);
     const userDocRef = doc(usersCollection, userId);
     const userDoc = await getDoc(userDocRef);
 
