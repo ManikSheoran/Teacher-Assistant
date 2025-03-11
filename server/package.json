@@ -1,11 +1,15 @@
 {
     "name": "server",
+    "engines": {
+        "node": "20.x"
+    },
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "nodemon -r dotenv/config ./src/index.js"
+        "dev": "nodemon -r dotenv/config ./src/index.js",
+        "start": "node ./src/index.js"
     },
     "keywords": [],
     "author": "",

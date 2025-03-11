@@ -2,7 +2,6 @@
 import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../../components/elements/header";
 import { setCookie } from "cookies-next";
 
 export default function Login() {
@@ -14,7 +13,7 @@ export default function Login() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
-    const {loggedIn, setLoggedIn} = useAuth();
+    const { loggedIn, setLoggedIn } = useAuth();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -47,8 +46,7 @@ export default function Login() {
         setBackendError("");
         setIsLoading(true);
 
-        const endpoint = "http://localhost:8000/user/login";
-
+        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/login`;
         try {
             const response = await fetch(endpoint, {
                 method: "POST",

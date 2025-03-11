@@ -12,13 +12,16 @@ export default function FeedbackPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/user/feedbacks`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ sid }),
-        });
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/feedbacks`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ sid }),
+            }
+        );
 
         const data = await response.json();
         if (Array.isArray(data)) {

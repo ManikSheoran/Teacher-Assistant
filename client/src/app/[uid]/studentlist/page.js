@@ -12,12 +12,15 @@ export default function StudentList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/user/${userid}/studentlist`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${userid}/studentlist`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
         const data = await response.json();
         if (Array.isArray(data)) {
