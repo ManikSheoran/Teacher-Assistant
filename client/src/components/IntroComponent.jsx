@@ -1,6 +1,11 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import AboutComponent from "./AboutComponent";
 
 export default function IntroComponent() {
+    const router = useRouter();
+
     const scrollToAbout = () => {
         document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
     };
@@ -19,7 +24,10 @@ export default function IntroComponent() {
                     </p>
                 </div>
                 <div className="flex flex-row items-center justify-center mt-8">
-                    <button className="bg-[#1D2F6F] px-8 py-4 mx-6 sm:text-xl lg:text-2xl rounded-full text-white">
+                    <button
+                        onClick={() => router.push("/login")}
+                        className="bg-[#1D2F6F] px-8 py-4 mx-6 sm:text-xl lg:text-2xl rounded-full text-white"
+                    >
                         Get Started
                     </button>
                     <button
@@ -30,7 +38,6 @@ export default function IntroComponent() {
                     </button>
                 </div>
             </div>
-            {/* Adding an ID to the AboutComponent for scrolling */}
             <div id="about-section">
                 <AboutComponent />
             </div>
