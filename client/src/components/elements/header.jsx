@@ -40,11 +40,15 @@ const Header = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const collapseMenu = () => {
+        setMenuOpen(false)
+    }
+
     const handleLogout = () => {
         deleteCookie("uid");
         setLoggedIn(false);
         setUser({});
-        setMenuOpen(false);
+        collapseMenu()
     };
     return (
         <nav className="fixed top-0 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md h-16 flex items-center px-6 justify-between z-50">
@@ -131,12 +135,18 @@ const Header = () => {
                         <>
                             <div className="flex flex-col space-y-4 w-full mx-10 items-center font-bold">
                                 <Link href="/login">
-                                    <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
+                                    <button
+                                        onClick={collapseMenu}
+                                        className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center"
+                                    >
                                         Login
                                     </button>
                                 </Link>
                                 <Link href="/register">
-                                    <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
+                                    <button
+                                        onClick={collapseMenu}
+                                        className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center"
+                                    >
                                         Sign Up
                                     </button>
                                 </Link>
