@@ -4,12 +4,12 @@ export default function AboutComponent() {
     return (
         <div className="w-full py-10 px-4 sm:px-6 lg:px-8">
             {/* Challenge Section */}
-            <section className="mb-12 bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-6">
-                <h2 className="text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
+            <section className="mb-12 bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-4 sm:p-6">
+                <h2 className="text-2xl sm:text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
                     The Challenge: Overburdened Educators & Limited Personalized
                     Feedback
                 </h2>
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
                     Teachers in schools, coaching centers, and colleges are
                     overwhelmed with grading assignments and providing
                     individual feedback—especially in large classrooms where the
@@ -18,7 +18,7 @@ export default function AboutComponent() {
 
                 <ul className="space-y-4 mb-6">
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Time-Consuming Manual Grading
                             </span>{" "}
@@ -27,7 +27,7 @@ export default function AboutComponent() {
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Lack of Personalized Feedback
                             </span>{" "}
@@ -36,7 +36,7 @@ export default function AboutComponent() {
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Under-Resourced Classrooms
                             </span>{" "}
@@ -46,7 +46,7 @@ export default function AboutComponent() {
                     </li>
                 </ul>
 
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#F88DAD] pl-4">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#F88DAD] pl-4">
                     Without efficient grading systems, students miss out on the
                     personalized guidance they need to grow academically,
                     leading to widening learning gaps.
@@ -54,18 +54,18 @@ export default function AboutComponent() {
             </section>
 
             {/* Solution Section */}
-            <section className="mb-12 bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-6">
-                <h2 className="text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
+            <section className="mb-12 bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-4 sm:p-6">
+                <h2 className="text-2xl sm:text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
                     The Solution: AI-Powered Teacher Assistant
                 </h2>
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
                     To solve this challenge, NeuroGrade introduces an AI-driven
                     grading and feedback system that:
                 </p>
 
                 <ul className="space-y-4 mb-6">
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Automates Assignment Evaluation
                             </span>{" "}
@@ -74,7 +74,7 @@ export default function AboutComponent() {
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Delivers Personalized Feedback
                             </span>{" "}
@@ -83,7 +83,7 @@ export default function AboutComponent() {
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Enhances Teaching Efficiency
                             </span>{" "}
@@ -92,7 +92,7 @@ export default function AboutComponent() {
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             <span className="font-semibold">
                                 Supports Inclusive Learning
                             </span>{" "}
@@ -102,7 +102,7 @@ export default function AboutComponent() {
                     </li>
                 </ul>
 
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#8390FA] pl-4">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#8390FA] pl-4">
                     With AI-powered automation, teachers can provide
                     higher-quality feedback faster, ensuring students receive
                     timely, actionable insights for academic improvement.
@@ -110,42 +110,43 @@ export default function AboutComponent() {
             </section>
 
             {/* SDG Section */}
-            <section className="bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-6">
-                <h2 className="text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
+            <section className="bg-[#F9E9EC] dark:bg-[#1D2F6F] rounded-lg shadow-lg p-4 sm:p-6">
+                <h2 className="text-2xl sm:text-4xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-4">
                     Aligning with UN SDG 4: Quality Education
                 </h2>
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] opacity-80 mb-6">
                     NeuroGrade is designed to support United Nations Sustainable
                     Development Goal 4 (Quality Education) by:
                 </p>
 
                 <ul className="space-y-4 mb-6">
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             Reducing barriers to personalized learning through
                             AI-driven insights.
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             Ensuring equitable access to quality education for
                             students in high-ratio classrooms.
                         </span>
                     </li>
                     <li className="flex items-start">
-                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC]">
+                        <span className="text-[#1D2F6F] dark:text-[#F9E9EC] text-sm sm:text-base">
                             Empowering educators with smart tools that improve
                             teaching effectiveness.
                         </span>
                     </li>
                 </ul>
 
-                <p className="text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#FAC748] pl-4">
+                <p className="text-base sm:text-xl text-[#1D2F6F] dark:text-[#F9E9EC] italic border-l-4 border-[#FAC748] pl-4">
                     By integrating AI into education, we move towards a future
                     where every student receives the guidance they need to
                     excel—regardless of classroom size or resources.
                 </p>
             </section>
+            
         </div>
     );
 }
