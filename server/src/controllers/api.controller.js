@@ -80,18 +80,24 @@ const detectTextInImage = asyncHandler(async (req, res) => {
 
 const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
     const { sid, topic, marks } = req.body;
-    const modelAnswerPath = req.files['image1'][0].path;
+    const modelAnswerPath = req.files['image1'] ? req.files['image1'][0].path : null;
     const imagePath = req.files['image2'][0].path;
 
     try {
-        const [modelResult] = await visionClient.textDetection(modelAnswerPath);
-        const modelText = modelResult.fullTextAnnotation.text;
+        let modelText = '';
+        if (modelAnswerPath) {
+            const [modelResult] = await visionClient.textDetection(modelAnswerPath);
+            modelText = modelResult.fullTextAnnotation.text;
+            fs.unlinkSync(modelAnswerPath);
+        }
+
         const [result] = await visionClient.textDetection(imagePath);
         const text = result.fullTextAnnotation.text;
-        fs.unlinkSync(modelAnswerPath);
         fs.unlinkSync(imagePath);
 
-        const prompt = `Topic: ${topic}; Sample Answer: ${modelText}; Question and Answer: ${text}; Marks: ${marks}`;
+        const prompt = modelText
+            ? `Topic: ${topic}; Sample Answer: ${modelText}; Question and Answer: ${text}; Marks: ${marks}`
+            : `Topic: ${topic}; Question and Answer: ${text}; Marks: ${marks}`;
         const evaluationResult = await genAIController.generateContent(prompt);
         const responseText = evaluationResult.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
