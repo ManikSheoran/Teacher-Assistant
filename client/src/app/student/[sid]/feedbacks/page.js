@@ -15,7 +15,7 @@ export default function FeedbackPage() {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/feedbacks`,
             {
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
