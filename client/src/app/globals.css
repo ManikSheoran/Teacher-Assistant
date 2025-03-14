@@ -45,8 +45,24 @@ body.dark-mode {
 
 
 
-.quicksand {
-  font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+/* Gradient Animation */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientBG 8s ease infinite;
+}
+
+/* Hover Glow Effect */
+@keyframes glow {
+  0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+  100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+}
+
+.hover\:shadow-glow:hover {
+  animation: glow 0.5s alternate infinite;
 }
