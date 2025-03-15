@@ -104,7 +104,7 @@ const getStudentList = asyncHandler(async (req, res) => {
 });
 
 const getFeedbacks = asyncHandler(async (req, res) => {
-    const { sid } = req.body;
+    const { sid } = req.params;
     const studentDocRef = doc(studentsCollection, sid);
     const studentDoc = await getDoc(studentDocRef);
 

@@ -21,9 +21,9 @@ export default function EvaluatePage() {
   return (
     <>
       <Header />
-      <main className="pt-20 px-4">
-        <h1>Evaluating Student: {sid}</h1>
-        <FormComponent sid={sid} readOnly={true}/>
+      <main className="pt-20 px-4 bg-transparent min-h-screen">
+        <h1 className="text-3xl font-bold text-primary mb-6">Evaluating Student: {sid}</h1>
+        <FormComponent sid={sid} readOnly={true} />
       </main>
     </>
   );

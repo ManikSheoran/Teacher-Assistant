@@ -40,8 +40,8 @@ export default function StudentList() {
   return (
     <>
       <Header />
-      <main className="pt-20 px-4">
-        <h1>Student List</h1>
+      <main className="pt-20 px-4 bg-trabsparent min-h-screen">
+        <h1 className="text-3xl font-bold text-primary mb-6">Student List</h1>
         <div className="flex flex-wrap">
           {students.length > 0 ? (
             students.map((student) => (
@@ -50,7 +50,7 @@ export default function StudentList() {
               </div>
             ))
           ) : (
-            <p>No students found.</p>
+            <p className="text-secondary">No students found.</p>
           )}
         </div>
       </main>

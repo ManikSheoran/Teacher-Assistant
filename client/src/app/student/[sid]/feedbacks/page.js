@@ -13,13 +13,12 @@ export default function FeedbackPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/feedbacks`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${sid}/feedbacks`,
             {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ sid }),
             }
         );
 
@@ -45,8 +44,8 @@ export default function FeedbackPage() {
         <h1>Feedbacks for {sid}</h1>
         <div className="flex flex-wrap">
           {feedbacks.length > 0 ? (
-            feedbacks.map((feedback) => (
-              <div key="5" className="w-full md:w-1/2 lg:w-1/3 p-2">
+            feedbacks.map((feedback, index) => (
+              <div key={index} className="w-full md:w-1/2 lg:w-1/3 p-2">
                 <Feedback feedback={feedback} />
               </div>
             ))

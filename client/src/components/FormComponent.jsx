@@ -88,14 +88,14 @@ const FormComponent = ({ sid, readOnly }) => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-white text-black min-h-screen w-full">
-      <h1 className="text-4xl font-semibold text-left w-full max-w-3xl">
+    <div className="flex flex-col items-center p-6 bg-transparent text-black min-h-screen w-full">
+      <h1 className="text-4xl font-semibold text-left w-full max-w-3xl text-secondary">
         AI Evaluation
       </h1>
       <hr className="border-t-2 border-gray-600 opacity-30 w-full max-w-3xl my-4" />
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-3xl bg-transparent border-2 border-gray-300 p-6 rounded-lg"
+        className="w-full max-w-3xl bg-transparent border-0 border-gray-300 p-6 rounded-lg"
       >
         <FormControlLabel
           control={
@@ -106,20 +106,20 @@ const FormComponent = ({ sid, readOnly }) => {
                 "& .MuiSwitch-switchBase": {
                   color: "#999",
                   "&.Mui-checked": {
-                    color: "#0d9488",
+                    color: "#8390fa",
                   },
                 },
                 "& .MuiSwitch-track": {
                   backgroundColor: "#ccc",
                 },
                 "& .Mui-checked+.MuiSwitch-track": {
-                  backgroundColor: "#0d9488 !important",
+                  backgroundColor: "#8390fa !important",
                 },
               }}
             />
           }
           label="Upload Images Instead?"
-          className="mb-4"
+          className="mb-4 text-secondary"
           sx={{
             "& .MuiFormControlLabel-label": {
               fontFamily: "inherit",
@@ -130,7 +130,7 @@ const FormComponent = ({ sid, readOnly }) => {
         />
 
         <div className="mb-4">
-          <label htmlFor="sid" className="font-bold mb-2 block">
+          <label htmlFor="sid" className="font-bold text-secondary mb-2 block">
             Student ID
           </label>
           <input
@@ -147,7 +147,10 @@ const FormComponent = ({ sid, readOnly }) => {
           <>
             <div className="flex flex-wrap gap-6 mb-4">
               <div className="flex-1 flex flex-col">
-                <label htmlFor="topic" className="font-bold mb-2">
+                <label
+                  htmlFor="topic"
+                  className="font-bold text-secondary mb-2"
+                >
                   Topic
                 </label>
                 <input
@@ -160,7 +163,10 @@ const FormComponent = ({ sid, readOnly }) => {
                 />
               </div>
               <div className="flex-1 flex flex-col">
-                <label htmlFor="marks" className="font-bold mb-2">
+                <label
+                  htmlFor="marks"
+                  className="font-bold text-secondary mb-2"
+                >
                   Max. Marks
                 </label>
                 <input
@@ -174,7 +180,10 @@ const FormComponent = ({ sid, readOnly }) => {
               </div>
             </div>
             <div className="mb-4">
-              <label htmlFor="question" className="font-bold mb-2 block">
+              <label
+                htmlFor="question"
+                className="font-bold text-secondary mb-2 block"
+              >
                 Question
               </label>
               <textarea
@@ -187,7 +196,10 @@ const FormComponent = ({ sid, readOnly }) => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="answer" className="font-bold mb-2 block">
+              <label
+                htmlFor="answer"
+                className="font-bold text-secondary mb-2 block"
+              >
                 Answer
               </label>
               <textarea
@@ -200,7 +212,10 @@ const FormComponent = ({ sid, readOnly }) => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="sampleAnswer" className="font-bold mb-2 block">
+              <label
+                htmlFor="sampleAnswer"
+                className="font-bold text-secondary mb-2 block"
+              >
                 Sample Answer
               </label>
               <textarea
@@ -219,7 +234,10 @@ const FormComponent = ({ sid, readOnly }) => {
           <>
             <div className="flex flex-wrap gap-6 mb-4">
               <div className="flex-1 flex flex-col">
-                <label htmlFor="topic" className="font-bold mb-2">
+                <label
+                  htmlFor="topic"
+                  className="font-bold text-secondary mb-2"
+                >
                   Topic
                 </label>
                 <input
@@ -232,7 +250,10 @@ const FormComponent = ({ sid, readOnly }) => {
                 />
               </div>
               <div className="flex-1 flex flex-col">
-                <label htmlFor="marks" className="font-bold mb-2">
+                <label
+                  htmlFor="marks"
+                  className="font-bold text-secondary mb-2"
+                >
                   Max. Marks
                 </label>
                 <input
@@ -246,7 +267,10 @@ const FormComponent = ({ sid, readOnly }) => {
               </div>
             </div>
             <div className="mb-4">
-              <label htmlFor="imageFile1" className="font-bold mb-2 block">
+              <label
+                htmlFor="imageFile1"
+                className="font-bold text-secondary mb-2 block"
+              >
                 Upload Sample Paper
               </label>
               <input
@@ -255,11 +279,14 @@ const FormComponent = ({ sid, readOnly }) => {
                 id="imageFile1"
                 name="image1"
                 onChange={(e) => setImageFile1(e.target.files[0])}
-                className="border border-gray-300 rounded p-2 w-full"
+                className="bg-white border border-gray-300 rounded p-2 w-full"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="imageFile2" className="font-bold mb-2 block">
+              <label
+                htmlFor="imageFile2"
+                className="font-bold text-secondary mb-2 block"
+              >
                 Upload Student Paper
               </label>
               <input
@@ -268,7 +295,7 @@ const FormComponent = ({ sid, readOnly }) => {
                 id="imageFile2"
                 name="image2"
                 onChange={(e) => setImageFile2(e.target.files[0])}
-                className="border border-gray-300 rounded p-2 w-full"
+                className="bg-white border border-gray-300 rounded p-2 w-full"
               />
             </div>
           </>
@@ -276,7 +303,7 @@ const FormComponent = ({ sid, readOnly }) => {
         <div className="flex items-center">
           <button
             type="submit"
-            className="flex items-center ml-auto mt-4 bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700"
+            className="flex items-center ml-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary"
           >
             Evaluate
             {loading && (

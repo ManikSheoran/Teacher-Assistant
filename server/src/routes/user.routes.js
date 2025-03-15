@@ -8,6 +8,6 @@ router.post("/login", loginUser)
 router.post("/fetch", fetchUser)
 router.post("/addstudent", addStudent)
 router.get("/:userId/studentlist", getStudentList)
-router.get("/feedbacks", getFeedbacks)
+router.get("/:sid/feedbacks", getFeedbacks)
 
 export default router
