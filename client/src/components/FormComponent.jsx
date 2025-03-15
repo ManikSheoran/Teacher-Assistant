@@ -89,9 +89,9 @@ const FormComponent = ({ sid, readOnly }) => {
 
   return (
     <div className="flex flex-col items-center p-6 bg-transparent text-black min-h-screen w-full">
-      <h1 className="text-4xl font-semibold text-left w-full max-w-3xl text-secondary">
-        AI Evaluation
-      </h1>
+      <h1 className="text-4xl font-semibold text-center w-full max-w-3xl text-secondary">
+  AI Evaluation
+</h1>
       <hr className="border-t-2 border-gray-600 opacity-30 w-full max-w-3xl my-4" />
       <form
         onSubmit={handleSubmit}
@@ -119,12 +119,14 @@ const FormComponent = ({ sid, readOnly }) => {
             />
           }
           label="Upload Images Instead?"
-          className="mb-4 text-secondary"
+          className="mb-4 text-secondary "
           sx={{
             "& .MuiFormControlLabel-label": {
               fontFamily: "inherit",
               fontWeight: "bold",
               fontSize: "1.1rem",
+             textAlign: "center",
+        width: "100%", 
             },
           }}
         />
@@ -300,30 +302,20 @@ const FormComponent = ({ sid, readOnly }) => {
             </div>
           </>
         )}
-        <div className="flex items-center">
-          <button
-            type="submit"
-            className="flex items-center ml-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary"
-          >
-            Evaluate
-            {loading && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  ml: 2,
-                }}
-              >
-                <CircularProgress
-                  size={20}
-                  className="text-teal-200"
-                  thickness={6}
-                  color="#99f6e4"
-                />
-              </Box>
-            )}
-          </button>
-        </div>
+    <div className="flex justify-center w-full">
+  <button
+    type="submit"
+    className="flex items-center justify-center w-full md:w-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-all"
+  >
+    Evaluate
+    {loading && (
+      <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
+        <CircularProgress size={20} className="text-teal-200" thickness={6} color="inherit" />
+      </Box>
+    )}
+  </button>
+</div>
+
       </form>
       {feedback && (
         <div
