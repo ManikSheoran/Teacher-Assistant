@@ -14,6 +14,10 @@ export default function Home() {
       router.push('/login');
       alert('You need to login first');
     }
+    else {
+      const uid = getCookie('uid');
+      router.push('/' + uid + '/studentlist');
+    }
   }, [router]);
 
   return (
