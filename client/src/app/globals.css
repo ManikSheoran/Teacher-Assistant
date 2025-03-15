@@ -63,12 +63,21 @@ body.dark-mode {
   animation: gradientBG 8s ease infinite;
 }
 
-/* Hover Glow Effect */
-@keyframes glow {
-  0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
-  100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-.hover\:shadow-glow:hover {
-  animation: glow 0.5s alternate infinite;
+::-webkit-scrollbar-track {
+  background: #1D2F6F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FAC748;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eee1c1;
 }

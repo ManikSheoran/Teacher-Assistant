@@ -31,6 +31,12 @@ export default function HeroComponent() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     setQuote(quotes[randomIndex]);
   }, []);
+    return (
+        <div className="relative flex flex-col items-center p-4 sm:p-6 bg-transparent min-h-screen w-full overflow-hidden">
+            {/* Greeting */}
+            <h1 className="text-3xl sm:text-4xl dark:text-[#F9E9EC] text-[#1D2F6F] font-semibold text-center mb-6 mt-20 sm:mt-20">
+                {`${getGreeting()}, ${user.name ? user.name : "Teacher"}!`}
+            </h1>
 
   return (
     <div className="relative flex flex-col items-center p-4 sm:p-6 bg-transparent text-black dark:text-white min-h-screen w-full overflow-hidden">
