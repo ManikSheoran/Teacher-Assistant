@@ -117,6 +117,13 @@ const FormComponent = ({ sid, readOnly }) => {
                     }
                     label="Upload Images Instead?"
                     className="mb-4"
+                    sx={{
+                        "& .MuiFormControlLabel-label": {
+                            fontFamily: "inherit",
+                            fontWeight: "bold",
+                            fontSize: "1.1rem",
+                        },
+                    }}
                 />
 
                 <div className="mb-4">
