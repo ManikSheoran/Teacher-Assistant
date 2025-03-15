@@ -72,6 +72,7 @@ const Layout = ({ children }) => {
             <head>
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
+                <link rel="icon" type="image/x-icon" href={`/logo-dark.svg`}/>
             </head>
             <DarkModeProvider>
                 <ThemedLayout>{children}</ThemedLayout>

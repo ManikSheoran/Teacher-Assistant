@@ -36,25 +36,34 @@ const Header = () => {
             }
         };
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const collapseMenu = () => {
-        setMenuOpen(false)
-    }
+        setMenuOpen(false);
+    };
 
     const handleLogout = () => {
         deleteCookie("uid");
         setLoggedIn(false);
         setUser({});
-        collapseMenu()
+        collapseMenu();
     };
     return (
         <nav className="fixed top-0 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md h-16 flex items-center px-6 justify-between z-50">
             {/* Website Name */}
             <div className="text-2xl font-bold dark:text-[#F9E9EC] text-black">
-                <Link href="/">NeuroGrade</Link>
+                <Link href="/">
+                    <div className="flex items-center space-x-2 cursor-pointer">
+                        <img
+                            src={`/logo-${darkMode ? "dark" : "light"}.svg`}
+                            alt="NeuroGrade Logo"
+                            className="h-8"
+                        />
+                        <h2>NeuroGrade</h2>
+                    </div>
+                </Link>
             </div>
 
             {/* Dark Mode Toggle */}
