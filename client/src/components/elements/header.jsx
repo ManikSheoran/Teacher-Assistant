@@ -50,11 +50,18 @@ const Header = () => {
         setUser({});
         collapseMenu();
     };
+    
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+        collapseMenu();
+    };
+
     return (
-        <nav className="fixed top-0 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md h-16 flex items-center px-6 justify-between z-50">
+        <nav className={`fixed top-0 left-0 w-full shadow-md h-16 flex items-center px-6 justify-between z-50 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
             {/* Website Name */}
-            <div className="text-2xl font-bold dark:text-[#F9E9EC] text-black">
-                <Link href="/">
+            <div className="text-2xl font-bold  dark:text-[#F9E9EC] text-black">
+                <Link href="/" onClick={collapseMenu}>
+                    
                     <div className="flex items-center space-x-2 cursor-pointer">
                         <img
                             src={`/logo-${darkMode ? "dark" : "light"}.svg`}
@@ -66,71 +73,37 @@ const Header = () => {
                 </Link>
             </div>
 
-            {/* Dark Mode Toggle */}
-            <div className="flex items-center mr-4">
-                <div className="flex items-center mr-4">
-                    <Switch
-                        checked={darkMode}
-                        onChange={() => setDarkMode(!darkMode)}
-                        color="default"
+            {/* 🔹 Mobile Menu Toggle */}
+            <div className="md:hidden">
+                {menuOpen ? (
+                    <FiX
+                        className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
+                        onClick={() => setMenuOpen(false)}
                     />
-                    <span className="ml-2 text-[#F9E9EC]">
-                        {darkMode ? "🌙" : "☀️"}
-                    </span>
-                </div>
+                ) : (
+                    <FiMenu
+                        className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
+                        onClick={() => setMenuOpen(true)}
+                    />
+                )}
+            </div>
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center space-x-6">
+            {/* 🔹 Mobile Dropdown Menu */}
+            {menuOpen && (
+                <div className={`absolute top-16 left-0 w-full shadow-md flex flex-col items-center space-y-4 py-4 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
+                    <div className="flex items-center space-x-2">
+                        <Switch
+                            checked={darkMode}
+                            onChange={toggleDarkMode}
+                            color="default"
+                        />
+                        <span className="text-[#F9E9EC]">
+                            {darkMode ? "🌙" : "☀️"}
+                        </span>
+                    </div>
                     {loggedIn ? (
                         <>
                             <span className="dark:text-[#F9E9EC] text-black">
-                                Hello, {user.name || "User"}
-                            </span>
-                            <button
-                                onClick={handleLogout}
-                                className="flex items-center dark:text-[#FAC748] dark:hover:text-[#ffd97a] text-[#1D2F6F] hover:text-[#1c40cd]"
-                            >
-                                <IoIosLogOut className="text-2xl mr-1" />
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <div className="flex flex-row space-x-2 font-bold">
-                            <Link href="/login">
-                                <button className="w-24 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
-                                    Login
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="w-24 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
-                                    Sign Up
-                                </button>
-                            </Link>
-                        </div>
-                    )}
-                </div>
-
-                {/* 🔹 Mobile Menu Toggle */}
-                <div className="md:hidden">
-                    {menuOpen ? (
-                        <FiX
-                            className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
-                            onClick={() => setMenuOpen(false)}
-                        />
-                    ) : (
-                        <FiMenu
-                            className="text-3xl cursor-pointer dark:text-[#F9E9EC] text-black"
-                            onClick={() => setMenuOpen(true)}
-                        />
-                    )}
-                </div>
-            </div>
-            {/* 🔹 Mobile Dropdown Menu */}
-            {menuOpen && (
-                <div className="absolute top-16 left-0 w-full dark:bg-[#1D2F6F] bg-[#8390FA] shadow-md flex flex-col items-center space-y-4 py-4">
-                    {loggedIn ? (
-                        <>
-                            <span className="text-[#F9E9EC]">
                                 Hello, {user.name || "User"}
                             </span>
                             <button
@@ -146,7 +119,7 @@ const Header = () => {
                                 <Link href="/login">
                                     <button
                                         onClick={collapseMenu}
-                                        className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center"
+                                        className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
                                     >
                                         Login
                                     </button>
@@ -154,7 +127,7 @@ const Header = () => {
                                 <Link href="/register">
                                     <button
                                         onClick={collapseMenu}
-                                        className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center"
+                                        className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
                                     >
                                         Sign Up
                                     </button>
@@ -164,6 +137,47 @@ const Header = () => {
                     )}
                 </div>
             )}
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-6">
+                <div className="flex items-center space-x-2">
+                    <Switch
+                        checked={darkMode}
+                        onChange={toggleDarkMode}
+                        color="default"
+                    />
+                    <span>
+                        {darkMode ? "🌙" : "☀️"}
+                    </span>
+                </div>
+                {loggedIn ? (
+                    <>
+                        <span  className="text-[#F9E9EC]">
+                            Hello, {user.name || "User"}
+                        </span>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center text-[#FAC748] hover:text-[#ffd97a]"
+                        >
+                            <IoIosLogOut className="text-2xl mr-1 text-[#FAC748] hover:text-[#ffd97a]" />
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <div className="flex flex-row space-x-2 font-bold">
+                        <Link href="/login">
+                            <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
+                                Login
+                            </button>
+                        </Link>
+                        <Link href="/register">
+                            <button className="w-40 px-4 py-2 bg-[#FAC748] text-[#1D2F6F] rounded-md hover:bg-[#ffd97a] text-center">
+                                Sign Up
+                            </button>
+                        </Link>
+                    </div>
+                )}
+            </div>
         </nav>
     );
 };
