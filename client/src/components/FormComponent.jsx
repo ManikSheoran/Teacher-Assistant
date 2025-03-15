@@ -5,7 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const FormComponent = ({ sid }) => {
+const FormComponent = ({ sid, readOnly }) => {
     const [useImageUpload, setUseImageUpload] = useState(false);
     const [title, setTitle] = useState("");
     const [topic, setTopic] = useState("");
@@ -129,6 +129,7 @@ const FormComponent = ({ sid }) => {
                         className="border border-gray-300 rounded p-2 w-full"
                         placeholder="Enter student ID"
                         value={sid}
+                        readOnly={readOnly ? true : false}
                     />
                 </div>
 

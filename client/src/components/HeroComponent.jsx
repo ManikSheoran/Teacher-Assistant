@@ -34,9 +34,7 @@ export default function HeroComponent() {
 
     return (
         <div className="relative flex flex-col items-center p-4 sm:p-6 bg-transparent text-black dark:text-white min-h-screen w-full overflow-hidden">
-            {/* Animated Background */}
-            <div className="absolute inset-0 -z-10 animate-gradient bg-gradient-to-r from-purple-400 via-blue-500 to-teal-400 opacity-50"></div>
-
+            
             {/* Greeting */}
             <h1 className="text-3xl sm:text-4xl text-blue-400 font-semibold text-center mb-6 mt-20 sm:mt-20">
                 {`${getGreeting()}, ${user.name ? user.name : "Teacher"}!`}
@@ -70,7 +68,7 @@ function StyledButton({ href, children }) {
     return (
         <a
             href={href}
-            className="relative w-full text-center flex items-center justify-center gap-2 bg-teal-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-teal-700 transition duration-300 active:scale-95 hover:shadow-glow"
+            className="relative w-full text-center flex items-center justify-center gap-2 bg-teal-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-teal-700 transition duration-300"
         >
             {children}
         </a>
