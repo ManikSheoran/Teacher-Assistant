@@ -13,13 +13,13 @@ export default function StudentList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/studentlist`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/studentlist`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
 
         const data = await response.json();
@@ -40,19 +40,21 @@ export default function StudentList() {
   return (
     <>
       <Header />
-      <main className="pt-20 px-4 bg-trabsparent min-h-screen">
-        <h1 className="text-3xl font-bold text-primary mb-6">Student List</h1>
-        <div className="flex flex-wrap">
-          {students.length > 0 ? (
-            students.map((student) => (
-              <div key={student.id} className="w-full md:w-1/2 lg:w-1/3 p-2">
-                <StudentBox studentId={student.id} />
-              </div>
-            ))
-          ) : (
-            <p className="text-secondary">No students found.</p>
-          )}
-        </div>
+      <main className="pt-20 px-4 min-h-screen bg-transparent">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+          Student List
+        </h1>
+        {students.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {students.map((student) => (
+              <StudentBox key={student.id} studentId={student.id} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center text-lg mt-10">
+            No students found.
+          </p>
+        )}
       </main>
     </>
   );
