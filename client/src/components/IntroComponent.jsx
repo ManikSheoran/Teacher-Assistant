@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import AboutComponent from "./AboutComponent";
+import TeamSection from "./TeamSection";
 
 export default function IntroComponent() {
     const router = useRouter();
@@ -39,6 +40,9 @@ export default function IntroComponent() {
             </div>
             <div id="about-section" className="w-full">
                 <AboutComponent />
+            </div>
+            <div id="team-section" className="w-full">
+                <TeamSection />
             </div>
         </>
     );
