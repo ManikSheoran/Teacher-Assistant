@@ -129,7 +129,7 @@ export default function Register() {
                                             ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-900" 
                                             : "border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
                                     }`}
-                                    placeholder="your@email.com"
+                                    placeholder="name@email.com"
                                 />
                                 {errors.email && <span className="absolute right-3 top-3 text-red-500">!</span>}
                             </div>
