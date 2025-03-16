@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
     const router = useRouter();
@@ -12,6 +13,7 @@ export default function Login() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const { setLoggedIn } = useAuth();
     const { setUser } = useUser();
 
@@ -80,6 +82,13 @@ export default function Login() {
     };
 
     return (
+        <>
+        <style jsx global> {`
+            ::-ms-reveal {
+                display: none;
+            }
+        `}
+        </style>
         <div className="flex items-center justify-center min-h-screen bg-transparent dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
                 {/* Card */}
@@ -137,7 +146,7 @@ export default function Login() {
                                 <div className="relative">
                                     <input
                                         id="password"
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
@@ -149,6 +158,15 @@ export default function Login() {
                                         } bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-opacity-50`}
                                     />
                                     {errors.password && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.password}</p>}
+                                    {formData.password && (
+                                        <button
+                                        type="button"
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        className="absolute inset-y-0 right-3 flex items-center focus:outline-none"
+                                        >
+                                        {showPassword ? (<FaEyeSlash className="text-gray-500" />) : (<FaEye className="text-gray-500" />)}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
@@ -189,5 +207,6 @@ export default function Login() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
