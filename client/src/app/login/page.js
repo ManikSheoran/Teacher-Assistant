@@ -139,9 +139,6 @@ export default function Login() {
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                         Password
                                     </label>
-                                    <Link href="/forgot-password" className="text-sm text-[#1D2F6F] dark:text-[#FAC748] hover:underline">
-                                        Forgot password?
-                                    </Link>
                                 </div>
                                 <div className="relative">
                                     <input
@@ -168,6 +165,9 @@ export default function Login() {
                                         </button>
                                     )}
                                 </div>
+                                <Link href="#" className=" text-sm text-[#1D2F6F] dark:text-[#FAC748] hover:underline block text-right mt-1">
+                                    Forgot password?
+                                </Link>
                             </div>
 
                             <button
