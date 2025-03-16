@@ -119,7 +119,11 @@ const getFeedbacks = asyncHandler(async (req, res) => {
 });
 
 const validateUser = asyncHandler(async (req, res) => {
-    const { uid } = req.params;
+    const { uid } = req.body;
+    if (!uid) {
+        return res.status(400).send("UID is required");
+    }
+
     const userDocRef = doc(usersCollection, uid);
     const userDoc = await getDoc(userDocRef);
 
