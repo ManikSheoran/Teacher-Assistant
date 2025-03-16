@@ -48,7 +48,7 @@ export default function EvaluatePage() {
       <Header />
       <main className="pt-20 px-4 bg-transparent min-h-screen flex flex-col items-center">
         {/* Title - Centered */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 mb-6 text-center">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary dark:text-secondary mb-6 text-center">
           Evaluating Student: {sid}
         </h1>
 
