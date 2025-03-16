@@ -51,8 +51,8 @@ const StudentForm = () => {
 
     return (
         <div className="flex items-center justify-center px-4 sm:px-6 lg:px-0 min-h-screen">
-            <div className="bg-[#F9E9EC] dark:bg-[#1D2F6F] shadow-md rounded-lg p-6 sm:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-                <h1 className="text-2xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-6 text-center">
+            <div className="bg-[#1D2F6F] shadow-md rounded-lg p-6 sm:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                <h1 className="text-2xl font-bold text-white mb-6 text-center">
                     Student Record
                 </h1>
                 <form onSubmit={handleSubmit}>
@@ -65,7 +65,7 @@ const StudentForm = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
+                            className="w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#000] focus:outline-none focus:ring-2 border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                         />
                     </div>
                     <div className="mb-4">
@@ -77,13 +77,13 @@ const StudentForm = () => {
                             value={studentId}
                             onChange={(e) => setStudentId(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
+                            className="w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#000] focus:outline-none focus:ring-2 border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full py-3 bg-[#1D2F6F] text-white dark:text-[#1D2F6F] font-bold rounded-lg hover:bg-[#1c40cd] dark:hover:bg-[#fadf9d] dark:bg-[#FAC748] transition duration-300 ${
+                        className={`w-full py-3 text-white text-[#1D2F6F] font-bold rounded-lg hover:bg-[#fadf9d] bg-[#FAC748] transition duration-300 ${
                             isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >
