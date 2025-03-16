@@ -118,4 +118,16 @@ const getFeedbacks = asyncHandler(async (req, res) => {
     res.status(200).send(feedbackList);
 });
 
-export { registerUser, loginUser, fetchUser, addStudent, getStudentList, getFeedbacks };
+const validateUser = asyncHandler(async (req, res) => {
+    const { uid } = req.params;
+    const userDocRef = doc(usersCollection, uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+        return res.status(404).send("User not found");
+    }
+
+    res.status(200).send("User found");
+});
+
+export { registerUser, loginUser, fetchUser, addStudent, getStudentList, getFeedbacks, validateUser };

@@ -13,11 +13,36 @@ export default function FeedbackPage() {
   const router = useRouter();
 
   useEffect(() => {
-      if (!getCookie('uid')) {
+    const checkAuth = async () => {
+      const uid = getCookie('uid');
+      if (!uid) {
+        router.push('/login');
+        alert('You need to login first');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/validate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ uid }),
+        });
+
+        if (!response.ok) {
+          router.push('/login');
+          alert('You need to login first');
+        }
+      } catch (error) {
+        console.error('Error validating uid:', error);
         router.push('/login');
         alert('You need to login first');
       }
-    }, [router]);
+    };
+
+    checkAuth();
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {

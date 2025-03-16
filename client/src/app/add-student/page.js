@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 
@@ -9,6 +9,38 @@ const StudentForm = () => {
     const [studentId, setStudentId] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const uid = getCookie('uid');
+            if (!uid) {
+                router.push('/login');
+                alert('You need to login first');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/validate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ uid }),
+                });
+
+                if (!response.ok) {
+                    router.push('/login');
+                    alert('You need to login first');
+                }
+            } catch (error) {
+                console.error('Error validating uid:', error);
+                router.push('/login');
+                alert('You need to login first');
+            }
+        };
+
+        checkAuth();
+    }, [router]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
