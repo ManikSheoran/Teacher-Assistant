@@ -65,7 +65,7 @@ export default function TeamSection() {
                 <img
                   src={member.image.src}
                   alt={member.name}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-80 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-4 w-full flex justify-end space-x-2">
