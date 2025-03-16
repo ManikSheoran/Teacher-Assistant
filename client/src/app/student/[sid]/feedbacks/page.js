@@ -2,12 +2,22 @@
 
 import { useParams } from 'next/navigation';
 import Feedback from '../../../../components/Feedback';
+import { useRouter } from 'next/navigation';
 import Header from "../../../../components/elements/Header";
 import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
 
 export default function FeedbackPage() {
   const { sid } = useParams();
   const [feedbacks, setFeedbacks] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+      if (!getCookie('uid')) {
+        router.push('/login');
+        alert('You need to login first');
+      }
+    }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
