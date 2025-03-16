@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import FormComponent from '../../../../components/FormComponent';
-import Header from "../../../../components/elements/header";
+import Header from "../../../../components/elements/Header";
 import { getCookie } from 'cookies-next';
 
 export default function EvaluatePage() {

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import StudentBox from "../../../components/StudentBox";
-import Header from "../../../components/elements/header";
+import Header from "../../../components/elements/Header";
 
 export default function StudentList() {
   const { uid } = useParams();

@@ -88,10 +88,10 @@ const FormComponent = ({ sid, readOnly }) => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-transparent text-black min-h-screen w-full">
-      <h1 className="text-4xl font-semibold text-center w-full max-w-3xl text-secondary">
-  AI Evaluation
-</h1>
+    <div className="flex flex-col items-center p-6 bg-transparent text-black dark:text-white min-h-screen w-full">
+      <h1 className="text-4xl font-semibold text-center w-full max-w-3xl text-black dark:text-white">
+        AI Evaluation
+      </h1>
       <hr className="border-t-2 border-gray-600 opacity-30 w-full max-w-3xl my-4" />
       <form
         onSubmit={handleSubmit}
@@ -119,29 +119,33 @@ const FormComponent = ({ sid, readOnly }) => {
             />
           }
           label="Upload Images Instead?"
-          className="mb-4 text-secondary "
+          className="mb-4 text-black dark:text-white"
           sx={{
             "& .MuiFormControlLabel-label": {
               fontFamily: "inherit",
               fontWeight: "bold",
               fontSize: "1.1rem",
-             textAlign: "center",
-        width: "100%", 
+              textAlign: "center",
+              width: "100%",
             },
           }}
         />
 
         <div className="mb-4">
-          <label htmlFor="sid" className="font-bold text-secondary mb-2 block">
+          <label
+            htmlFor="sid"
+            className="font-bold text-black dark:text-white mb-2 block"
+          >
             Student ID
           </label>
           <input
             type="text"
             id="sid"
-            className="border border-gray-300 rounded p-2 w-full"
+            className="text-black border border-gray-300 rounded p-2 w-full"
             placeholder="Enter student ID"
             value={sid}
             readOnly={readOnly}
+            required
           />
         </div>
 
@@ -151,79 +155,83 @@ const FormComponent = ({ sid, readOnly }) => {
               <div className="flex-1 flex flex-col">
                 <label
                   htmlFor="topic"
-                  className="font-bold text-secondary mb-2"
+                  className="font-bold text-black dark:text-white mb-2"
                 >
                   Topic
                 </label>
                 <input
                   type="text"
                   id="topic"
-                  className="border border-gray-300 rounded p-2"
+                  className="text-black border border-gray-300 rounded p-2"
                   placeholder="Enter topic"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex-1 flex flex-col">
                 <label
                   htmlFor="marks"
-                  className="font-bold text-secondary mb-2"
+                  className="font-bold text-black dark:text-white mb-2"
                 >
                   Max. Marks
                 </label>
                 <input
                   type="number"
                   id="marks"
-                  className="border border-gray-300 rounded p-2"
+                  className="text-black border border-gray-300 rounded p-2"
                   placeholder="Enter max marks"
                   value={marks}
                   onChange={(e) => setMarks(e.target.value)}
+                  required
                 />
               </div>
             </div>
             <div className="mb-4">
               <label
                 htmlFor="question"
-                className="font-bold text-secondary mb-2 block"
+                className="font-bold text-black dark:text-white mb-2 block"
               >
                 Question
               </label>
               <textarea
                 id="question"
                 rows="2"
-                className="border border-gray-300 rounded p-2 w-full"
+                className="text-black border border-gray-300 rounded p-2 w-full"
                 placeholder="Enter the question"
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
               <label
                 htmlFor="answer"
-                className="font-bold text-secondary mb-2 block"
+                className="font-bold text-black dark:text-white mb-2 block"
               >
                 Answer
               </label>
               <textarea
                 id="answer"
                 rows="3"
-                className="border border-gray-300 rounded p-2 w-full"
+                className="text-black border border-gray-300 rounded p-2 w-full"
                 placeholder="Enter the answer"
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
               <label
                 htmlFor="sampleAnswer"
-                className="font-bold text-secondary mb-2 block"
+                className="font-bold text-black dark:text-white mb-2 block"
               >
                 Sample Answer
               </label>
               <textarea
                 id="sampleAnswer"
                 rows="3"
-                className="border border-gray-300 rounded p-2 w-full"
+                className="text-black border border-gray-300 rounded p-2 w-full"
                 placeholder="Enter the sample answer (optional)"
                 value={sampleAnswer}
                 onChange={(e) => setSampleAnswer(e.target.value)}
@@ -238,40 +246,42 @@ const FormComponent = ({ sid, readOnly }) => {
               <div className="flex-1 flex flex-col">
                 <label
                   htmlFor="topic"
-                  className="font-bold text-secondary mb-2"
+                  className="font-bold text-black dark:text-white mb-2"
                 >
                   Topic
                 </label>
                 <input
                   type="text"
                   id="topic"
-                  className="border border-gray-300 rounded p-2"
+                  className="text-black border border-gray-300 rounded p-2"
                   placeholder="Enter topic"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex-1 flex flex-col">
                 <label
                   htmlFor="marks"
-                  className="font-bold text-secondary mb-2"
+                  className="font-bold text-black dark:text-white mb-2"
                 >
                   Max. Marks
                 </label>
                 <input
                   type="number"
                   id="marks"
-                  className="border border-gray-300 rounded p-2"
+                  className="text-black border border-gray-300 rounded p-2"
                   placeholder="Enter max marks"
                   value={marks}
                   onChange={(e) => setMarks(e.target.value)}
+                  required
                 />
               </div>
             </div>
             <div className="mb-4">
               <label
                 htmlFor="imageFile1"
-                className="font-bold text-secondary mb-2 block"
+                className="font-bold text-black dark:text-white mb-2 block"
               >
                 Upload Sample Paper
               </label>
@@ -281,13 +291,13 @@ const FormComponent = ({ sid, readOnly }) => {
                 id="imageFile1"
                 name="image1"
                 onChange={(e) => setImageFile1(e.target.files[0])}
-                className="bg-white border border-gray-300 rounded p-2 w-full"
+                className="text-black bg-white border border-gray-300 rounded p-2 w-full"
               />
             </div>
             <div className="mb-4">
               <label
                 htmlFor="imageFile2"
-                className="font-bold text-secondary mb-2 block"
+                className="font-bold text-black dark:text-white mb-2 block"
               >
                 Upload Student Paper
               </label>
@@ -297,29 +307,34 @@ const FormComponent = ({ sid, readOnly }) => {
                 id="imageFile2"
                 name="image2"
                 onChange={(e) => setImageFile2(e.target.files[0])}
-                className="bg-white border border-gray-300 rounded p-2 w-full"
+                className="text-black bg-white border border-gray-300 rounded p-2 w-full"
+                required
               />
             </div>
           </>
         )}
-    <div className="flex justify-center w-full">
-  <button
-    type="submit"
-    className="flex items-center justify-center w-full md:w-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-all"
-  >
-    Evaluate
-    {loading && (
-      <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
-        <CircularProgress size={20} className="text-teal-200" thickness={6} color="inherit" />
-      </Box>
-    )}
-  </button>
-</div>
-
+        <div className="flex justify-end w-full">
+          <button
+            type="submit"
+            className="flex items-center justify-center w-full md:w-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-all"
+          >
+            Evaluate
+            {loading && (
+              <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
+                <CircularProgress
+                  size={20}
+                  className="text-teal-200"
+                  thickness={6}
+                  color="inherit"
+                />
+              </Box>
+            )}
+          </button>
+        </div>
       </form>
       {feedback && (
         <div
-          className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded"
+          className="text-black mt-4 p-4 bg-gray-100 border border-gray-300 rounded"
           dangerouslySetInnerHTML={{ __html: feedback }}
         />
       )}

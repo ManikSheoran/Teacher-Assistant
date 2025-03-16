@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import Feedback from '../../../../components/Feedback';
-import Header from "../../../../components/elements/header";
+import Header from "../../../../components/elements/Header";
 import { useEffect, useState } from 'react';
 
 export default function FeedbackPage() {
@@ -42,14 +42,14 @@ export default function FeedbackPage() {
       <Header />
       <main className="pt-20 px-4 min-h-screen flex flex-col items-center">
         {/* Title - Responsive Centered */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 mb-6 text-center">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary dark:text-secondary mb-6 text-center">
           Feedbacks for {sid}
         </h1>
 
         {/* Feedback List - Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-5xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full max-w-5xl">
           {feedbacks.length > 0 ? (
-            feedbacks.map((feedback, index) => (
+            feedbacks.slice().reverse().map((feedback, index) => (
               <div key={index} className="p-2">
                 <Feedback feedback={feedback} />
               </div>

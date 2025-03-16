@@ -1,30 +1,51 @@
-"use client"; 
+"use client";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import FormComponent from '../../components/FormComponent';
-import Header from "../../components/elements/header";
+import Header from "../../components/elements/Header";
 import { getCookie } from 'cookies-next';
 
 export default function Home() {
   const router = useRouter();
+  const [sid, setSid] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (sid) {
+      router.push(`/student/${sid}/evaluate`);
+    } else {
+      alert('Please enter a student ID');
+    }
+  };
 
   useEffect(() => {
     if (!getCookie('uid')) {
       router.push('/login');
       alert('You need to login first');
     }
-    else {
-      const uid = getCookie('uid');
-      router.push('/' + uid + '/studentlist');
-    }
   }, [router]);
 
   return (
     <>
       <Header />
-      <main className="pt-20 px-4">
-        <FormComponent />
+      <main className="pt-20 px-4 min-h-screen flex flex-col items-center justify-center">
+        <form onSubmit={handleSubmit} className="w-full max-w-md bg-transparent p-6 rounded-lg">
+          <h1 className="text-2xl font-bold text-center mb-6 text-black dark:text-white">Enter Student ID</h1>
+          <div className="mb-4">
+            <label htmlFor="sid" className="block text-gray-700 dark:text-gray-300 mb-2">Student ID</label>
+            <input
+              type="text"
+              id="sid"
+              className="w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-700 text-black dark:text-white"
+              value={sid}
+              onChange={(e) => setSid(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="w-full bg-primary dark:bg-secondary text-white py-2 px-4 rounded hover:bg-secondary dark:hover:bg-primary transition duration-300">
+            Continue
+          </button>
+        </form>
       </main>
     </>
   );

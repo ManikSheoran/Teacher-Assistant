@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
-import Header from "../components/elements/header";
+import Header from "../components/elements/Header";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Background from "@/components/Background";

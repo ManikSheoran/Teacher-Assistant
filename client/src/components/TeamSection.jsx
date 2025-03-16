@@ -18,7 +18,7 @@ export default function TeamSection() {
     },
     {
       name: "Manik",
-      role: "Product Manager & Chief Backend Developer",
+      role: "Product Manager & Backend Developer",
       bio: "Manik specializes in building robust and optimized backend systems. His problem-solving skills and keen eye for efficiency ensure that our project runs seamlessly behind the scenes.",
       image: manikImg,
       instagram: "https://www.instagram.com/thatsmanik/",
