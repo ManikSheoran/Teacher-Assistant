@@ -80,12 +80,16 @@ export default function Login() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-transparent px-4 py-12">
-            <div className="w-full max-w-md">
+        <div className="flex items-center justify-center min-h-screen bg-transparent dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
                 {/* Card */}
                 <div className="bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-[#1D2F6F] to-[#3a4fa0] dark:from-[#1D2F6F] dark:to-[#3a4fa0] px-6 py-8">
+                    <div className="relative h-28 bg-gradient-to-r from-[#1D2F6F] to-[#3D5BF5] dark:from-[#283A6D] dark:to-[#5B7BFF] pt-6">
+                        <div className="absolute inset-0 opacity-20">
+                            <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white"></div>
+                            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white"></div>
+                        </div>
                         <h1 className="text-2xl font-bold text-white text-center">Welcome Back</h1>
                         <p className="text-[#F9E9EC] text-center mt-2 opacity-80">Sign in to your account</p>
                     </div>
@@ -110,7 +114,7 @@ export default function Login() {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        placeholder="your.email@example.com"
+                                        placeholder="name@example.com"
                                         className={`w-full px-4 py-3 rounded-lg border ${
                                             errors.email
                                                 ? "border-red-500 focus:ring-red-500"
@@ -151,7 +155,7 @@ export default function Login() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className={`w-full flex justify-center items-center py-3 px-4 rounded-lg transition-all duration-300 text-white font-medium text-base ${
+                                className={`w-full h-14 flex items-center justify-center px-4 bg-gradient-to-r from-[#1D2F6F] to-[#3D5BF5] dark:from-[#FAC748] dark:to-[#FFD97D] text-white dark:text-gray-800 font-semibold rounded-xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1D2F6F]/50 dark:focus:ring-[#FAC748]/50 ${
                                     isLoading
                                         ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
                                         : "bg-[#1D2F6F] dark:bg-[#FAC748] dark:text-gray-900 hover:bg-[#162554] dark:hover:bg-[#f8be2a] shadow-md hover:shadow-lg"
@@ -160,12 +164,12 @@ export default function Login() {
                                 {isLoading ? (
                                     <>
                                         <svg className="animate-spin h-5 w-5 mr-3 text-white dark:text-gray-900" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                                             <path
                                                 className="opacity-75"
                                                 fill="currentColor"
                                                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                            ></path>
+                                            />
                                         </svg>
                                         Signing in...
                                     </>
@@ -174,7 +178,7 @@ export default function Login() {
                                 )}
                             </button>
 
-                            <div className="mt-4 text-center dark:text-[#FFF]">
+                            <div className="mt-4 text-center dark:text-gray-400">
                                 New User?{" "}
                                 <a href="/register" className="text-[#1D2F6F] dark:text-[#FAC748] font-medium hover:text-[#1c40cd] dark:hover:text-[#fadf9d] transition duration-300">
                                     Register
