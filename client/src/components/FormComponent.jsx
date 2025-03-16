@@ -313,7 +313,7 @@ const FormComponent = ({ sid, readOnly }) => {
             </div>
           </>
         )}
-        <div className="flex justify-end w-full">
+        <div className="flex justify-center w-full">
           <button
             type="submit"
             className="flex items-center justify-center w-full md:w-auto mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-all"
