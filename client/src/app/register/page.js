@@ -12,6 +12,7 @@ export default function Register() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,6 +43,11 @@ export default function Register() {
         const newErrors = validateForm();
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            return;
+        }
+        if (formData.password !== confirmPassword) {
+            setBackendError("Passwords do not match");
+            document.getElementById("confirmPassword").focus();
             return;
         }
         setErrors({});
@@ -155,6 +161,18 @@ export default function Register() {
                                 {errors.password && <span className="absolute right-3 top-3 text-red-500">!</span>}
                             </div>
                             {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1"> Confirm Password</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                id="confirmPassword"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                                className="block w-full pl-4 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border rounded-xl text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
+                            />
                         </div>
                         
                         <div className="pt-2">
