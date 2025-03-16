@@ -89,8 +89,9 @@ export default function Login() {
             }
         `}
         </style>
-            <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
+        <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 md:px-8">
+  <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+
                 {/* Card */}
                 <div className="bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                     {/* Header */}
