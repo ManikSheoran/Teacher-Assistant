@@ -6,13 +6,19 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    getRedirectResult,
 } from "firebase/auth";
+
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
 dotenv.config(
     {
         path: "./.env",
     }
 );
+
+const provider = new GoogleAuthProvider()
+
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -28,6 +34,22 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const auth = getAuth(app)
+
+signInWithRedirect(auth, provider)
+
+getRedirectResult(auth)
+.then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result)
+    const token = credential.accessToken
+    const user = result.user
+    console.log(user)
+}).catch((error) => {
+    const errorCode = error.code
+    const errorMessage = error.message
+    const email = error.email
+    const credential = GoogleAuthProvider.credentialFromError(error)
+    console.log(errorCode, errorMessage, email, credential)
+})
 
 const usersCollection = collection(db, "users")
 
