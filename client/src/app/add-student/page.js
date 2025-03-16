@@ -20,7 +20,7 @@ const StudentForm = () => {
             }
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/validate`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/validate`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
