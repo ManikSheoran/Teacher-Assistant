@@ -89,8 +89,8 @@ export default function Login() {
             }
         `}
         </style>
-        <div className="flex items-center justify-center min-h-screen bg-transparent dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
+            <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
                 {/* Card */}
                 <div className="bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                     {/* Header */}
@@ -165,7 +165,7 @@ export default function Login() {
                                         </button>
                                     )}
                                 </div>
-                                <Link href="#" className=" text-sm text-[#1D2F6F] dark:text-[#FAC748] hover:underline block text-right mt-1">
+                                <Link href="" className=" text-sm text-[#1D2F6F] dark:text-[#FAC748] hover:underline block text-right mt-1">
                                     Forgot password?
                                 </Link>
                             </div>

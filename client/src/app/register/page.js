@@ -89,8 +89,8 @@ export default function Register() {
                 display: none;
             }
         `}</style>
-            <div className="flex items-center justify-center min-h-screen bg-transparent dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
+            <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+                <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
                     {/* Header with decorative accents */}
                     <div className="relative h-24 bg-gradient-to-r from-[#1D2F6F] to-[#3D5BF5] dark:from-[#283A6D] dark:to-[#5B7BFF]">
                         <div className="absolute inset-0 opacity-20">
