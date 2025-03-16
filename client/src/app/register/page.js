@@ -73,68 +73,129 @@ export default function Register() {
     };
 
     return (
-        <div className="flex items-center justify-center px-4 sm:px-8 lg:px-0 min-h-screen">
-            <div className="bg-[#F9E9EC] dark:bg-[#1D2F6F] shadow-md rounded-lg p-6 sm:p-8 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full">
-                <h1 className="text-2xl font-bold text-[#1D2F6F] dark:text-[#F9E9EC] mb-6 text-center">
-                    Register
-                </h1>
-                {backendError && <p className="text-red-500 text-sm mb-4 text-center">{backendError}</p>}
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Full Name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 
-                                ${errors.name ? "border-red-500 focus:ring-red-500" : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"}`}
-                        />
-                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+        <div className="flex items-center justify-center min-h-screen bg-transparent dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md bg-sky-100 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all">
+                {/* Header with decorative accents */}
+                <div className="relative h-24 bg-gradient-to-r from-[#1D2F6F] to-[#3D5BF5] dark:from-[#283A6D] dark:to-[#5B7BFF]">
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white"></div>
+                        <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white"></div>
                     </div>
-                    <div>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 
-                                ${errors.email ? "border-red-500 focus:ring-red-500" : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"}`}
-                        />
-                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    <div className="absolute bottom-0 left-0 right-0 text-center pb-4">
+                        <h1 className="text-2xl font-bold text-white">Create Account</h1>
                     </div>
-                    <div>
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                            className={`w-full px-4 py-3 border rounded-lg placeholder-gray-500 text-[#44546a] focus:outline-none focus:ring-2 
-                                ${errors.password ? "border-red-500 focus:ring-red-500" : "border-[#8390FA] dark:border-[#F88DAD] focus:ring-[#1D2F6F] dark:focus:ring-[#FAC748]"}`}
-                        />
-                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                </div>
+                
+                <div className="p-8 pt-6">
+                    {backendError && (
+                        <div className="mb-6 py-2 px-4 bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 rounded-r">
+                            <p className="text-red-600 dark:text-red-400 text-sm">{backendError}</p>
+                        </div>
+                    )}
+                    
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">Full Name</label>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                    className={`block w-full pl-4 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border rounded-xl text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                                        errors.name 
+                                            ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-900" 
+                                            : "border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
+                                    }`}
+                                    placeholder="John Doe"
+                                />
+                                {errors.name && <span className="absolute right-3 top-3 text-red-500">!</span>}
+                            </div>
+                            {errors.name && <p className="text-red-500 text-sm mt-1 ml-1">{errors.name}</p>}
+                        </div>
+                        
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">Email Address</label>
+                            <div className="relative">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                    className={`block w-full pl-4 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border rounded-xl text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                                        errors.email 
+                                            ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-900" 
+                                            : "border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
+                                    }`}
+                                    placeholder="your@email.com"
+                                />
+                                {errors.email && <span className="absolute right-3 top-3 text-red-500">!</span>}
+                            </div>
+                            {errors.email && <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>}
+                        </div>
+                        
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">Password</label>
+                            <div className="relative">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                    className={`block w-full pl-4 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border rounded-xl text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                                        errors.password 
+                                            ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-900" 
+                                            : "border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
+                                    }`}
+                                    placeholder="••••••••"
+                                />
+                                {errors.password && <span className="absolute right-3 top-3 text-red-500">!</span>}
+                            </div>
+                            {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
+                        </div>
+                        
+                        <div className="pt-2">
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className={`w-full py-3.5 px-4 bg-gradient-to-r from-[#1D2F6F] to-[#3D5BF5] dark:from-[#FAC748] dark:to-[#FFD97D] text-white dark:text-gray-800 font-semibold rounded-xl shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1D2F6F]/50 dark:focus:ring-[#FAC748]/50 ${
+                                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                                }`}
+                            >
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center">
+                                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white dark:text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Creating Account...
+                                    </span>
+                                ) : (
+                                    "Create Account"
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div className="mt-8 text-center">
+                        <div className="flex items-center justify-center">
+                            <div className="h-px bg-gray-400 dark:bg-gray-700 w-full"></div>
+                            <span className="px-4 text-sm text-gray-600">or</span>
+                            <div className="h-px bg-gray-400 dark:bg-gray-700 w-full"></div>
+                        </div>
+                        <p className="mt-4 text-gray-600 dark:text-gray-400">
+                            Already have an account?{" "}
+                            <a
+                                href="/login"
+                                className="font-medium text-[#1D2F6F] dark:text-[#FAC748] hover:text-[#3D5BF5] dark:hover:text-[#FFD97D] transition-colors"
+                            >
+                                Sign in
+                            </a>
+                        </p>
                     </div>
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className={`w-full py-3 bg-[#1D2F6F] text-white dark:text-[#1D2F6F] font-bold rounded-lg hover:bg-[#1c40cd] dark:hover:bg-[#fadf9d] dark:bg-[#FAC748] transition duration-300 
-                            ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                    >
-                        {isLoading ? "Registering..." : "Register"}
-                    </button>
-                </form>
-                <div className="mt-4 text-center">
-                    <a
-                        href="/login"
-                        className="text-[#1D2F6F] dark:text-[#FAC748] font-medium hover:text-[#1c40cd] dark:hover:text-[#fadf9d] transition duration-300"
-                    >
-                        Existing User? Login
-                    </a>
                 </div>
             </div>
         </div>
