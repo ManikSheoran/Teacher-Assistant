@@ -57,7 +57,7 @@ const Header = () => {
     };
 
     return (
-        <nav className={`fixed top-0 left-0 w-full shadow-md h-16 flex items-center px-6 justify-between z-50 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
+        <nav className={`fixed top-0 left-0 w-full shadow-md h-16 flex items-center md:px-6 px-3 justify-between z-50 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
             {/* Website Name */}
             <div className="text-2xl font-bold  dark:text-[#F9E9EC] text-black">
                 <Link href="/" onClick={collapseMenu}>
