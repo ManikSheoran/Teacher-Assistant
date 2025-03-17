@@ -82,7 +82,7 @@ export default function FeedbackPage() {
         </h1>
 
         {/* Feedback List - Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full max-w-5xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
           {feedbacks.length > 0 ? (
             feedbacks.slice().reverse().map((feedback, index) => (
               <div key={index} className="p-2">

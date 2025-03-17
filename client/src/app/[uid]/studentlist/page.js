@@ -40,12 +40,12 @@ export default function StudentList() {
   return (
     <>
       <Header />
-      <main className="pt-20 px-4 min-h-screen bg-transparent">
+      <main className="pt-20 px-4 min-h-screen bg-transparent flex flex-col items-center">
         <h1 className="text-3xl font-bold text-primary dark:text-secondary mb-6 text-center">
           Student List
         </h1>
         {students.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
             {students.map((student) => (
               <StudentBox key={student.id} studentId={student.id} />
             ))}
