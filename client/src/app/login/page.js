@@ -147,7 +147,7 @@ export default function Login() {
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        placeholder="••••••••"
+                                        placeholder="Password"
                                         className={`w-full px-4 py-3 rounded-lg border ${
                                             errors.password
                                                 ? "border-red-500 focus:ring-red-500"
