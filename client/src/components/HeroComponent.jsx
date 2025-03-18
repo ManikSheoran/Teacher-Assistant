@@ -67,7 +67,7 @@ function StyledButton({ href, children }) {
   return (
     <a
       href={href}
-      className="relative w-full text-center flex items-center justify-center gap-2 bg-[#1d2f6f] dark:bg-secondary text-white py-2 px-4 rounded-lg shadow-lg hover:hover:bg-[#263f95] dark:hover:bg-primary transition duration-300"
+      className="relative w-full text-center flex items-center justify-center gap-2 bg-[#1d2f6f] dark:bg-secondary text-white py-2 px-4 rounded-lg shadow-lg hover:hover:bg-[#8390FA] dark:hover:bg-primary transition duration-300"
     >
       {children}
     </a>
