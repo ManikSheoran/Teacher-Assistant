@@ -6,7 +6,7 @@ import {
     setDoc,
     getDoc,
     updateDoc,
-    arrayUnion
+    arrayUnion,
 } from "firebase/firestore";
 import {
     getAuth,
@@ -14,6 +14,7 @@ import {
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import asyncHandler from "../utils/asyncHandler.js";
+import { log } from "console";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -61,12 +62,67 @@ const loginUser = asyncHandler(async (req, res) => {
         refreshToken: user.refreshToken,
         expiresIn: user.stsTokenManager.expirationTime,
     };
-    res.status(200).send({ uid: user.uid, token });
+
+    // Determine environment
+    const isProduction = true;
+
+    // Configure cookie options appropriately
+    const cookieOptions = {
+        maxAge: token.expiresIn,
+        httpOnly: true,
+        secure: false, // True in production, false in development
+        sameSite: "lax" // Use appropriate SameSite policy
+    };
+
+    res.cookie("token", token.accessToken, cookieOptions)
+    res.cookie("uid", user.uid, cookieOptions)
+    res.status(200).json({ message: "Login successful" });
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+    res.clearCookie("token");
+    res.clearCookie("uid");
+    res.status(200).json({ message: "Logout successful" });
 });
 
 const fetchUser = asyncHandler(async (req, res) => {
     const user = await getDoc(doc(usersCollection, req.body.uid));
     res.status(200).send(user.data());
+});
+
+const fetchUserData = asyncHandler(async (req, res) => {
+    const userUID = req.cookies.uid; // ✅ Read UID from cookies
+
+    if (!userUID) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+        const user = await getDoc(doc(usersCollection, userUID)); // ✅ Fetch user from DB
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        console.log(user.data());
+        res
+        .status(200)
+        .json(
+        {
+            name: user.data().name,
+            email: user.data().email,
+        });
+
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+const fetchUserUID = asyncHandler(async (req, res) => {
+    const userUID = req.cookies.uid;
+    if (!userUID) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+    return res.json({ uid: userUID });
 });
 
 const addStudent = asyncHandler(async (req, res) => {
@@ -134,4 +190,14 @@ const validateUser = asyncHandler(async (req, res) => {
     res.status(200).send("User found");
 });
 
-export { registerUser, loginUser, fetchUser, addStudent, getStudentList, getFeedbacks, validateUser };
+export {
+    registerUser,
+    loginUser,
+    fetchUserData,
+    addStudent,
+    getStudentList,
+    getFeedbacks,
+    validateUser,
+    fetchUserUID,
+    logoutUser
+};

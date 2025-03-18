@@ -8,26 +8,14 @@ import { getCookies, deleteCookie } from "cookies-next";
 import { useAuth } from "@/context/AuthContext";
 import Switch from "@mui/material/Switch";
 import { useDarkMode } from "@/context/DarkModeContext";
+import fetchUser from "@/lib/fetchUser";
 import { useUser } from "@/context/UserContext";
 
 const Header = () => {
     const { loggedIn, setLoggedIn } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user, setUser } = useUser();
     const { darkMode, setDarkMode } = useDarkMode();
-
-    const checkAuthStatus = async () => {
-        let cookies = getCookies();
-        if (cookies.uid) {
-            setLoggedIn(true);
-        } else {
-            setLoggedIn(false);
-        }
-    };
-
-    useEffect(() => {
-        checkAuthStatus();
-    }, [loggedIn]);
+    const {user, setUser} = useUser();
 
     useEffect(() => {
         const handleResize = () => {
@@ -44,11 +32,20 @@ const Header = () => {
         setMenuOpen(false);
     };
 
-    const handleLogout = () => {
-        deleteCookie("uid");
-        setLoggedIn(false);
-        setUser({});
-        collapseMenu();
+    const handleLogout = async () => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/logout`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+        });
+
+        if (response.ok) {
+            setLoggedIn(false);
+            setUser({});
+        }
+        else {
+            console.error("Error logging out:", response.statusText);
+        }
     };
     
     const toggleDarkMode = () => {
