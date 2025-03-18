@@ -13,7 +13,9 @@ export default function StudentList() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("Fetching data...");
       setLoading(true);
+  
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/studentlist`,
@@ -24,8 +26,9 @@ export default function StudentList() {
             },
           }
         );
-
+  
         const data = await response.json();
+  
         if (Array.isArray(data)) {
           setStudents(data);
         } else {
@@ -35,13 +38,14 @@ export default function StudentList() {
       } catch (error) {
         console.error("Error fetching student list:", error);
       } finally {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 500);
+        console.log("Loading state after fetch:", loading);
       }
     };
-
+  
     fetchData();
   }, [uid]);
-
+  
   return (
     <>
       <Header />
@@ -49,9 +53,9 @@ export default function StudentList() {
         <h1 className="text-3xl font-bold text-primary dark:text-secondary mb-6 text-center">
           Student List
         </h1>
-        
+  
         {loading ? (
-          <div className="flex flex-col items-center justify-center mt-10">
+          <div className="flex flex-col items-center justify-center mt-10 border border-red-500">
             <SunspotLoader
               gradientColors={["#6366F1", "#E0E7FF"]}
               shadowColor={"#3730A3"}
