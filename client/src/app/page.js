@@ -18,7 +18,7 @@ const MainPage = () => {
         <meta property="og:description" content={loggedIn ? "Access your AI-powered grading dashboard." : "NeuroGrade helps teachers automate grading and provide personalized feedback."} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.neurograde.app/" />
-        <meta property="og:image" content="https://www.neurograde.app/android-chrome-192x192.png" />
+        <meta property="og:image" content="https://www.neurograde.app/og-image.png" />
         <meta name="robots" content="index, follow" />
       </Head>
 
