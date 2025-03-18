@@ -45,7 +45,7 @@ export default function StudentList() {
           Student List
         </h1>
         {students.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
+          <div className="bg-sky-100 dark:bg-gray-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
             {students.map((student) => (
               <StudentBox key={student.id} studentId={student.id} />
             ))}
