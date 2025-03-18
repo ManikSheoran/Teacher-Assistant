@@ -19,13 +19,13 @@ const DynamicSquareCircleLoader = () => {
   
   useEffect(() => {
     const interval = setInterval(() => {
-      setPhase(prev => (prev + 1) % 120); // 120 frames for the full animation cycle
+      setPhase(prev => (prev + 1) % 60); // 60 frames for the full animation cycle
       
       // Change color every 120 frames (when animation restarts)
-      if (phase === 119) {
+      if (phase === 59) {
         setColorIndex(prev => (prev + 1) % brightColors.length);
       }
-    }, 25); // 40fps animation
+    }, 15);
     
     return () => clearInterval(interval);
   }, [phase]);
@@ -37,43 +37,37 @@ const DynamicSquareCircleLoader = () => {
     let scale = 1;
     let borderRadius = "50%"; // Default to circle
     
-    // Phase 0-30: Circles move outward
-    if (phase < 30) {
-      distance = (phase / 30) * 40;
+    if (phase < 15) { 
+      distance = (phase / 15) * 30;
       rotation = 0;
       scale = 1;
       borderRadius = "50%";
-    }
-    // Phase 30-50: Circles transform to squares while positioned outward
-    else if (phase < 50) {
+    } 
+    else if (phase < 25) {
       distance = 40;
       rotation = 0;
       scale = 1;
-      const circleToSquare = (phase - 30) / 20;
+      const circleToSquare = (phase - 15) / 10;
       borderRadius = `${50 - circleToSquare * 50}%`;
-    }
-    // Phase 50-80: Squares rotate and move inward
-    else if (phase < 80) {
-      const inwardProgress = (phase - 50) / 30;
+    } 
+    else if (phase < 40) {
+      const inwardProgress = (phase - 25) / 15;
       distance = 40 - (inwardProgress * 40);
-      rotation = inwardProgress * 90; // Rotate 90 degrees
+      rotation = inwardProgress * 90;
       scale = 1;
-      borderRadius = "0%"; // Square
-    }
-    // Phase 80-100: Squares transform back to circles while centered
-    else if (phase < 100) {
+      borderRadius = "0%";
+    } 
+    else if (phase < 50) {
       distance = 0;
       rotation = 90;
       scale = 1;
-      const squareToCircle = (phase - 80) / 20;
+      const squareToCircle = (phase - 40) / 10;
       borderRadius = `${squareToCircle * 50}%`;
-    }
-    // Phase 100-120: Circles pulse once before restarting
+    } 
     else {
       distance = 0;
       rotation = 90;
-      const pulseProgress = (phase - 100) / 20;
-      // Create a pulse effect: scale up then back down
+      const pulseProgress = (phase - 50) / 10;
       scale = 1 + Math.sin(pulseProgress * Math.PI) * 0.2;
       borderRadius = "50%";
     }
@@ -92,11 +86,11 @@ const DynamicSquareCircleLoader = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="relative w-32 h-32">
+      <div className="relative w-24 h-24">
         {[0, 1, 2, 3].map(i => (
           <div
             key={i}
-            className="absolute top-1/2 left-1/2 w-12 h-12 -ml-6 -mt-6 transition-all duration-100 ease-linear"
+            className="absolute top-1/2 left-1/2 w-8 h-8 -ml-4 -mt-4 transition-all duration-100 ease-linear"
             style={getTransform(i * Math.PI / 2)}
           />
         ))}
