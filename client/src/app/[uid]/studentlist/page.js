@@ -20,16 +20,16 @@ const BookLoader = () => {
           position: absolute;
           width: 50%;
           height: 100%;
-          background-color: #fac748;
+          background-color: #fac748; 
           backface-visibility: hidden;
           border-radius: 4px;
           transform-origin: left;
-          animation: turnPage 1s infinite;
+          animation: turnPage 2s infinite;
         }
         .page.right {
           left: 50%;
           transform-origin: right;
-          animation-delay: 0.5s;
+          animation-delay: 1s;
         }
         @keyframes turnPage {
           0% {
@@ -38,8 +38,12 @@ const BookLoader = () => {
           50% {
             transform: rotateY(-180deg);
           }
+          /* Immediately reset after 50% for a continuous effect */
+          50.01% {
+            transform: rotateY(0deg);
+          }
           100% {
-            transform: rotateY(-180deg);
+            transform: rotateY(0deg);
           }
         }
       `}</style>
