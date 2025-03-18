@@ -44,7 +44,7 @@ export default function StudentList() {
   return (
     <>
       <Header />
-      <main className="pt-20 px-4 min-h-screen bg-transparent flex flex-col items-center">
+      <main className="pt-20 px-4 min-h-screen bg-transparent flex flex-col items-center mb-20">
         <h1 className="text-3xl font-bold text-primary dark:text-secondary mb-6 text-center">
           Student List
         </h1>
