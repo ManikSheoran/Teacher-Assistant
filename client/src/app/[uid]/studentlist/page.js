@@ -24,7 +24,7 @@ const BookLoader = () => {
           backface-visibility: hidden;
           border-radius: 4px;
           transform-origin: left;
-          animation: turnPage 2s infinite;
+          animation: turnPage 1s infinite;
         }
         .page.right {
           left: 50%;
