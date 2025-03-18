@@ -65,12 +65,12 @@ export default function HeroComponent() {
 // Reusable Button with Hover Glow
 
 function StyledButton({ href, children }) {
-    return (
-        <a
-            href={href}
-            className="relative w-full text-center flex items-center justify-center gap-2 bg-primary dark:bg-secondary text-white py-2 px-4 rounded-lg shadow-lg hover:bg-secondary dark:hover:bg-primary transition duration-300"
-        >
-            {children}
-        </a>
-    );
+  return (
+    <a
+      href={href}
+      className="relative w-full text-center flex items-center justify-center gap-2 bg-[#1d2f6f] dark:bg-secondary text-white py-2 px-4 rounded-lg shadow-lg hover:hover:bg-[#8390FA] dark:hover:bg-primary transition duration-300"
+    >
+      {children}
+    </a>
+  );
 }
