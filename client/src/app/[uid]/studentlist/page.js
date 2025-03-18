@@ -5,62 +5,51 @@ import { useParams } from "next/navigation";
 import StudentBox from "../../../components/StudentBox";
 import Header from "../../../components/elements/Header";
 
-// Custom RingLoader Loader component
-const RingLoader = () => {
+// Custom BookLoader Loader component
+const BookLoader = () => {
   return (
     <div className="flex flex-col items-center">
       <style jsx>{`
-        .loader-container {
+        .book-loader {
+          width: 64px;
+          height: 80px;
+          perspective: 800px;
           position: relative;
-          width: 64px;
-          height: 64px;
         }
-        .ring {
-          width: 64px;
-          height: 64px;
-          border: 4px solid #d4af37; /* Golden color */
-          /* Make one segment transparent to simulate a broken ring */
-          border-top-color: transparent;
-          border-radius: 50%;
-          animation: spin 2s linear infinite;
-        }
-        .tail {
+        .page {
           position: absolute;
-          /* A small rectangle representing the broken tail */
-          width: 10px;
-          height: 4px;
-          background-color: #d4af37;
-          top: 50%;
-          left: 100%;
-          transform: translate(-50%, -50%);
-          animation: breakTail 2s infinite;
+          width: 50%;
+          height: 100%;
+          background-color: #fac748; 
+          backface-visibility: hidden;
+          border-radius: 4px;
+          transform-origin: left;
+          animation: turnPage 2s infinite;
         }
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
+        .page.right {
+          left: 50%;
+          transform-origin: right;
+          animation-delay: 1s;
         }
-        @keyframes breakTail {
+        @keyframes turnPage {
           0% {
-            opacity: 1;
-            transform: translate(-50%, -50%) rotate(0deg);
+            transform: rotateY(0deg);
           }
           50% {
-            opacity: 0.3;
-            transform: translate(-50%, -50%) rotate(30deg);
+            transform: rotateY(-180deg);
+          }
+          /* Immediately reset after 50% for a continuous effect */
+          50.01% {
+            transform: rotateY(0deg);
           }
           100% {
-            opacity: 1;
-            transform: translate(-50%, -50%) rotate(0deg);
+            transform: rotateY(0deg);
           }
         }
       `}</style>
-      <div className="loader-container">
-        <div className="ring"></div>
-        <div className="tail"></div>
+      <div className="book-loader">
+        <div className="page left"></div>
+        <div className="page right"></div>
       </div>
       <p className="text-gray-500 mt-4">Loading...</p>
     </div>
@@ -112,7 +101,7 @@ export default function StudentList() {
         </h1>
         
         {loading ? (
-          <RingLoader />
+          <BookLoader />
         ) : students.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
             {students.map((student) => (
