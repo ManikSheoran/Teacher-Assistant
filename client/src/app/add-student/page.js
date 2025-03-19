@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
+import fetchUserUID from "@/lib/fetchUserUID";
 
 const StudentForm = () => {
     const [name, setName] = useState("");
@@ -12,23 +13,10 @@ const StudentForm = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const uid = getCookie('uid');
-            if (!uid) {
-                router.push('/login');
-                alert('You need to login first');
-                return;
-            }
-
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/validate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ uid }),
-                });
-
-                if (!response.ok) {
+                const response = await fetchUserUID()
+                console.log(response)
+                if (!response) {
                     router.push('/login');
                     alert('You need to login first');
                 }
@@ -38,7 +26,6 @@ const StudentForm = () => {
                 alert('You need to login first');
             }
         };
-
         checkAuth();
     }, [router]);
 
@@ -46,9 +33,7 @@ const StudentForm = () => {
         event.preventDefault();
         setIsSubmitting(true);
 
-        const userId = getCookie("uid");
         const requestData = {
-            userId,
             name,
             sid: studentId,
         };
@@ -62,6 +47,7 @@ const StudentForm = () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(requestData),
+                    credentials: "include",
                 }
             );
 

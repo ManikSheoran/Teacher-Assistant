@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkLoggedIn = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetchuid`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetch`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",

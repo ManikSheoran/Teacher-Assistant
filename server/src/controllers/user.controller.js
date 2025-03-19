@@ -120,11 +120,12 @@ const fetchUserUID = asyncHandler(async (req, res) => {
     if (!userUID) {
         return res.status(401).json({ error: "Unauthorized" });
     }
-    return res.json({ uid: userUID });
+    res.status(200).json({ uid: userUID });
 });
 
 const addStudent = asyncHandler(async (req, res) => {
-    const { userId, name, sid } = req.body;
+    const { name, sid } = req.body;
+    const userId = req.cookies.uid;
     const studentDoc = doc(studentsCollection, sid);
     await setDoc(studentDoc, {
         name: name,
