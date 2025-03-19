@@ -15,10 +15,10 @@ export default function IntroComponent() {
         <>
             <div className="flex flex-col items-center min-h-screen justify-center w-full px-4 sm:px-6 lg:px-12 text-center">
                 <div className="flex flex-col items-center p-6 text-black dark:text-[#F9E9EC] w-full max-w-7xl">
-                    <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold leading-tight w-full">
+                    <h1 className="select-none text-3xl sm:text-5xl lg:text-7xl font-bold leading-tight w-full">
                         Effortless Grading, Deeper Insights, Better Learning
                     </h1>
-                    <p className="mt-6 text-lg sm:text-xl lg:text-2xl w-full">
+                    <p className="select-none mt-6 text-lg sm:text-xl lg:text-2xl w-full">
                         Say goodbye to hours of manual grading. NeuroGrade's AI-powered assistant streamlines 
                         assessment, giving you faster results and deeper student insights.
                     </p>

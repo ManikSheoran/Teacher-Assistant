@@ -75,7 +75,7 @@ function ThemedLayout({ children }) {
                 <div className="min-h-screen flex flex-col">
                     <Header />
                     <main className="flex-grow">{children}</main>
-                    <footer className="bg-black text-white text-center py-4">
+                    <footer className="select-none bg-black text-white text-center py-4">
                         &copy; {new Date().getFullYear()} NeuroGrade. All
                         rights reserved.
                     </footer>

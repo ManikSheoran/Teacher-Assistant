@@ -35,7 +35,7 @@ export default function HeroComponent() {
   return (
     <div className="relative flex flex-col items-center p-4 sm:p-6 bg-transparent text-black dark:text-white min-h-screen w-full overflow-hidden">
       {/* Greeting */}
-      <h1 className="text-3xl sm:text-4xl text-primary dark:text-secondary font-semibold text-center mb-6 mt-20 sm:mt-20">
+      <h1 className="select-none text-3xl sm:text-4xl text-primary dark:text-secondary font-semibold text-center mb-6 mt-20 sm:mt-20">
         {`${getGreeting()}, ${user.name ? user.name : "Teacher"}!`}
       </h1>
 
