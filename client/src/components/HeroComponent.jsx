@@ -45,7 +45,7 @@ export default function HeroComponent() {
                 <StyledButton href="/add-student">
                     <FaUserGraduate /> Add Student
                 </StyledButton>
-                <StyledButton href={`${user.uid}/studentlist`}>
+                <StyledButton href={`/studentlist`}>
                     <FaListUl /> View Students List
                 </StyledButton>
                 <StyledButton href="/evaluate">

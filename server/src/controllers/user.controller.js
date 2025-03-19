@@ -102,13 +102,11 @@ const fetchUserData = asyncHandler(async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
-        console.log(user.data());
         res
         .status(200)
         .json(
         {
             name: user.data().name,
-            email: user.data().email,
         });
 
     } catch (error) {
@@ -145,7 +143,7 @@ const addStudent = asyncHandler(async (req, res) => {
 });
 
 const getStudentList = asyncHandler(async (req, res) => {
-    const { userId } = req.params;
+    const userId = req.cookies.uid;
     const userDocRef = doc(usersCollection, userId);
     const userDoc = await getDoc(userDocRef);
 
