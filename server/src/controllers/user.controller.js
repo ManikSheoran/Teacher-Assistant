@@ -6,7 +6,7 @@ import {
     setDoc,
     getDoc,
     updateDoc,
-    arrayUnion
+    arrayUnion,
 } from "firebase/firestore";
 import {
     getAuth,
@@ -61,16 +61,67 @@ const loginUser = asyncHandler(async (req, res) => {
         refreshToken: user.refreshToken,
         expiresIn: user.stsTokenManager.expirationTime,
     };
-    res.status(200).send({ uid: user.uid, token });
+
+    // Configure cookie options appropriately
+    const cookieOptions = {
+        maxAge: token.expiresIn,
+        httpOnly: true,
+        secure: true, // True in production, false in development
+        sameSite: "strict" // Use appropriate SameSite policy
+    };
+
+    res.cookie("token", token.accessToken, cookieOptions)
+    res.cookie("uid", user.uid, cookieOptions)
+    res.status(200).json({ message: "Login successful" });
 });
 
-const fetchUser = asyncHandler(async (req, res) => {
-    const user = await getDoc(doc(usersCollection, req.body.uid));
-    res.status(200).send(user.data());
+const logoutUser = asyncHandler(async (req, res) => {
+    res.clearCookie("token");
+    res.clearCookie("uid");
+    res.status(200).json({ message: "Logout successful" });
+});
+
+// const fetchUser = asyncHandler(async (req, res) => {
+//     const user = await getDoc(doc(usersCollection, req.body.uid));
+//     res.status(200).send(user.data());
+// });
+
+const fetchUserData = asyncHandler(async (req, res) => {
+    const userUID = req.cookies.uid; // ✅ Read UID from cookies
+
+    if (!userUID) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+        const user = await getDoc(doc(usersCollection, userUID)); // ✅ Fetch user from DB
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res
+        .status(200)
+        .json(
+        {
+            name: user.data().name,
+        });
+
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+const fetchUserUID = asyncHandler(async (req, res) => {
+    const userUID = req.cookies.uid;
+    if (!userUID) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+    res.status(200).json({ uid: userUID });
 });
 
 const addStudent = asyncHandler(async (req, res) => {
-    const { userId, name, sid } = req.body;
+    const { name, sid } = req.body;
+    const userId = req.cookies.uid;
     const studentDoc = doc(studentsCollection, sid);
     await setDoc(studentDoc, {
         name: name,
@@ -89,7 +140,7 @@ const addStudent = asyncHandler(async (req, res) => {
 });
 
 const getStudentList = asyncHandler(async (req, res) => {
-    const { userId } = req.params;
+    const userId = req.cookies.uid;
     const userDocRef = doc(usersCollection, userId);
     const userDoc = await getDoc(userDocRef);
 
@@ -134,4 +185,14 @@ const validateUser = asyncHandler(async (req, res) => {
     res.status(200).send("User found");
 });
 
-export { registerUser, loginUser, fetchUser, addStudent, getStudentList, getFeedbacks, validateUser };
+export {
+    registerUser,
+    loginUser,
+    fetchUserData,
+    addStudent,
+    getStudentList,
+    getFeedbacks,
+    validateUser,
+    fetchUserUID,
+    logoutUser
+};

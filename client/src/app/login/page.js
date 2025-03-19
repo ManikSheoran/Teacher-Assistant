@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+import fetchUser from "@/lib/fetchUser";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -14,7 +14,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { setLoggedIn } = useAuth();
+    const { loggedIn, setLoggedIn } = useAuth();
     const { setUser } = useUser();
 
     const handleChange = (e) => {
@@ -51,23 +51,12 @@ export default function Login() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
+                credentials: "include",
             });
 
-            const fetchUser = async (uid) => {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/fetch`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ uid }),
-                });
-                return await res.json();
-            };
-
-            const data = await response.json();
             if (response.ok) {
-                setCookie("token", data.token.accessToken, { httpOnly: true, secure: true, sameSite: "strict", maxAge: data.token.expiresIn });
-                setCookie("uid", data.uid, { secure: true, sameSite: "strict" });
                 setLoggedIn(true);
-                const currUser = await fetchUser(data.uid);
+                const currUser = await fetchUser();
                 if (currUser) setUser(currUser);
                 router.push("/");
             } else {

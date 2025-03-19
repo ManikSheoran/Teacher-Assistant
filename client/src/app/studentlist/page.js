@@ -1,26 +1,26 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import StudentBox from "../../../components/StudentBox";
-import Header from "../../../components/elements/Header";
+import StudentBox from "../../components/StudentBox";
+import Header from "../../components/elements/Header";
 
 export default function StudentList() {
-  const { uid } = useParams();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${uid}/studentlist`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/studentlist`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           }
         );
 
@@ -39,7 +39,7 @@ export default function StudentList() {
     };
 
     fetchData();
-  }, [uid]);
+  }, []);
 
   return (
     <>
