@@ -16,7 +16,6 @@ export default function FeedbackPage() {
         const checkAuth = async () => {
             try {
                 const response = await fetchUserUID();
-                console.log(response);
                 if (!response) {
                     router.push("/login");
                     alert("You need to login first");
