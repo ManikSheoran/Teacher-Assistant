@@ -14,7 +14,6 @@ import {
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import asyncHandler from "../utils/asyncHandler.js";
-import { log } from "console";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -63,15 +62,12 @@ const loginUser = asyncHandler(async (req, res) => {
         expiresIn: user.stsTokenManager.expirationTime,
     };
 
-    // Determine environment
-    const isProduction = true;
-
     // Configure cookie options appropriately
     const cookieOptions = {
         maxAge: token.expiresIn,
         httpOnly: true,
-        secure: false, // True in production, false in development
-        sameSite: "lax" // Use appropriate SameSite policy
+        secure: true, // True in production, false in development
+        sameSite: "strict" // Use appropriate SameSite policy
     };
 
     res.cookie("token", token.accessToken, cookieOptions)
@@ -85,10 +81,10 @@ const logoutUser = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Logout successful" });
 });
 
-const fetchUser = asyncHandler(async (req, res) => {
-    const user = await getDoc(doc(usersCollection, req.body.uid));
-    res.status(200).send(user.data());
-});
+// const fetchUser = asyncHandler(async (req, res) => {
+//     const user = await getDoc(doc(usersCollection, req.body.uid));
+//     res.status(200).send(user.data());
+// });
 
 const fetchUserData = asyncHandler(async (req, res) => {
     const userUID = req.cookies.uid; // ✅ Read UID from cookies
