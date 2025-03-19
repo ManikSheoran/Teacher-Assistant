@@ -12,7 +12,7 @@ function ThemedLayout({ children }) {
     const { darkMode, isThemeLoaded } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
-
+    const { loggedIn, setLoggedIn } = useAuth();
     // if (!isThemeLoaded) {
     //     return (
     //         <body>
@@ -66,8 +66,7 @@ const Layout = ({ children }) => {
         title: "NeuroGrade",
         description: "A simple web app to help teachers grade students.",
     };
-    const { loggedIn } = useAuth();
-
+    console.log(loggedIn); // Get this logged in value from the AuthContext (Fix this)
     return (
         <html lang="en">
             <head>
