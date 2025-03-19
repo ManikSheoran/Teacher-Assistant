@@ -9,17 +9,10 @@ import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 import { UserProvider } from "@/context/UserContext";
 
 function ThemedLayout({ children }) {
-    const { darkMode, isThemeLoaded } = useDarkMode();
+    const { darkMode } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
-    const { loggedIn, setLoggedIn } = useAuth();
-    // if (!isThemeLoaded) {
-    //     return (
-    //         <body>
-    //             <div style={{ visibility: "hidden" }}>{children}</div>
-    //         </body>
-    //     )
-    // }
+    const { loggedIn } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -34,62 +27,8 @@ function ThemedLayout({ children }) {
     };
 
     return (
-        <body className={`${theme}-mode quicksand ${theme} relative`}>
-            <Background />
-            <AuthProvider>
-                <UserProvider>
-                    <div className="min-h-screen flex flex-col">
-                        <Header />
-                        <main className="flex-grow">{children}</main>
-                        <footer className="bg-black text-white text-center py-4">
-                            &copy; {new Date().getFullYear()} NeuroGrade. All
-                            rights reserved.
-                        </footer>
-
-                        {showScrollButton && (
-                            <button
-                                onClick={scrollUp}
-                                className="fixed bottom-8 right-8 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
-                            >
-                                <ChevronUp size={24} />
-                            </button>
-                        )}
-                    </div>
-                </UserProvider>
-            </AuthProvider>
-        </body>
-    );
-}
-
-const Layout = ({ children }) => {
-    const metadata = {
-        title: "NeuroGrade",
-        description: "A simple web app to help teachers grade students.",
-    };
-    console.log(loggedIn); // Get this logged in value from the AuthContext (Fix this)
-    return (
-        <html lang="en">
+        <>
             <head>
-                <title>{metadata.title}</title>
-                <meta name="description" content={metadata.description} />
-                <link
-                    rel="apple-touch-icon"
-                    sizes="180x180"
-                    href="/apple-touch-icon.png"
-                />
-                <link
-                    rel="icon"
-                    type="image/png"
-                    sizes="32x32"
-                    href="/favicon-32x32.png"
-                />
-                <link
-                    rel="icon"
-                    type="image/png"
-                    sizes="16x16"
-                    href="/favicon-16x16.png"
-                />
-                <link rel="manifest" href="/site.webmanifest" />
                 <title>
                     {loggedIn
                         ? "Dashboard - NeuroGrade"
@@ -131,8 +70,39 @@ const Layout = ({ children }) => {
                 />
                 <meta name="robots" content="index, follow" />
             </head>
+            <body className={`${theme}-mode quicksand ${theme} relative`}>
+                <Background />
+                <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-grow">{children}</main>
+                    <footer className="bg-black text-white text-center py-4">
+                        &copy; {new Date().getFullYear()} NeuroGrade. All
+                        rights reserved.
+                    </footer>
+
+                    {showScrollButton && (
+                        <button
+                            onClick={scrollUp}
+                            className="fixed bottom-8 right-8 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
+                        >
+                            <ChevronUp size={24} />
+                        </button>
+                    )}
+                </div>
+            </body>
+        </>
+    );
+}
+
+const Layout = ({ children }) => {
+    return (
+        <html lang="en">
             <DarkModeProvider>
-                <ThemedLayout>{children}</ThemedLayout>
+                <AuthProvider>
+                    <UserProvider>
+                        <ThemedLayout>{children}</ThemedLayout>
+                    </UserProvider>
+                </AuthProvider>
             </DarkModeProvider>
         </html>
     );
