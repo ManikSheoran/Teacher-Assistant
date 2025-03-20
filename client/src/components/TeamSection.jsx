@@ -10,7 +10,7 @@ export default function TeamSection() {
   const teamMembers = [
     {
       name: "Arunava Chakrabarty",
-      role: "Team Lead | Backend & UI Specialist",
+      role: "Team Lead | Fullstack & UI Specialist",
       bio: "The captain of our team, Arunava ensures everything runs smoothly—whether it’s writing solid backend logic or polishing the frontend. If there’s a problem, he’s already solving it.",
       image: arunavaImg,
       instagram: "https://www.instagram.com/cap_aru/",
@@ -18,7 +18,7 @@ export default function TeamSection() {
     },
     {
       name: "Manik Sheoran",
-      role: "Backend Developer & Integration Specialist",
+      role: "Fullstack Developer & Integration Specialist",
       bio: "Manik is the silent force making sure everything just works. He builds the backend with precision and ensures the frontend and backend communicate like best friends.",
       image: manikImg,
       instagram: "https://www.instagram.com/thatsmanik/",
