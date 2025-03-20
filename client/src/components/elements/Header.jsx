@@ -10,6 +10,7 @@ import Switch from "@mui/material/Switch";
 import { useDarkMode } from "@/context/DarkModeContext";
 import fetchUser from "@/lib/fetchUser";
 import { useUser } from "@/context/UserContext";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
     const { loggedIn, setLoggedIn } = useAuth();
@@ -54,11 +55,14 @@ const Header = () => {
     };
 
     return (
-        <nav className={`fixed top-0 left-0 w-full shadow-md h-16 flex items-center md:px-6 px-3 justify-between z-50 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
+        <nav
+            className={`fixed top-0 left-0 w-full shadow-md h-16 flex items-center md:px-6 px-3 justify-between z-50 ${
+                darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"
+            }`}
+        >
             {/* Website Name */}
             <div className="text-2xl font-bold  dark:text-[#F9E9EC] text-black">
                 <Link href="/" onClick={collapseMenu}>
-                    
                     <div className="flex items-center space-x-2 cursor-pointer">
                         <img
                             src={`/logo-${darkMode ? "dark" : "light"}.svg`}
@@ -87,7 +91,13 @@ const Header = () => {
 
             {/* 🔹 Mobile Dropdown Menu */}
             {menuOpen && (
-                <div className={`absolute top-16 left-0 w-full shadow-md flex flex-col items-center space-y-4 py-4 ${darkMode ? "bg-[#1D2F6F] text-black" : "bg-[#8390FA] text-black"}`}>
+                <div
+                    className={`absolute top-16 left-0 w-full shadow-md flex flex-col items-center space-y-4 py-4 ${
+                        darkMode
+                            ? "bg-[#1D2F6F] text-black"
+                            : "bg-[#8390FA] text-black"
+                    }`}
+                >
                     <div className="flex items-center space-x-2">
                         <Switch
                             checked={darkMode}
@@ -103,6 +113,16 @@ const Header = () => {
                             <span className="dark:text-[#F9E9EC] text-black">
                                 Hello, {user.name || "User"}
                             </span>
+                            {usePathname() != "/dashboard" && (
+                                <Link href="/dashboard">
+                                    <button
+                                        onClick={collapseMenu}
+                                        className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
+                                    >
+                                        Dashboard
+                                    </button>
+                                </Link>
+                            )}
                             <button
                                 onClick={handleLogout}
                                 className="text-[#FAC748] hover:text-[#ffd97a]"
@@ -143,15 +163,23 @@ const Header = () => {
                         onChange={toggleDarkMode}
                         color="default"
                     />
-                    <span>
-                        {darkMode ? "🌙" : "☀️"}
-                    </span>
+                    <span>{darkMode ? "🌙" : "☀️"}</span>
                 </div>
                 {loggedIn ? (
                     <>
-                        <span  className="text-[#F9E9EC]">
+                        <span className="text-[#F9E9EC]">
                             Hello, {user.name || "User"}
                         </span>
+                        {usePathname() != "/dashboard" && (
+                            <Link href="/dashboard">
+                                <button
+                                    onClick={collapseMenu}
+                                    className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
+                                >
+                                    Dashboard
+                                </button>
+                            </Link>
+                        )}
                         <button
                             onClick={handleLogout}
                             className="flex items-center text-[#FAC748] hover:text-[#ffd97a]"

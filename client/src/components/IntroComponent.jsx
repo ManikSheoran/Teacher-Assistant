@@ -3,12 +3,16 @@
 import { useRouter } from "next/navigation";
 import AboutComponent from "./AboutComponent";
 import TeamSection from "./TeamSection";
+import { useAuth } from "@/context/AuthContext";
 
 export default function IntroComponent() {
     const router = useRouter();
+    const { loggedIn, setLoggedIn } = useAuth();
 
     const scrollToAbout = () => {
-        document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
+        document
+            .getElementById("about-section")
+            ?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
@@ -19,17 +23,27 @@ export default function IntroComponent() {
                         Effortless Grading, Deeper Insights, Better Learning
                     </h1>
                     <p className="select-none mt-6 text-lg sm:text-xl lg:text-2xl w-full">
-                        Say goodbye to hours of manual grading. NeuroGrade's AI-powered assistant streamlines 
-                        assessment, giving you faster results and deeper student insights.
+                        Say goodbye to hours of manual grading. NeuroGrade's
+                        AI-powered assistant streamlines assessment, giving you
+                        faster results and deeper student insights.
                     </p>
                 </div>
                 <div className="flex flex-wrap items-center justify-center mt-8 gap-4 sm:gap-6 w-full">
-                    <button
-                        onClick={() => router.push("/login")}
-                        className="bg-[#1D2F6F] px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl lg:text-2xl rounded-full text-white transition-transform transform hover:scale-105"
-                    >
-                        Get Started
-                    </button>
+                    {loggedIn ? (
+                        <button
+                            onClick={() => router.push("/dashboard")}
+                            className="bg-[#1D2F6F] px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl lg:text-2xl rounded-full text-white transition-transform transform hover:scale-105"
+                        >
+                            Dashboard
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => router.push("/login")}
+                            className="bg-[#1D2F6F] px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl lg:text-2xl rounded-full text-white transition-transform transform hover:scale-105"
+                        >
+                            Get Started
+                        </button>
+                    )}
                     <button
                         onClick={scrollToAbout}
                         className="bg-[#F88DAD] px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl lg:text-2xl rounded-full text-white transition-transform transform hover:scale-105"

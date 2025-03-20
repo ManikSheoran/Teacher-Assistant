@@ -6,11 +6,13 @@ import HeroComponent from "@/components/HeroComponent";
 import IntroComponent from "@/components/IntroComponent";
 
 const MainPage = () => {
-    return (
-        <>
-            <IntroComponent />
-        </>
-    );
+  const { loggedIn, setLoggedIn } = useAuth();
+
+  return (
+    <>
+      {loggedIn ? <HeroComponent /> : <IntroComponent />}
+    </>
+  );
 };
 
 export default MainPage;

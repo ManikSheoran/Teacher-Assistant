@@ -73,7 +73,7 @@ function ThemedLayout({ children }) {
             <body className={`${theme}-mode quicksand ${theme} relative`}>
                 <Background />
                 <div className="min-h-screen flex flex-col">
-                    <Header />
+                    <Header dashboard={true}/>
                     <main className="flex-grow">{children}</main>
                     <footer className="select-none bg-black text-white text-center py-4">
                         &copy; {new Date().getFullYear()} NeuroGrade. All
