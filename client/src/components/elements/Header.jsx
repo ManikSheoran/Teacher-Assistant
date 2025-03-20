@@ -10,20 +10,25 @@ import Switch from "@mui/material/Switch";
 import { useDarkMode } from "@/context/DarkModeContext";
 import fetchUser from "@/lib/fetchUser";
 import { useUser } from "@/context/UserContext";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
     const { loggedIn, setLoggedIn } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
     const { darkMode, setDarkMode } = useDarkMode();
-    const {user, setUser} = useUser();
+    const { user, setUser } = useUser();
     const [dashboard, setDashboard] = useState(false);
-
     const pathname = usePathname();
+    const router = useRouter();
+
+    // Debug: Log changes in loggedIn state
+    useEffect(() => {
+        console.log("Auth state changed:", loggedIn);
+    }, [loggedIn]);
+
     useEffect(() => {
         setDashboard(pathname === "/dashboard");
-    }, [pathname])
-
+    }, [pathname]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -36,11 +41,19 @@ const Header = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        if (loggedIn) {
+            console.log("✅ User is logged in, redirecting to /");
+            router.push("/");
+        }
+    }, [loggedIn]);
+
     const collapseMenu = () => {
         setMenuOpen(false);
     };
 
     const handleLogout = async () => {
+        console.log("🔴 Logging out...");
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/logout`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -48,14 +61,14 @@ const Header = () => {
         });
 
         if (response.ok) {
+            console.log("✅ Logout successful");
             setLoggedIn(false);
             setUser({});
-        }
-        else {
-            console.error("Error logging out:", response.statusText);
+        } else {
+            console.error("⚠️ Error logging out:", response.statusText);
         }
     };
-    
+
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
         collapseMenu();
