@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import fetchUser from "@/lib/fetchUser";
 import { useUser } from "@/context/UserContext";
@@ -16,6 +16,16 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const { loggedIn, setLoggedIn } = useAuth();
     const { setUser } = useUser();
+
+    useEffect(() => {
+        console.log("Auth state changed:", loggedIn);
+        if (loggedIn) {
+            router.push("/");
+        }
+    }, [loggedIn]);
+    
+    
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,40 +46,43 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newErrors = validateForm();
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
-        setErrors({});
-        setBackendError("");
         setIsLoading(true);
-
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/login`;
+        setBackendError("");
+    
         try {
-            const response = await fetch(endpoint, {
+            console.log("Logging in with:", formData); // Debug log
+    
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
                 credentials: "include",
             });
-
+    
+            const data = await response.json(); // Convert response to JSON
+            console.log("Login Response:", data); // Debug log
+    
             if (response.ok) {
                 setLoggedIn(true);
+                console.log("User is now logged in:", loggedIn); // Check if it updates immediately
+                
                 const currUser = await fetchUser();
+                console.log("Fetched user:", currUser); // Check if fetchUser is working
+                
                 if (currUser) setUser(currUser);
                 router.push("/");
             } else {
                 setBackendError(data.error || "Login failed. Please try again.");
             }
+            
         } catch (error) {
-            console.error("Error:", error);
-            setBackendError("An error occurred while logging in. Please try again.");
+            console.error("Error during login:", error);
+            setBackendError("An error occurred. Please try again.");
         } finally {
             setIsLoading(false);
         }
     };
-
+    
     return (
         <>
         <style jsx global> {`
