@@ -122,7 +122,7 @@ const Header = () => {
                                 Hello, {user.name || "User"}
                             </span>
                             {!dashboard && (
-                                <Link href="/!dashboard">
+                                <Link href="/dashboard">
                                     <button
                                         onClick={collapseMenu}
                                         className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
