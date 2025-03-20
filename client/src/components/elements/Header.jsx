@@ -21,6 +21,7 @@ const Header = () => {
     const pathname = usePathname();
     const router = useRouter();
 
+    // Debug: Log changes in loggedIn state
     useEffect(() => {
         console.log("Auth state changed:", loggedIn);
     }, [loggedIn]);
@@ -30,21 +31,22 @@ const Header = () => {
     }, [pathname]);
 
     useEffect(() => {
-        if (loggedIn) {
-            console.log("✅ User logged in → Redirecting to /dashboard");
-            router.push("/dashboard");
-        } else if (pathname === "/dashboard") {
-            console.log("🔴 Not logged in → Redirecting to /login");
-            router.push("/login");
-        }
-    }, [loggedIn]);
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     useEffect(() => {
-        if (loggedIn && (pathname === "/login" || pathname === "/register")) {
-            console.log("✅ Already logged in → Redirecting to /dashboard");
-            router.push("/dashboard");
+        if (loggedIn) {
+            console.log("✅ User is logged in, redirecting to /");
+            router.push("/");
         }
-    }, [pathname, loggedIn]);
+    }, [loggedIn]);
 
     const collapseMenu = () => {
         setMenuOpen(false);
@@ -59,10 +61,9 @@ const Header = () => {
         });
 
         if (response.ok) {
-            console.log("✅ Logout successful → Redirecting to /login");
+            console.log("✅ Logout successful");
             setLoggedIn(false);
             setUser({});
-            router.push("/login");
         } else {
             console.error("⚠️ Error logging out:", response.statusText);
         }
