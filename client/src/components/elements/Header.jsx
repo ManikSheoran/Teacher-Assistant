@@ -20,7 +20,6 @@ const Header = () => {
     const [dashboard, setDashboard] = useState(false);
 
     const pathname = usePathname();
-    console.log(pathname);
     useEffect(() => {
         setDashboard(pathname === "/dashboard");
     }, [pathname])
