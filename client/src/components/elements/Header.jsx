@@ -17,6 +17,14 @@ const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { darkMode, setDarkMode } = useDarkMode();
     const {user, setUser} = useUser();
+    const [dashboard, setDashboard] = useState(false);
+
+    const pathname = usePathname();
+    console.log(pathname);
+    useEffect(() => {
+        setDashboard(pathname === "/dashboard");
+    }, [pathname])
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -113,8 +121,8 @@ const Header = () => {
                             <span className="dark:text-[#F9E9EC] text-black">
                                 Hello, {user.name || "User"}
                             </span>
-                            {usePathname() != "/dashboard" && (
-                                <Link href="/dashboard">
+                            {!dashboard && (
+                                <Link href="/!dashboard">
                                     <button
                                         onClick={collapseMenu}
                                         className="w-40 px-4 py-2 bg-[#FAC748] rounded-md hover:bg-[#ffd97a] text-center"
@@ -170,7 +178,7 @@ const Header = () => {
                         <span className="text-[#F9E9EC]">
                             Hello, {user.name || "User"}
                         </span>
-                        {usePathname() != "/dashboard" && (
+                        {!dashboard && (
                             <Link href="/dashboard">
                                 <button
                                     onClick={collapseMenu}
