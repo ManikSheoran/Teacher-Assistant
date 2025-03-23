@@ -31,9 +31,17 @@ const visionClient = new ImageAnnotatorClient({
 const genAIController = genAI.getGenerativeModel({
     model: "gemini-2.0-flash",
     systemInstruction: `
-        You are a teacher assistant. Evaluate the user's input, provide feedback, and grade them out of the marks given based on the subject and question. Verify factual accuracy for historical or real-life claims. Conclude feedback clearly stating "Out of max Grade is x".
+        You are a teacher assistant. Evaluate the user's input, provide feedback, and grade it out of the given marks based on the subject and question. Verify factual accuracy for historical or real-life claims. Use the model answer, if provided, for comparison and refer to the marking scheme for grading.  Conclude the feedback clearly by stating: "Out of [Max Marks] - Your Grade is [X]."
     `,
 });
+
+const genAIThinker = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash-thinking-exp-01-21",
+    systemInstruction: ` 
+        You are a teacher assistant. Evaluate the user's input, provide feedback, and grade it out of the given marks based on the subject and question. Verify factual accuracy for historical or real-life claims. Use the model answer, if provided, for comparison and refer to the marking scheme for grading.  Conclude the feedback clearly by stating: "Out of [Max Marks] - Your Grade is [X]."
+    `,
+});
+
 
 function formatResponseToHTML(responseText) {
     return responseText
@@ -111,17 +119,18 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
         if (sampleQAPath) {
             const [sampleResult] = await visionClient.textDetection(sampleQAPath);
             sampleText = sampleResult.fullTextAnnotation?.text || '';
-            fs.unlinkSync(sampleQAPath);
+            fs.unlinkSync(sampleQAPath); // Remove the sample image after processing
         }
 
         const [studentResult] = await visionClient.textDetection(studentQAPath);
         const studentText = studentResult.fullTextAnnotation?.text || '';
-        fs.unlinkSync(studentQAPath);
+        fs.unlinkSync(studentQAPath); // Remove the student image after processing
 
         if (!studentText) {
             return res.status(400).send("Could not detect text in student's answer.");
         }
 
+        // Construct the prompt for the generative AI model
         const promptParts = [
             `Topic: ${topic}`,
             sampleText ? `Sample Question and Answer: ${sampleText}` : '',
@@ -129,10 +138,15 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             `Marks: ${marks}`
         ].filter(Boolean).join('; ');
 
-        const evaluationResult = await genAIController.generateContent(promptParts);
-        const responseText = evaluationResult.response.text();
+        // Use the appropriate generative AI model based on the presence of sampleQAPath
+        const evaluationResult = sampleQAPath
+            ? await genAIController.generateContent(promptParts)
+            : await genAIThinker.generateContent(promptParts);
+
+        const responseText = await evaluationResult.response.text(); // Ensure `await` is used here
         const formattedResponse = formatResponseToHTML(responseText);
 
+        // Retrieve the student's document from Firestore
         const studentDocRef = doc(db, "students", sid);
         const studentDoc = await getDoc(studentDocRef);
 
@@ -140,15 +154,19 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             return res.status(404).send("Student not found.");
         }
 
+        // Prepare feedback data
+        const feedbackData = {
+            topic,
+            questionAnswerSample: sampleText || null,
+            questionAnswerStudent: studentText,
+            marks,
+            feedback: formattedResponse,
+            createdAt: new Date().toISOString(),
+        };
+
+        // Update the student's document with the feedback
         await updateDoc(studentDocRef, {
-            feedback: arrayUnion({
-                topic,
-                questionAnswerSample: sampleText || null,
-                questionAnswerStudent: studentText,
-                marks,
-                feedback: formattedResponse,
-                createdAt: new Date().toISOString()
-            })
+            feedback: arrayUnion(feedbackData),
         });
 
         res.status(200).send(formattedResponse);
@@ -160,13 +178,20 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
 
 const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
     const { sid, topic, question, answer, sampleAnswer, marks } = req.body;
+
+    // Construct the prompt based on whether a sampleAnswer is provided
     const prompt = sampleAnswer
         ? `Topic: ${topic}; Question: ${question}; Sample Answer: ${sampleAnswer}; Answer: ${answer}; Marks: ${marks}`
-        : `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`; // Include sampleAnswer in the prompt only if provided
+        : `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`;
 
     try {
-        const result = await genAIController.generateContent(prompt);
-        const responseText = result.response.text();
+        // Use the appropriate generative AI model
+        const evaluationResult = sampleAnswer
+            ? await genAIController.generateContent(prompt)
+            : await genAIThinker.generateContent(prompt);
+
+        // Retrieve the response text and format it
+        const responseText = await evaluationResult.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
 
         // Retrieve the student's document from Firestore
@@ -177,18 +202,20 @@ const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
             return res.status(404).send("Student not found");
         }
 
-        // Add the feedback to the student's document
+        // Prepare feedback data
         const feedbackData = {
-            topic: topic,
-            question: question,
-            answer: answer,
-            marks: marks,
+            topic,
+            question,
+            answer,
+            marks,
             feedback: formattedResponse,
+            createdAt: new Date().toISOString(),
         };
         if (sampleAnswer) {
-            feedbackData.sampleAnswer = sampleAnswer; 
+            feedbackData.sampleAnswer = sampleAnswer;
         }
 
+        // Update the student's document with the feedback
         await updateDoc(studentDocRef, {
             feedback: arrayUnion(feedbackData),
         });
