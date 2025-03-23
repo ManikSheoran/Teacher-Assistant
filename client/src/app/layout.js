@@ -1,12 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
+import { FiMessageSquare } from "react-icons/fi"; // Import an icon for the feedback button
 import Header from "../components/elements/Header";
 import "./globals.css";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 import { UserProvider } from "@/context/UserContext";
+import Link from "next/link";
 
 function ThemedLayout({ children }) {
     const { darkMode } = useDarkMode();
@@ -73,7 +75,7 @@ function ThemedLayout({ children }) {
             <body className={`${theme}-mode quicksand ${theme} relative`}>
                 <Background />
                 <div className="min-h-screen flex flex-col">
-                    <Header dashboard={true}/>
+                    <Header dashboard={true} />
                     <main className="flex-grow">{children}</main>
                     <footer className="select-none bg-black text-white text-center py-4">
                         &copy; {new Date().getFullYear()} NeuroGrade. All
@@ -81,12 +83,38 @@ function ThemedLayout({ children }) {
                     </footer>
 
                     {showScrollButton && (
-                        <button
-                            onClick={scrollUp}
-                            className="fixed bottom-8 right-8 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
-                        >
-                            <ChevronUp size={24} />
-                        </button>
+                        <>
+                            {/* Scroll Up Button */}
+                            <div className="fixed bottom-8 right-8">
+                                <button
+                                    onClick={scrollUp}
+                                    className={`p-3 rounded-full shadow-lg transition ${
+                                        darkMode
+                                            ? "bg-gray-800 text-white hover:bg-gray-700"
+                                            : "bg-gray-200 text-black hover:bg-gray-300"
+                                    }`}
+                                    title="Scroll to Top"
+                                >
+                                    <ChevronUp size={24} />
+                                </button>
+                            </div>
+
+                            {/* Feedback Button */}
+                            <div className="fixed bottom-8 left-8">
+                                <Link href="/userfeedback">
+                                    <button
+                                        className={`p-3 rounded-full shadow-lg transition flex items-center justify-center ${
+                                            darkMode
+                                                ? "bg-primary text-secondary hover:bg-blue-500"
+                                                : "bg-secondary text-primary hover:bg-blue-400"
+                                        }`}
+                                        title="Give Feedback"
+                                    >
+                                        <FiMessageSquare size={24} />
+                                    </button>
+                                </Link>
+                            </div>
+                        </>
                     )}
                 </div>
             </body>
