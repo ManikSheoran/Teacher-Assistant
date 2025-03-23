@@ -31,6 +31,24 @@ function ThemedLayout({ children }) {
     return (
         <>
             <head>
+                <link
+                    rel="apple-touch-icon"
+                    sizes="180x180"
+                    href="/apple-touch-icon.png"
+                />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="32x32"
+                    href="/favicon-32x32.png"
+                />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="16x16"
+                    href="/favicon-16x16.png"
+                />
+                <link rel="manifest" href="/site.webmanifest" />
                 <title>
                     {loggedIn
                         ? "Dashboard - NeuroGrade"
@@ -68,7 +86,7 @@ function ThemedLayout({ children }) {
                 <meta property="og:url" content="https://www.neurograde.app/" />
                 <meta
                     property="og:image"
-                    content="https://www.neurograde.app/favicon-32x32.png"
+                    content="https://www.neurograde.app/favicon.ico"
                 />
                 <meta name="robots" content="index, follow" />
             </head>
@@ -78,8 +96,8 @@ function ThemedLayout({ children }) {
                     <Header dashboard={true} />
                     <main className="flex-grow">{children}</main>
                     <footer className="select-none bg-black text-white text-center py-4">
-                        &copy; {new Date().getFullYear()} NeuroGrade. All
-                        rights reserved.
+                        &copy; {new Date().getFullYear()} NeuroGrade. All rights
+                        reserved.
                     </footer>
 
                     {showScrollButton && (
