@@ -9,6 +9,7 @@ import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 import { UserProvider } from "@/context/UserContext";
 import Link from "next/link";
+import { Mail, MapPin } from 'lucide-react';
 
 function ThemedLayout({ children }) {
     const { darkMode } = useDarkMode();
@@ -95,9 +96,82 @@ function ThemedLayout({ children }) {
                 <div className="min-h-screen flex flex-col">
                     <Header dashboard={true} />
                     <main className="flex-grow">{children}</main>
-                    <footer className="select-none bg-black text-white text-center py-4">
-                        &copy; {new Date().getFullYear()} NeuroGrade. All rights
-                        reserved.
+                    {/* Footer Section */}
+                    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200 pt-12 px-6 shadow-2xl relative">
+                    <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        {/* Neurograde Section */}
+                        <div className="space-y-4 text-left">
+                        <h2 className="text-2xl font-bold mb-4 text-blue-400">
+                            Neurograde
+                        </h2>
+                        <p className="leading-relaxed text-gray-300 mb-4">
+                            Neurograde is an innovative AI-powered platform transforming educational assessment 
+                            through intelligent, personalized learning analytics and evaluation technologies.
+                        </p>
+                        <Link href="#" className="inline-block text-blue-400 hover:text-blue-300 transition">
+                            Get Started →
+                        </Link>
+                        </div>
+
+                        {/* Quick Links Section */}
+                        <div className="space-y-4 text-left md:pl-16">
+                        <h3 className="text-xl font-bold text-blue-400">Quick Links</h3>
+                        <ul className="space-y-2">
+                            <li>
+                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                                Home
+                            </Link>
+                            </li>
+                            <li>
+                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                                Learn More
+                            </Link>
+                            </li>
+                            <li>
+                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                                Our Team
+                            </Link>
+                            </li>
+                        </ul>
+                        </div>
+
+                        {/* Contact Information Section */}
+                        <div className="space-y-6 text-left">
+                        <div className="flex items-start space-x-4">
+                            <MapPin className="w-10 h-10 p-2 rounded-full bg-gray-800 text-green-400" />
+                            <div>
+                            <h3 className="font-semibold text-lg text-blue-300">
+                                Location
+                            </h3>
+                            <p className="text-gray-300">
+                                Indian Institute of Engineering Science and Technology, Shibpur, West Bengal
+                            </p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-start space-x-4">
+                            <Mail className="w-10 h-10 p-2 rounded-full bg-gray-800 text-red-400" />
+                            <div>
+                            <h3 className="font-semibold text-lg text-blue-300">
+                                Email
+                            </h3>
+                            <a 
+                                href="mailto:contact@neurograde.app" 
+                                className="transition-colors duration-300 text-gray-200 hover:text-white"
+                            >
+                                contact@neurograde.app
+                            </a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    {/* Divider and Copyright */}
+                    <div className="text-center mt-6 mb-4 text-gray-400">
+                        <div className="h-0.5 w-3/5 mx-auto mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+                        © {new Date().getFullYear()} Neurograde. All Rights Reserved.
+                    </div>
                     </footer>
 
                     {showScrollButton && (
