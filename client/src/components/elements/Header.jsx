@@ -116,7 +116,8 @@ const Header = () => {
           </div>
           {loggedIn ? (
             <>
-              <span className="dark:text-[#F9E9EC] text-black">
+              <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}
+              >
                 Hello, {user.name || "User"}
               </span>
               {!dashboard && (
