@@ -172,7 +172,10 @@ const Header = () => {
         </div>
         {loggedIn ? (
           <>
-            <span className="text-[#F9E9EC]">Hello, {user.name || "User"}</span>
+            <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}
+            >
+              Hello, {user.name || "User"}
+            </span>
             {!dashboard && (
               <Link href="/dashboard">
                 <button
