@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
-import { FiMessageSquare } from "react-icons/fi"; // Import an icon for the feedback button
+import { FiMessageSquare, FiMail, FiMapPin } from "react-icons/fi"; 
 import Header from "../components/elements/Header";
 import "./globals.css";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
@@ -9,7 +9,6 @@ import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 import { UserProvider } from "@/context/UserContext";
 import Link from "next/link";
-import { Mail, MapPin } from 'lucide-react';
 
 function ThemedLayout({ children }) {
     const { darkMode } = useDarkMode();
@@ -138,32 +137,32 @@ function ThemedLayout({ children }) {
 
                         {/* Contact Information Section */}
                         <div className="space-y-6 text-left">
-                        <div className="flex items-start space-x-4">
-                            <MapPin className="w-10 h-10 p-2 rounded-full bg-gray-800 text-green-400" />
-                            <div>
-                            <h3 className="font-semibold text-lg text-blue-300">
-                                Location
-                            </h3>
-                            <p className="text-gray-300">
-                                Indian Institute of Engineering Science and Technology, Shibpur, West Bengal
-                            </p>
+                            <div className="flex items-start space-x-4">
+                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 flex-shrink-0">
+                                    <FiMapPin size={18} className="text-green-400" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-lg text-blue-300">Location</h3>
+                                    <p className="text-gray-300">
+                                        Indian Institute of Engineering Science and Technology, Shibpur, West Bengal
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div className="flex items-start space-x-4">
-                            <Mail className="w-10 h-10 p-2 rounded-full bg-gray-800 text-red-400" />
-                            <div>
-                            <h3 className="font-semibold text-lg text-blue-300">
-                                Email
-                            </h3>
-                            <a 
-                                href="mailto:contact@neurograde.app" 
-                                className="transition-colors duration-300 text-gray-200 hover:text-white"
-                            >
-                                contact@neurograde.app
-                            </a>
+
+                            <div className="flex items-start space-x-4">
+                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 flex-shrink-0">
+                                    <FiMail size={18} className="text-red-400" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-lg text-blue-300">Email</h3>
+                                    <a 
+                                        href="mailto:contact@neurograde.app" 
+                                        className="transition-colors duration-300 text-gray-200 hover:text-white"
+                                    >
+                                        contact@neurograde.app
+                                    </a>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
 
