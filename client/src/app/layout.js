@@ -113,10 +113,10 @@ function ThemedLayout({ children }) {
                         
                         {/* Neurograde Section */}
                         <div className="space-y-4 text-left">
-                        <h2 className="text-2xl font-bold mb-4 text-blue-400">
+                        <h2 className="text-2xl font-bold mb-4 text-blue-400 select-none">
                             Neurograde
                         </h2>
-                        <p className="leading-relaxed text-gray-300 mb-4">
+                        <p className="leading-relaxed text-gray-300 mb-4 select-none">
                             Neurograde is an innovative AI-powered platform transforming educational assessment 
                             through intelligent, personalized learning analytics and evaluation technologies.
                         </p>
@@ -130,7 +130,7 @@ function ThemedLayout({ children }) {
                                     router.push("/login"); // Redirects if on a different page
                                 }
                             }} 
-                            className="inline-block text-blue-400 hover:text-blue-300 transition"
+                            className="inline-block text-blue-400 hover:text-blue-300 transition select-none"
                         >
                             Get Started →
                         </a>
@@ -138,13 +138,13 @@ function ThemedLayout({ children }) {
 
                         {/* Quick Links Section */}
                         <div className="hidden md:block space-y-4 text-left md:pl-16">
-                        <h3 className="text-xl font-bold text-blue-400">Quick Links</h3>
+                        <h3 className="text-xl font-bold text-blue-400 select-none">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
                             <a 
                                 href="#home-page" 
                                 onClick={scrollUp} 
-                                className="text-gray-300 hover:text-white transition"
+                                className="text-gray-300 hover:text-white transition select-none"
                             >
                                 Home
                             </a>
@@ -156,7 +156,7 @@ function ThemedLayout({ children }) {
                                     e.preventDefault();
                                     scrollToAbout();
                                 }} 
-                                className="text-gray-300 hover:text-white transition"
+                                className="text-gray-300 hover:text-white transition select-none"
                             >
                                 Learn More
                             </a>
@@ -168,7 +168,7 @@ function ThemedLayout({ children }) {
                                     e.preventDefault();
                                     scrollToTeam();
                                 }} 
-                                className="text-gray-300 hover:text-white transition"
+                                className="text-gray-300 hover:text-white transition select-none"
                             >
                                 Our Team
                             </a>
@@ -183,19 +183,19 @@ function ThemedLayout({ children }) {
                                     <FiMapPin size={18} className="text-green-400" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-lg text-blue-300">Location</h3>
-                                    <p className="text-gray-300">
+                                    <h3 className="font-semibold text-lg text-blue-300 select-none">Location</h3>
+                                    <p className="text-gray-300 select-none">
                                         Indian Institute of Engineering Science and Technology, Shibpur, West Bengal
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-start space-x-4">
-                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 flex-shrink-0">
+                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 flex-shrink-0 ">
                                     <FiMail size={18} className="text-red-400" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-lg text-blue-300">Email</h3>
+                                    <h3 className="font-semibold text-lg text-blue-300 select-none">Email</h3>
                                     <a 
                                         href="mailto:contact@neurograde.app" 
                                         className="transition-colors duration-300 text-gray-200 hover:text-white"
