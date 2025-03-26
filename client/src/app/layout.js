@@ -96,7 +96,7 @@ function ThemedLayout({ children }) {
                     <Header dashboard={true} />
                     <main className="flex-grow">{children}</main>
                     {/* Footer Section */}
-                    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200 pt-12 px-6 shadow-2xl relative">
+                    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200 pt-8 px-6 shadow-2xl relative">
                     <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
                         
                         {/* Neurograde Section */}
@@ -114,7 +114,7 @@ function ThemedLayout({ children }) {
                         </div>
 
                         {/* Quick Links Section */}
-                        <div className="space-y-4 text-left md:pl-16">
+                        <div className="hidden md:block space-y-4 text-left md:pl-16">
                         <h3 className="text-xl font-bold text-blue-400">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
