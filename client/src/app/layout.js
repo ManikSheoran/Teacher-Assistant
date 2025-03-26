@@ -142,8 +142,11 @@ function ThemedLayout({ children }) {
                         <ul className="space-y-2">
                             <li>
                             <a 
-                                href="#home-page" 
-                                onClick={scrollUp} 
+                                href="#home"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    scrollUp();
+                                }} 
                                 className="text-gray-300 hover:text-white transition select-none"
                             >
                                 Home
