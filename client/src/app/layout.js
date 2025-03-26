@@ -9,12 +9,24 @@ import Background from "@/components/Background";
 import { DarkModeProvider, useDarkMode } from "@/context/DarkModeContext";
 import { UserProvider } from "@/context/UserContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function ThemedLayout({ children }) {
     const { darkMode } = useDarkMode();
     const theme = darkMode ? "dark" : "light";
     const [showScrollButton, setShowScrollButton] = useState(false);
     const { loggedIn } = useAuth();
+    const router = useRouter();
+    const scrollToAbout = () => {
+        document
+            .getElementById("about-section")
+            ?.scrollIntoView({ behavior: "smooth" });
+    };
+    const scrollToTeam = () => {
+        document
+            .getElementById("team-section")
+            ?.scrollIntoView({ behavior: "smooth" });   
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -108,9 +120,20 @@ function ThemedLayout({ children }) {
                             Neurograde is an innovative AI-powered platform transforming educational assessment 
                             through intelligent, personalized learning analytics and evaluation technologies.
                         </p>
-                        <Link href="#" className="inline-block text-blue-400 hover:text-blue-300 transition">
+                        <a 
+                            href="/login"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (router.pathname === "/") {
+                                    scrollToLogin(); // Function to scroll to the login section
+                                } else {
+                                    router.push("/login"); // Redirects if on a different page
+                                }
+                            }} 
+                            className="inline-block text-blue-400 hover:text-blue-300 transition"
+                        >
                             Get Started →
-                        </Link>
+                        </a>
                         </div>
 
                         {/* Quick Links Section */}
@@ -118,19 +141,37 @@ function ThemedLayout({ children }) {
                         <h3 className="text-xl font-bold text-blue-400">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
-                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                            <a 
+                                href="#home-page" 
+                                onClick={scrollUp} 
+                                className="text-gray-300 hover:text-white transition"
+                            >
                                 Home
-                            </Link>
+                            </a>
                             </li>
                             <li>
-                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                            <a 
+                                href="#about-section"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    scrollToAbout();
+                                }} 
+                                className="text-gray-300 hover:text-white transition"
+                            >
                                 Learn More
-                            </Link>
+                            </a>
                             </li>
                             <li>
-                            <Link href="#" className="text-gray-300 hover:text-white transition">
+                            <a 
+                                href="#team-section"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    scrollToTeam();
+                                }} 
+                                className="text-gray-300 hover:text-white transition"
+                            >
                                 Our Team
-                            </Link>
+                            </a>
                             </li>
                         </ul>
                         </div>
