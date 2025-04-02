@@ -138,45 +138,63 @@ function ThemedLayout({ children }) {
 
                         {/* Quick Links Section */}
                         <div className="hidden md:block space-y-4 text-left md:pl-16">
-                        <h3 className="text-xl font-bold text-blue-400 select-none">Quick Links</h3>
-                        <ul className="space-y-2">
-                            <li>
-                            <a 
-                                href="#home"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollUp();
-                                }} 
-                                className="text-gray-300 hover:text-white transition select-none"
-                            >
-                                Home
-                            </a>
-                            </li>
-                            <li>
-                            <a 
-                                href="#about-section"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToAbout();
-                                }} 
-                                className="text-gray-300 hover:text-white transition select-none"
-                            >
-                                Learn More
-                            </a>
-                            </li>
-                            <li>
-                            <a 
-                                href="#team-section"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToTeam();
-                                }} 
-                                className="text-gray-300 hover:text-white transition select-none"
-                            >
-                                Our Team
-                            </a>
-                            </li>
-                        </ul>
+                            <h3 className="text-xl font-bold text-blue-400 select-none">Quick Links</h3>
+                            <ul className="space-y-2">
+                                <li>
+                                    <a 
+                                        href="/"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const isHomePage = window.location.pathname === '/';
+                                            
+                                            if (isHomePage) {
+                                                scrollUp();
+                                            } else {
+                                                router.push('/');
+                                            }
+                                        }} 
+                                        className="text-gray-300 hover:text-white transition select-none"
+                                    >
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a 
+                                        href="/#about-section"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const isHomePage = window.location.pathname === '/';
+                                            
+                                            if (isHomePage) {
+                                                scrollToAbout();
+                                            } else {
+                                                router.push('/#about-section');
+                                            }
+                                        }} 
+                                        className="text-gray-300 hover:text-white transition select-none"
+                                    >
+                                        Learn More
+                                    </a>
+                                </li>
+                                <li>
+                                    <a 
+                                        href="/#team-section"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const isHomePage = window.location.pathname === '/';
+                                            
+                                            if (isHomePage) {
+                                                scrollToTeam();
+                                            } else {
+                                                router.push('/#team-section');
+                                            }
+                                        }} 
+                                        className="text-gray-300 hover:text-white transition select-none"
+                                    >
+                                        Our Team
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
 
                         {/* Contact Information Section */}

@@ -70,7 +70,7 @@ export default function Login() {
                 console.log("Fetched user:", currUser); // Check if fetchUser is working
                 
                 if (currUser) setUser(currUser);
-                router.push("/");
+                router.push("/dashboard");
             } else {
                 setBackendError(data.error || "Login failed. Please try again.");
             }
