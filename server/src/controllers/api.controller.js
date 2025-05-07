@@ -130,7 +130,6 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             return res.status(400).send("Could not detect text in student's answer.");
         }
 
-        // Construct the prompt for the generative AI model
         const promptParts = [
             `Topic: ${topic}`,
             sampleText ? `Sample Question and Answer: ${sampleText}` : '',
@@ -143,10 +142,9 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             ? await genAIController.generateContent(promptParts)
             : await genAIThinker.generateContent(promptParts);
 
-        const responseText = await evaluationResult.response.text(); // Ensure `await` is used here
+        const responseText = await evaluationResult.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
 
-        // Retrieve the student's document from Firestore
         const studentDocRef = doc(db, "students", sid);
         const studentDoc = await getDoc(studentDocRef);
 
@@ -154,7 +152,6 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             return res.status(404).send("Student not found.");
         }
 
-        // Prepare feedback data
         const feedbackData = {
             topic,
             questionAnswerSample: sampleText || null,
@@ -164,7 +161,6 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             createdAt: new Date().toISOString(),
         };
 
-        // Update the student's document with the feedback
         await updateDoc(studentDocRef, {
             feedback: arrayUnion(feedbackData),
         });
