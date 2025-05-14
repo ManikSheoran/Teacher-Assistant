@@ -11,7 +11,7 @@ dotenv.config({
 const app = express();
 
 const corsOptions = {
-    origin: ["https://www.neurograde.app", "http://localhost:3000"],
+    origin: ["https://www.neurograde.app"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["set-cookie"],
