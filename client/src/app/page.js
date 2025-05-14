@@ -9,7 +9,6 @@ const MainPage = () => {
     return (
         <>
             <IntroComponent />
-            
         </>
     );
 };
