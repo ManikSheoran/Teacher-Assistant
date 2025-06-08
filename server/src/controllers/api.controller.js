@@ -119,7 +119,7 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
         if (sampleQAPath) {
             const [sampleResult] = await visionClient.textDetection(sampleQAPath);
             sampleText = sampleResult.fullTextAnnotation?.text || '';
-            fs.unlinkSync(sampleQAPath); // Remove the sample image after processing
+            fs.unlinkSync(sampleQAPath); 
         }
 
         const [studentResult] = await visionClient.textDetection(studentQAPath);
