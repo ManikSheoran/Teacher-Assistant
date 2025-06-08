@@ -42,7 +42,7 @@ const Header = () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/logout`,
         {
-          method: "GET",
+          method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
         }
@@ -116,9 +116,8 @@ const Header = () => {
           </div>
           {loggedIn ? (
             <>
-              <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}
-              >
-                Hello, {user.name || "User"}
+              <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}>
+                Hello, {user?.name || user?.email || "User"}
               </span>
               {!dashboard && (
                 <Link href="/dashboard">
@@ -172,9 +171,8 @@ const Header = () => {
         </div>
         {loggedIn ? (
           <>
-            <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}
-            >
-              Hello, {user.name || "User"}
+            <span className={`${darkMode ? "text-[#F9E9EC]" : "text-black"}`}>
+              Hello, {user?.name || user?.email || "User"}
             </span>
             {!dashboard && (
               <Link href="/dashboard">

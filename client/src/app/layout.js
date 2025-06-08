@@ -60,7 +60,7 @@ function ThemedLayout({ children }) {
                     sizes="16x16"
                     href="/favicon-16x16.png"
                 />
-                <link rel="manifest" href="./manifest.js" />
+            <link rel="manifest" href="/manifest.json" />
                 <title>
                     {loggedIn
                         ? "Dashboard - NeuroGrade"
@@ -141,58 +141,19 @@ function ThemedLayout({ children }) {
                             <h3 className="text-xl font-bold text-blue-400 select-none">Quick Links</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <a 
-                                        href="/"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            const isHomePage = window.location.pathname === '/';
-                                            
-                                            if (isHomePage) {
-                                                scrollUp();
-                                            } else {
-                                                router.push('/');
-                                            }
-                                        }} 
-                                        className="text-gray-300 hover:text-white transition select-none"
-                                    >
+                                    <Link href="/" className="text-gray-300 hover:text-white transition select-none">
                                         Home
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a 
-                                        href="/#about-section"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            const isHomePage = window.location.pathname === '/';
-                                            
-                                            if (isHomePage) {
-                                                scrollToAbout();
-                                            } else {
-                                                router.push('/#about-section');
-                                            }
-                                        }} 
-                                        className="text-gray-300 hover:text-white transition select-none"
-                                    >
+                                    <Link href="/#about-section" className="text-gray-300 hover:text-white transition select-none">
                                         Learn More
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a 
-                                        href="/#team-section"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            const isHomePage = window.location.pathname === '/';
-                                            
-                                            if (isHomePage) {
-                                                scrollToTeam();
-                                            } else {
-                                                router.push('/#team-section');
-                                            }
-                                        }} 
-                                        className="text-gray-300 hover:text-white transition select-none"
-                                    >
+                                    <Link href="/#team-section" className="text-gray-300 hover:text-white transition select-none">
                                         Our Team
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

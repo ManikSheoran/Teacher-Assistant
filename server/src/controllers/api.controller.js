@@ -1,24 +1,10 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
-
-const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID,
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { Student } from "../models/student.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const visionClient = new ImageAnnotatorClient({
@@ -41,7 +27,6 @@ const genAIThinker = genAI.getGenerativeModel({
         You are a teacher assistant. Evaluate the user's input, provide feedback, and grade it out of the given marks based on the subject and question. Verify factual accuracy for historical or real-life claims. Use the model answer, if provided, for comparison and refer to the marking scheme for grading.  Conclude the feedback clearly by stating: "Out of [Max Marks] - Your Grade is [X]."
     `,
 });
-
 
 function formatResponseToHTML(responseText) {
     return responseText
@@ -124,7 +109,7 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
 
         const [studentResult] = await visionClient.textDetection(studentQAPath);
         const studentText = studentResult.fullTextAnnotation?.text || '';
-        fs.unlinkSync(studentQAPath); // Remove the student image after processing
+        fs.unlinkSync(studentQAPath);
 
         if (!studentText) {
             return res.status(400).send("Could not detect text in student's answer.");
@@ -137,7 +122,6 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             `Marks: ${marks}`
         ].filter(Boolean).join('; ');
 
-        // Use the appropriate generative AI model based on the presence of sampleQAPath
         const evaluationResult = sampleQAPath
             ? await genAIController.generateContent(promptParts)
             : await genAIThinker.generateContent(promptParts);
@@ -145,10 +129,8 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
         const responseText = await evaluationResult.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
 
-        const studentDocRef = doc(db, "students", sid);
-        const studentDoc = await getDoc(studentDocRef);
-
-        if (!studentDoc.exists()) {
+        const student = await Student.findOne({ roll: sid });
+        if (!student) {
             return res.status(404).send("Student not found.");
         }
 
@@ -161,9 +143,8 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
             createdAt: new Date().toISOString(),
         };
 
-        await updateDoc(studentDocRef, {
-            feedback: arrayUnion(feedbackData),
-        });
+        student.feedback.push(feedbackData);
+        await student.save();
 
         res.status(200).send(formattedResponse);
     } catch (error) {
@@ -175,30 +156,23 @@ const evaluateAnswerWithImages = asyncHandler(async (req, res) => {
 const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
     const { sid, topic, question, answer, sampleAnswer, marks } = req.body;
 
-    // Construct the prompt based on whether a sampleAnswer is provided
     const prompt = sampleAnswer
         ? `Topic: ${topic}; Question: ${question}; Sample Answer: ${sampleAnswer}; Answer: ${answer}; Marks: ${marks}`
         : `Topic: ${topic}; Question: ${question}; Answer: ${answer}; Marks: ${marks}`;
 
     try {
-        // Use the appropriate generative AI model
         const evaluationResult = sampleAnswer
             ? await genAIController.generateContent(prompt)
             : await genAIThinker.generateContent(prompt);
 
-        // Retrieve the response text and format it
         const responseText = await evaluationResult.response.text();
         const formattedResponse = formatResponseToHTML(responseText);
 
-        // Retrieve the student's document from Firestore
-        const studentDocRef = doc(db, "students", sid);
-        const studentDoc = await getDoc(studentDocRef);
-
-        if (!studentDoc.exists()) {
+        const student = await Student.findOne({ roll: sid });
+        if (!student) {
             return res.status(404).send("Student not found");
         }
 
-        // Prepare feedback data
         const feedbackData = {
             topic,
             question,
@@ -211,10 +185,8 @@ const evaluateAnswerWithoutImages = asyncHandler(async (req, res) => {
             feedbackData.sampleAnswer = sampleAnswer;
         }
 
-        // Update the student's document with the feedback
-        await updateDoc(studentDocRef, {
-            feedback: arrayUnion(feedbackData),
-        });
+        student.feedback.push(feedbackData);
+        await student.save();
 
         res.status(200).send(formattedResponse);
     } catch (error) {

@@ -1,26 +1,33 @@
 import express from "express"
 import {
-    loginUser,
-    registerUser,
-    addStudent,
-    getStudentList,
-    getFeedbacks,
-    validateUser,
-    fetchUserUID,
-    fetchUserData,
+    registerStudent,
+    registerTeacher,
+    loginStudent,
+    loginTeacher,
     logoutUser,
+    fetchStudentData,
+    fetchTeacherData,
+    addStudentToTeacher,
+    getTeacherStudentList,
+    getStudentFeedbacks,
+    validate
 } from "../controllers/user.controller.js";
 
 const router = express.Router()
 
-router.post("/register", registerUser)
-router.post("/login", loginUser)
-router.get("/logout", logoutUser)
-router.get("/fetch", fetchUserData)
-router.post("/addstudent", addStudent)
-router.get("/studentlist", getStudentList)
-router.get("/:sid/feedbacks", getFeedbacks)
-router.get("/fetchuid", fetchUserUID)
-router.post("/:sid/validate", validateUser)
+// Student routes
+router.post("/student/register", registerStudent)
+router.post("/student/login", loginStudent)
+router.get("/student/data", fetchStudentData)
+router.post("/student/feedbacks", getStudentFeedbacks)
+
+// Teacher routes
+router.post("/teacher/register", registerTeacher)
+router.post("/teacher/login", loginTeacher)
+router.get("/teacher/data", fetchTeacherData)
+router.post("/teacher/add-student", addStudentToTeacher)
+router.get("/teacher/students", getTeacherStudentList)
+router.get("/validate", validate)
+router.post("/logout", logoutUser)
 
 export default router

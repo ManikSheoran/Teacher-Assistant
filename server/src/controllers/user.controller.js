@@ -1,198 +1,153 @@
-import { initializeApp } from "firebase/app";
-import {
-    collection,
-    doc,
-    getFirestore,
-    setDoc,
-    getDoc,
-    updateDoc,
-    arrayUnion,
-} from "firebase/firestore";
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-} from "firebase/auth";
+import mongoose from "mongoose";
+import { Student } from "../models/student.js";
+import { Teacher } from "../models/teacher.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID,
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const usersCollection = collection(db, "users");
-const studentsCollection = collection(db, "students");
-
-const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
-    const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-    );
-    const user = userCredential.user;
-    const userDocRef = doc(usersCollection, user.uid);
-    await setDoc(userDocRef, {
-        email: email,
-        name: name,
-        students: [],
+// STUDENT REGISTER
+const registerStudent = asyncHandler(async (req, res) => {
+    const { name, email, password, roll } = req.body; 
+    const existing = await Student.findOne({ email });
+    if (existing) {
+        return res.status(400).json({ error: "Student already exists" });
+    }
+    Student.register(new Student({ name, email, roll, feedback: [] }), password, (err, student) => { 
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(201).send("Student registered successfully");
     });
-    res.status(201).send("User registered successfully");
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+// TEACHER REGISTER
+const registerTeacher = asyncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
+    const existing = await Teacher.findOne({ email });
+    if (existing) {
+        return res.status(400).json({ error: "Teacher already exists" });
+    }
+    Teacher.register(new Teacher({ name, email, students: [] }), password, (err, teacher) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(201).send("Teacher registered successfully");
+    });
+});
+
+// STUDENT LOGIN
+const loginStudent = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    );
-    const user = userCredential.user;
-    const token = {
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-        expiresIn: user.stsTokenManager.expirationTime,
-    };
-
-    // Configure cookie options appropriately
-    const cookieOptions = {
-        maxAge: token.expiresIn,
-        httpOnly: true,
-        secure: true, // True in production, false in development
-        sameSite: "strict" // Use appropriate SameSite policy
-    };
-
-    res.cookie("token", token.accessToken, cookieOptions)
-    res.cookie("uid", user.uid, cookieOptions)
-    res.status(200).json({ message: "Login successful" });
+    Student.authenticate()(email, password, (err, student, options) => {
+        if (err || !student) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+        res.cookie("student_id", student._id.toString(), {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+        res.status(200).json({ message: "Student login successful" });
+    });
 });
 
+// TEACHER LOGIN
+const loginTeacher = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    Teacher.authenticate()(email, password, (err, teacher, options) => {
+        if (err || !teacher) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+        res.cookie("teacher_id", teacher._id.toString(), {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+        res.status(200).json({ message: "Teacher login successful" });
+    });
+});
+
+// LOGOUT (for both)
 const logoutUser = asyncHandler(async (req, res) => {
-    res.clearCookie("token");
-    res.clearCookie("uid");
+    res.clearCookie("student_id");
+    res.clearCookie("teacher_id");
     res.status(200).json({ message: "Logout successful" });
 });
 
-// const fetchUser = asyncHandler(async (req, res) => {
-//     const user = await getDoc(doc(usersCollection, req.body.uid));
-//     res.status(200).send(user.data());
-// });
-
-const fetchUserData = asyncHandler(async (req, res) => {
-    const userUID = req.cookies.uid; // ✅ Read UID from cookies
-
-    if (!userUID) {
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-
-    try {
-        const user = await getDoc(doc(usersCollection, userUID)); // ✅ Fetch user from DB
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-        res
-        .status(200)
-        .json(
-        {
-            name: user.data().name,
-        });
-
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-        res.status(500).json({ error: "Server error" });
-    }
+// FETCH STUDENT DATA
+const fetchStudentData = asyncHandler(async (req, res) => {
+    const studentId = req.cookies.student_id;
+    if (!studentId) return res.status(401).json({ error: "Unauthorized" });
+    const student = await Student.findById(studentId);
+    if (!student) return res.status(404).json({ error: "Student not found" });
+    res.status(200).json({ name: student.name, email: student.email, roll: student.roll, feedback: student.feedback }); 
 });
 
-const fetchUserUID = asyncHandler(async (req, res) => {
-    const userUID = req.cookies.uid;
-    if (!userUID) {
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-    res.status(200).json({ uid: userUID });
+// FETCH TEACHER DATA
+const fetchTeacherData = asyncHandler(async (req, res) => {
+    const teacherId = req.cookies.teacher_id;
+    if (!teacherId) return res.status(401).json({ error: "Unauthorized" });
+    const teacher = await Teacher.findById(teacherId).populate("students");
+    if (!teacher) return res.status(404).json({ error: "Teacher not found" });
+    res.status(200).json({ name: teacher.name, email: teacher.email, students: teacher.students });
 });
 
-const addStudent = asyncHandler(async (req, res) => {
-    const { name, sid } = req.body;
-    const userId = req.cookies.uid;
-    const studentDoc = doc(studentsCollection, sid);
-    await setDoc(studentDoc, {
-        name: name,
-        id: sid,
-        feedback: [],
-    });
+// TEACHER: ADD STUDENT
+const addStudentToTeacher = asyncHandler(async (req, res) => {
+    const teacherId = req.cookies.teacher_id;
+    const { name, email, roll } = req.body; 
+    if (!teacherId) return res.status(401).json({ error: "Unauthorized" });
 
-    const userDocRef = doc(usersCollection, userId);
-    const userData = await getDoc(userDocRef);
-    const currentStudents = userData.data().students || [];
-    await updateDoc(userDocRef, {
-        students: [...currentStudents, { id: sid }],
-    });
+    const existing = await Student.findOne({ email });
+    if (existing) {
+        return res.status(400).json({ error: "Student already exists" });
+    }
+    const student = new Student({ name, email, roll, feedback: [] }); 
+    await student.save();
 
-    res.status(201).send("Student added successfully");
+    // Add to teacher's students
+    const teacher = await Teacher.findById(teacherId);
+    teacher.students.push(student._id);
+    await teacher.save();
+
+    res.status(201).send("Student added to teacher successfully");
 });
 
-const getStudentList = asyncHandler(async (req, res) => {
-    const userId = req.cookies.uid;
-    const userDocRef = doc(usersCollection, userId);
-    const userDoc = await getDoc(userDocRef);
-
-    if (!userDoc.exists()) {
-        return res.status(404).send("User not found");
-    }
-
-    const userData = userDoc.data();
-    const studentList = userData.students || [];
-
-    res.status(200).send(studentList);
+// TEACHER: GET STUDENT LIST
+const getTeacherStudentList = asyncHandler(async (req, res) => {
+    const teacherId = req.cookies.teacher_id;
+    if (!teacherId) return res.status(401).json({ error: "Unauthorized" });
+    const teacher = await Teacher.findById(teacherId).populate("students");
+    if (!teacher) return res.status(404).send("Teacher not found");
+    res.status(200).send(teacher.students);
 });
 
-const getFeedbacks = asyncHandler(async (req, res) => {
-    const { sid } = req.params;
-    const studentDocRef = doc(studentsCollection, sid);
-    const studentDoc = await getDoc(studentDocRef);
-
-    if (!studentDoc.exists()) {
-        return res.status(404).send("Student not found");
-    }
-
-    const studentData = studentDoc.data();
-    const feedbackList = studentData.feedback || [];
-
-    res.status(200).send(feedbackList);
+// STUDENT: GET FEEDBACKS
+const getStudentFeedbacks = asyncHandler(async (req, res) => {
+    const {sid} = req.body;
+    const student = await Student.findOne({ roll: sid });
+    if (!student) return res.status(404).send("Student not found");
+    res.status(200).send(student.feedback);
 });
 
-const validateUser = asyncHandler(async (req, res) => {
-    const { uid } = req.body;
-    if (!uid) {
-        return res.status(400).send("UID is required");
+// VALIDATE USER
+const validate = asyncHandler(async (req, res) => {
+    if (req.cookies.student_id || req.cookies.teacher_id) {
+        return res.status(200).json({ valid: true });
     }
-
-    const userDocRef = doc(usersCollection, uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (!userDoc.exists()) {
-        return res.status(404).send("User not found");
-    }
-
-    res.status(200).send("User found");
+    res.status(401).json({ valid: false });
 });
 
 export {
-    registerUser,
-    loginUser,
-    fetchUserData,
-    addStudent,
-    getStudentList,
-    getFeedbacks,
-    validateUser,
-    fetchUserUID,
-    logoutUser
+    registerStudent,
+    registerTeacher,
+    loginStudent,
+    loginTeacher,
+    logoutUser,
+    fetchStudentData,
+    fetchTeacherData,
+    addStudentToTeacher,
+    getTeacherStudentList,
+    getStudentFeedbacks,
+    validate
 };

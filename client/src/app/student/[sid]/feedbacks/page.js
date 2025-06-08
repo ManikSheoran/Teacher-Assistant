@@ -35,12 +35,14 @@ export default function FeedbackPage() {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${sid}/feedbacks`,
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/student/feedbacks`,
                     {
-                        method: "GET",
+                        method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
+                        credentials: "include",
+                        body: JSON.stringify({ sid }),
                     }
                 );
 
