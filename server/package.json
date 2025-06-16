@@ -9,7 +9,9 @@
     "type": "module",
     "scripts": {
         "dev": "nodemon -r dotenv/config ./src/index.js",
-        "start": "node ./src/index.js"
+        "start": "node ./src/index.js",
+        "docker:build": "docker build -t teacher-assistant-backend .",
+        "docker:run": "docker run -p 8000:8000 teacher-assistant-backend"
     },
     "keywords": [],
     "author": "",
