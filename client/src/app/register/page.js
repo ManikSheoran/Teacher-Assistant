@@ -9,7 +9,9 @@ export default function Register() {
         name: "",
         email: "",
         password: "",
+        roll: "",
     });
+    const [role, setRole] = useState("student"); 
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [backendError, setBackendError] = useState("");
@@ -38,6 +40,9 @@ export default function Register() {
         } else if (formData.password.length < 6) {
             newErrors.password = "Password must be at least 6 characters";
         }
+        if (role === "student" && !formData.roll) {
+            newErrors.roll = "Roll number is required";
+        }
         return newErrors;
     };
 
@@ -57,7 +62,15 @@ export default function Register() {
         setBackendError("");
         setIsLoading(true);
 
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/register`;
+        const endpoint =
+            role === "teacher"
+                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/teacher/register`
+                : `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/student/register`;
+
+        const payload =
+            role === "student"
+                ? { name: formData.name, email: formData.email, password: formData.password, roll: formData.roll }
+                : { name: formData.name, email: formData.email, password: formData.password };
 
         try {
             const response = await fetch(endpoint, {
@@ -65,13 +78,14 @@ export default function Register() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
             if (response.status === 201) {
                 router.push("/login");
             } else {
-                setBackendError("Registration failed. Please try again.");
+                const data = await response.json();
+                setBackendError(data.error || "Registration failed. Please try again.");
             }
         } catch (error) {
             console.error("Error:", error);
@@ -108,6 +122,21 @@ export default function Register() {
                                 <p className="text-red-600 dark:text-red-400 text-sm">{backendError}</p>
                             </div>
                         )}
+
+                        {/* Role selection */}
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Register as
+                            </label>
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none"
+                            >
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                            </select>
+                        </div>
                         
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Full Name Field */}
@@ -153,6 +182,29 @@ export default function Register() {
                                 </div>
                                 {errors.email && <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>}
                             </div>
+
+                            {role === "student" && (
+                                <div className="space-y-1">
+                                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">Roll Number</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="roll"
+                                            value={formData.roll}
+                                            onChange={handleChange}
+                                            required={role === "student"}
+                                            className={`block w-full pl-4 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border rounded-xl text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 ${
+                                                errors.roll 
+                                                    ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-900" 
+                                                    : "border-gray-200 dark:border-gray-600 focus:border-[#1D2F6F] focus:ring-[#1D2F6F]/20 dark:focus:border-[#FAC748] dark:focus:ring-[#FAC748]/20"
+                                            }`}
+                                            placeholder="Enter your roll number"
+                                        />
+                                        {errors.roll && <span className="absolute right-3 top-3 text-red-500">!</span>}
+                                    </div>
+                                    {errors.roll && <p className="text-red-500 text-sm mt-1 ml-1">{errors.roll}</p>}
+                                </div>
+                            )}
                             
                             {/* Password Field */}
                             <div className="space-y-1">

@@ -41,7 +41,7 @@ const FormComponent = ({ sid, readOnly }) => {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/${sid}/evaluate-with-images`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/evaluate-with-images`,
           {
             method: "POST",
             body: formData,
@@ -67,7 +67,7 @@ const FormComponent = ({ sid, readOnly }) => {
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/${sid}/evaluate`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/evaluate`,
           {
             method: "POST",
             headers: {

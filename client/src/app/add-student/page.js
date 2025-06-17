@@ -39,7 +39,7 @@ const StudentForm = () => {
 
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/addstudent`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/teacher/add-student`,
                 {
                     method: "POST",
                     headers: {

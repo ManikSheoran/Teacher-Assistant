@@ -7,37 +7,24 @@ export default function UserFeedback() {
     const [iframeLoaded, setIframeLoaded] = useState(false);
 
     useEffect(() => {
-        // Ensure the loader is visible for at least 1.5 seconds
+        // Minimum loader time
         const timer = setTimeout(() => {
             setLoading(false);
         }, 1500);
-
-        return () => clearTimeout(timer); // Cleanup timeout
+        return () => clearTimeout(timer);
     }, []);
 
     const handleIframeLoad = () => {
         setIframeLoaded(true);
     };
 
+    const showIframe = !loading && iframeLoaded;
+
     return (
         <div className="flex justify-center pt-20 w-full">
             <div className="w-full max-w-[1200px] relative">
-                {/* Iframe is hidden until loader is done */}
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLScXGa0QDA88rzrqMsyLUrKq6MXadkLZ6XcOSC8myz_nad_iag/viewform?embedded=true"
-                    width="100%"
-                    height="2960px"
-                    className={`${loading ? "hidden" : "block"}`} // Hide iframe while loading
-                    style={{
-                        border: "none",
-                        margin: 0,
-                        visibility: iframeLoaded ? "visible" : "hidden", // Load in background
-                    }}
-                    onLoad={handleIframeLoad}
-                />
-
-                {/* Loader (Shows for at least 1.5 sec) */}
-                {loading && (
+                {/* Loader (shows until both loading and iframeLoaded are done) */}
+                {(!showIframe) && (
                     <div className="flex flex-col items-center justify-center mt-10">
                         <div className="relative w-16 h-16">
                             <div className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-t-primary border-r-transparent border-b-secondary border-l-transparent animate-spin"></div>
@@ -46,6 +33,20 @@ export default function UserFeedback() {
                         <p className="text-gray-400 mt-4">Loading feedback form...</p>
                     </div>
                 )}
+
+                {/* Iframe is shown only after loader and iframe load */}
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLScXGa0QDA88rzrqMsyLUrKq6MXadkLZ6XcOSC8myz_nad_iag/viewform?embedded=true"
+                    width="100%"
+                    height="2960px"
+                    className={showIframe ? "block" : "hidden"}
+                    style={{
+                        border: "none",
+                        margin: 0,
+                    }}
+                    onLoad={handleIframeLoad}
+                    title="User Feedback Form"
+                />
             </div>
         </div>
     );
