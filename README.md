@@ -14,7 +14,7 @@ NeuroGrade is an AI-powered teacher assistant that automates grading and provide
 - **Hybrid AI Model**: Utilizes **Google Gemini API 2.0 Flash & Thinking** for structured and open-ended question evaluation.
 - **Handwritten Answer Support**: Uses **Vision API for OCR-based evaluation** of handwritten responses.
 - **Teacher-Specific Customization**: Allows institutions to train the AI model on past assessments using **Google AI Studio**.
-- **Scalable & Secure**: Built using **Next.js (Frontend), Express.js & Firebase (Backend)** for high efficiency and performance.
+- **Scalable & Secure**: Built using **Next.js (Frontend), Express.js & MongoDB (Backend)** for high efficiency and performance.
 - **Affordable & Inclusive**: Designed for **small home tutors to large institutions**, making AI-driven grading accessible.
 - **UN SDG Alignment**:
   - **SDG 4 (Quality Education)**: Enhances personalized learning and feedback.
@@ -35,7 +35,7 @@ NeuroGrade aims to:
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js (React Framework)
-- **Backend**: Node.js (Express.js), Firebase
+- **Backend**: Node.js (Express.js), MongoDB
 - **AI Processing**: Google AI Studio, Google Gemini API 2.0
 - **Database**: Firestore
 - **OCR for Handwritten Responses**: Google Vision API
@@ -43,7 +43,7 @@ NeuroGrade aims to:
 ## 🔑 Core Functionality
 
 ### Faculty Registration & Dashboard
-- Secure authentication via **Firebase Auth**
+- Secure authentication via **Passport.js** and **MongoDB**
 - Dashboard to **add students, view history, and evaluate assignments**
 
 ### Evaluation Process
@@ -69,7 +69,7 @@ NeuroGrade aims to:
 ### 3️⃣ Set Up Environment Variables
 Create a `.env` file in the root directory and configure:
 ```sh
-FIREBASE_API_KEY=your_api_key
+MONGO_URI=your_mongodb_uri
 GEMINI_API_KEY=your_api_key
 VISION_API_KEY=your_api_key
 ```
