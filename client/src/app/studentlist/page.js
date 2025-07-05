@@ -60,7 +60,7 @@ export default function StudentList() {
         ) : students.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full max-w-5xl">
             {students.map((student) => (
-              <StudentBox key={student._id} studentId={student._id} />
+              <StudentBox key={student.roll} studentId={student.roll} />
             ))}
           </div>
         ) : (

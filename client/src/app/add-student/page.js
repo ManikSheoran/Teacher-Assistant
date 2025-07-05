@@ -54,9 +54,9 @@ const StudentForm = () => {
                 alert("Student added successfully");
                 setName("");
                 setStudentId("");
-                router.push("/");
+                router.push("/dashboard");
             } else {
-                alert("Failed to add student");
+                alert("Student has not registered yet");
             }
         } catch (error) {
             console.error("Error adding student:", error);
