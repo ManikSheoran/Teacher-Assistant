@@ -19,7 +19,7 @@
    GEMINI_API_KEY=your_api_key_here
    MONGO_URI = "mongodb://localhost:27017"
    ```
-4. **Paste Google Oauth2 file as `client_secret.json` in the root directory:**
+4. **Paste Google Oauth2 file as `client_secret.json` and `token.json` in the root directory (Required while  Google Meet Creation)**
 
 5. **Run the application locally:**
    ```bash
