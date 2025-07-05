@@ -95,8 +95,8 @@ def create_meet_event(
     unique_request_id = str(uuid.uuid4())
     
     event = {
-        'summary': 'Test Meeting with Meet Link',
-        'description': 'Testing Google Meet link + guest invite via API.',
+        'summary': 'Doubt solving meet',
+        'description': 'Doubt solveing Meet Between Student and teacher',
         'start': {
             'dateTime': start_time.isoformat(),
             'timeZone': 'Asia/Kolkata',
