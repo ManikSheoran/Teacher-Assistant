@@ -4,6 +4,7 @@ from .crud import get_all_subjects, get_teacher_by_subject, get_student_by_roll
 from .models import ChatEntry
 from typing import List
 from langchain_core.messages import HumanMessage, AIMessage
+from datetime import datetime
 
 # --- LANGGRAPH IMPORTS ---
 from typing import Annotated
@@ -21,6 +22,9 @@ class AgentState(TypedDict):
 class ScheduleMeetingArgs(BaseModel):
     subject: str = Field(description="The subject for which to schedule the meeting")
     student_roll: str = Field(description="The roll number of the student")
+    start_time: str = Field(description="The start time for the meeting (optional, format: YYYY-MM-DD HH:MM)", default=None)
+    end_time: str = Field(description="The end time for the meeting (optional, format: YYYY-MM-DD HH:MM)", default=None)
+
 
 description = (
     "Use this tool to schedule a Google Meet between a student and a teacher. "
@@ -28,32 +32,55 @@ description = (
     "you MUST use this tool. The tool requires the subject (from the list: {}). So enter the name of the subject as a string that's it."
     "It will automatically find the correct teacher and student, and return a Google Meet link. "
     "Always use this tool for any scheduling or meeting requests between students and teachers. "
-    "If you do not have enough information, ask the user for the subject, If the subject is not in the list, strictly say that the subject is not taught by any teacher."
+    "If you do not have enough information, ask the user for the subject, If the subject is not in the list, strictly say that the subject is not taught by any teacher. "
+    "Optional: If the student provides start_time and end_time, include them in the format YYYY-MM-DD HH:MM."
 ).format(", ".join(get_all_subjects()))
 
 @tool(args_schema=ScheduleMeetingArgs,description=description)
-def schedule_meeting(subject: str,student_roll: str) -> str:
+def schedule_meeting(subject: str, student_roll: str, start_time: str = None, end_time: str = None) -> str:
     """Schedule a Google Meet between a student and a teacher.
 
     Args:
         subject: The subject for which to schedule the meeting.
+        student_roll: The roll number of the student.
+        start_time: Optional start time for the meeting (format: YYYY-MM-DD HH:MM).
+        end_time: Optional end time for the meeting (format: YYYY-MM-DD HH:MM).
     """
-    print(f"[schedule_meeting_tool] Called with subject: {subject}, student_roll: {student_roll}")
+    print(f"[schedule_meeting_tool] Called with subject: {subject}, student_roll: {student_roll}, start_time: {start_time}, end_time: {end_time}")
 
     teacher = get_teacher_by_subject(subject)
-    print(f"[schedule_meeting_tool] Fetched teacher: {teacher}")
+    # print(f"[schedule_meeting_tool] Fetched teacher: {teacher}")
     if not teacher:
         return f"Could not find a teacher for the subject: {subject}"
 
     student = get_student_by_roll(student_roll)
-    print(f"[schedule_meeting_tool] Fetched student: {student}")
+    # print(f"[schedule_meeting_tool] Fetched student: {student}")
     if not student:
         return f"Could not find a student with roll number: {student_roll}"
 
     attendee_emails = [teacher.email, student.email]
-    print(f"[schedule_meeting_tool] Attendee emails: {attendee_emails}")
+    # print(f"[schedule_meeting_tool] Attendee emails: {attendee_emails}")
+    
+    # Prepare meeting parameters
+    meeting_params = {"attendee_emails": attendee_emails}
+    
+    # Convert string dates to datetime objects if provided
+    if start_time:
+        try:
+            start_datetime = datetime.strptime(start_time, "%Y-%m-%d %H:%M")
+            meeting_params["start_time"] = start_datetime
+        except ValueError as e:
+            return f"Invalid start_time format. Please use YYYY-MM-DD HH:MM format. Error: {e}"
+    
+    if end_time:
+        try:
+            end_datetime = datetime.strptime(end_time, "%Y-%m-%d %H:%M")
+            meeting_params["end_time"] = end_datetime
+        except ValueError as e:
+            return f"Invalid end_time format. Please use YYYY-MM-DD HH:MM format. Error: {e}"
+    
     try:
-        meeting_details = create_meet_event(attendee_emails=attendee_emails)
+        meeting_details = create_meet_event(**meeting_params)
         print(f"[schedule_meeting_tool] Meeting details: {meeting_details}")
         return (
             f"A meeting has been successfully scheduled. The Google Meet link is: {meeting_details.get('hangoutLink')}. "
@@ -150,7 +177,8 @@ class DoubtAgent:
                 formatted_history.append(AIMessage(content=entry.Answer))
         
         # Add the new user query with roll number context
-        enhanced_query = f"{query} (Student roll number: {self.student_roll} Strictly use it when you need to schedule a meeting.)"
+        today_date = datetime.now().strftime("%Y-%m-%d")
+        enhanced_query = f"{query} (Student roll number: {self.student_roll} Strictly use it when you need to schedule a meeting. Today's date is: {today_date})"
         formatted_history.append(HumanMessage(content=enhanced_query))
         
         # Run the graph
