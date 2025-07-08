@@ -10,6 +10,10 @@ const TeacherSchema = new Schema({
         unique: true
     },
     name: String,
+    subject: {
+        type: String,
+        required: true
+    },
     students: [{ type: Schema.Types.ObjectId, ref: "Student" }]
 });
 

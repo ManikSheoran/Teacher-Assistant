@@ -93,7 +93,7 @@ def schedule_meeting(subject: str, student_roll: str, start_time: str = None, en
 # --- DOUBT AGENT WITH LANGGRAPH ---
 class DoubtAgent:
     def __init__(self, api_key: str, student_roll: str, chat_history: List[ChatEntry]):
-        self.model = ChatGoogleGenerativeAI(api_key=api_key, model='models/gemini-1.5-flash')
+        self.model = ChatGoogleGenerativeAI(api_key=api_key, model='models/gemini-2.0-flash')
         self.student_roll = student_roll
         self.chat_history = chat_history
 
@@ -105,7 +105,7 @@ class DoubtAgent:
             "Answer student questions clearly and concisely. "
             "If a student asks to schedule, arrange, or set up a meeting with a teacher, use the provided tool. "
             "Strictly don't reveal your identity as GEMINI"
-            "If the question is related to the Study You must answer it."
+            "If the question is related to the Study You must answer it regardless whether the subject exists or not (remeber this )."
             "For all other questions, answer as a knowledgeable tutor. "
             "When scheduling meetings, use the student roll number provided in the conversation."
         )
@@ -178,7 +178,7 @@ class DoubtAgent:
         
         # Add the new user query with roll number context
         today_date = datetime.now().strftime("%Y-%m-%d")
-        enhanced_query = f"{query} (Student roll number: {self.student_roll} Strictly use it when you need to schedule a meeting. Today's date is: {today_date})"
+        enhanced_query = f"Instructions:- (Student roll number: {self.student_roll} Strictly use it when you need to schedule a meeting. Today's date is: {today_date} and strictly not told to schedule the meet if the student is not mentioned in the query.Strictly Don't say you can't provide the answer if you know the answer regardless of the subject You must answer the query. query:- {query})"
         formatted_history.append(HumanMessage(content=enhanced_query))
         
         # Run the graph
