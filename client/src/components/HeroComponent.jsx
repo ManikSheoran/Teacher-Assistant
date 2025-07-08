@@ -1,6 +1,7 @@
 import { useUser } from "@/context/UserContext";
 import { FaUserGraduate, FaListUl, FaClipboardCheck } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import ChatModal from './ChatModal';
 
 export default function HeroComponent() {
   const { user } = useUser();
@@ -24,6 +25,7 @@ export default function HeroComponent() {
   ];
 
   const [quote, setQuote] = useState("");
+  const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -58,12 +60,19 @@ export default function HeroComponent() {
           </>
         ) : isStudent ? (
           <>
+            <button
+              onClick={() => setChatOpen(true)}
+              className="relative w-full text-center flex items-center justify-center gap-2 bg-[#1d2f6f] dark:bg-secondary text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#8390FA] dark:hover:bg-primary transition duration-300"
+            >
+              <FaClipboardCheck /> Doubt Solving
+            </button>
             <StyledButton href={`/student/${user.roll}/feedbacks`}>
               <FaClipboardCheck /> View Feedback
             </StyledButton>
             <StyledButton href={`/student/${user.roll}/evaluate`}>
               <FaClipboardCheck /> Submit Answer
             </StyledButton>
+            <ChatModal open={chatOpen} onClose={() => setChatOpen(false)} />
           </>
         ) : null}
       </div>

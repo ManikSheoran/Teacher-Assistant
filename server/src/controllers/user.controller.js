@@ -20,12 +20,12 @@ const registerStudent = asyncHandler(async (req, res) => {
 
 // TEACHER REGISTER
 const registerTeacher = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, subject } = req.body;
     const existing = await Teacher.findOne({ email });
     if (existing) {
         return res.status(400).json({ error: "Teacher already exists" });
     }
-    Teacher.register(new Teacher({ name, email, students: [] }), password, (err, teacher) => {
+    Teacher.register(new Teacher({ name, email, subject, students: [] }), password, (err, teacher) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }

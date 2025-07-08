@@ -1,0 +1,11 @@
+fastapi==0.115.14
+google_api_python_client==2.172.0
+google_auth_oauthlib==1.2.2
+langchain_core==0.3.68
+langchain_google_genai==2.1.6
+langgraph==0.5.1
+protobuf==6.31.1
+pydantic==2.11.7
+pymongo==4.13.2
+python-dotenv==1.1.1
+typing_extensions==4.14.1
