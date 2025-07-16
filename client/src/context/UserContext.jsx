@@ -57,8 +57,14 @@ export const UserProvider = ({ children }) => {
     try {
       if (userData && Object.keys(userData).length > 0) {
         localStorage.setItem("userData", JSON.stringify(userData));
+        if (userData.roll) {
+          localStorage.setItem("student_roll", userData.roll);
+        } else {
+          localStorage.removeItem("student_roll");
+        }
       } else {
         localStorage.removeItem("userData");
+        localStorage.removeItem("student_roll");
       }
     } catch (error) {
       console.error("Failed to save user data to localStorage:", error);
