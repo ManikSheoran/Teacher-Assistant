@@ -5,6 +5,12 @@ import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
 import { Student } from "../models/student.js";
+import dotenv from "dotenv";
+
+dotenv.config({
+    path: "./.env",
+});
+
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const visionClient = new ImageAnnotatorClient({
